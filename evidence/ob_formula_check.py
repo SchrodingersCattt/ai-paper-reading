@@ -1,7 +1,8 @@
 """Compare Table 1's -55.45 with the expression printed in footnote k.
 
-The chemical name is on PDF page 1. The atom count below is derived from that
-name, not printed as a formula in the PDF. Atomic masses are stated here.
+Page 10 prints the elemental-analysis formula C4H6N6O4 (202.0451).
+The atom counts below are those printed counts. Atomic masses used for the
+integer check are stated in this file.
 """
 
 NAME = "2,4,6-triamino-5-nitropyrimidine-1,3-dioxide"
