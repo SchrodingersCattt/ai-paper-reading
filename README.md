@@ -21,6 +21,7 @@
 | 推广句不能代替已执行的库 | 第 1 页 “can also be applicable”；第 4 页只有 P1–P14 |
 | 同一句里的密度和爆速要拆来源 | 第 1 页 measured density；第 8 页 EXPLO5 |
 | 许可证看 PDF 末页，不看提示词 | Wang、Zeng 末页是 CC BY 4.0。Lee 2024 第 11 页是 CC BY-NC-ND，`prompt.txt` 里的 CC BY 是写错的 |
+| 脚注式子没有代入过程时，不能把表值说成该式的输出 | 第 9 页注 k 印的是 `(d−a−b/2)`。按第 1 页名称数出 C4H6N6O4 后，该式约 −23.8，表中 ICM-102 是 −55.45。演算在 `evidence/ob-formula.md` |
 
 ## 方法
 
@@ -79,6 +80,7 @@ agent --print --output-format stream-json --model grok-4.7-high --trust --force 
 | 路径 | 内容 |
 | --- | --- |
 | `evidence/quotes.md` | 上面三处原文的页码 |
+| `evidence/ob-formula.md` | 注 k 的印出式子为什么代不回 −55.45。原子个数从第 1 页名称数出 |
 | `skill/SKILL.md` | v2 步骤 |
 | `materials/source/*.pdf` | 两篇 CC BY 全文，以及案例 C 的两页残缺件。评分包放入全文，供核对页码 |
 | `materials/excerpts/` | 同一 PDF 文本层里 README 引用过的页，便于检索。与全文重复，评分包不放入，避免同一页计两次 |
