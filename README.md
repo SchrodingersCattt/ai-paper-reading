@@ -80,8 +80,8 @@ agent --print --output-format stream-json --model grok-4.7-high --trust --force 
 | --- | --- |
 | `evidence/quotes.md` | 上面三处原文的页码 |
 | `skill/SKILL.md` | v2 步骤 |
-| `materials/source/*.pdf` | 两篇 CC BY 全文，以及案例 C 的两页残缺件。仓库里保留全文 |
-| `materials/excerpts/` | 评分包使用的页摘录。pypdf 文本层，不是转述。不含这些摘录、含两篇全文时，抽出文本是 215058 字节，加上提交说明就高于建议的 204800。评分包因此不放两篇全文 PDF |
+| `materials/source/*.pdf` | 两篇 CC BY 全文，以及案例 C 的两页残缺件。评分包放入全文，供核对页码 |
+| `materials/excerpts/` | 同一 PDF 文本层里 README 引用过的页，便于检索。与全文重复，评分包不放入，避免同一页计两次 |
 | `examples/` | 有 Skill、无 Skill、以及换论文的原始结果。无 Skill 的 `answer.md` 是落盘原件，汉字已变成 `?`，说明在 `evidence/encoding.md` |
 | `materials/source/wang2018-hedm-genome-constructed-pages1-2.pdf` | 案例 C 的残缺件，只含前两页，文件名标明 constructed |
 | `bohrium-pass/` | 提示词和删去余额后的返回 |
