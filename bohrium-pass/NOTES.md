@@ -17,3 +17,5 @@
 ## 氧平衡和密度
 
 2026-11-02 另一次 `node` 调用 `run.js chat`。提示词全文是 `prompt-formula-density.txt`，没有改 `prompt.txt` 或 `prompt-wang.txt`。返回模型是 `chenkun/gpt-5-nano`，prompt token 557。公开文件 `chat-formula-density-public.json` 去掉了 `notice.billing`。模型写第一句“摘录未出现代入过程”，第二句“摘录不支持”。原文没有改。
+
+同一提示紧接着又发了一次。公开文件 `chat-formula-density-2-public.json` 同样去掉余额。模型仍是 `chenkun/gpt-5-nano`，prompt token 仍是 557。返回三行是“摘录未出现代入过程 部分可用”“摘录不支持 不可用”和单独的“阻塞缺口”。原文没有改。

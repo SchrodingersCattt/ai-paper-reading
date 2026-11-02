@@ -64,7 +64,20 @@ a 前面是减号，没有系数。第 10 页元素分析的计算值写着 C4H6
 
 `bohr chat` 这一版没有 PDF 接口。氧平衡和密度这两句的摘录在 `bohrium-pass/prompt-formula-density.txt`，分别来自第 5、7、9、10 页。调用用 `node` 跑 `bohr-cli/run.js chat`。不要走 `bohr.cmd` 传中文，否则提示会被截成约 71 个 prompt token，模型看不到摘录。
 
-这次返回的模型是 `chenkun/gpt-5-nano`，prompt token 557。删去账户余额后的原文在 `bohrium-pass/chat-formula-density-public.json`。模型对第一句写“摘录未出现代入过程”，对第二句写“摘录不支持”。它没有从“可用、部分可用、不可用、材料不足停止”里选一个词，也没有写阻塞缺口。这段返回没有被改写。
+同一份提示打了两次，模型都是 `chenkun/gpt-5-nano`，prompt token 都是 557。账户余额已从两份公开返回里去掉。原文没有改写。
+
+第一次在 `bohrium-pass/chat-formula-density-public.json`。模型写“摘录未出现代入过程”和“摘录不支持”，没有从“可用、部分可用、不可用、材料不足停止”里选词，也没有写阻塞缺口。
+
+第二次在 `bohrium-pass/chat-formula-density-2-public.json`。原文三行是：`摘录未出现代入过程 部分可用`，`摘录不支持 不可用`，然后单独一行“阻塞缺口”，后面没有句子。第一句被标成部分可用，第二句被标成不可用。提示词要求全文只有一个结论词。两次都没有把注 k 的式子改成 `(d−2a−b/2)`，也都没有把 1.95 说成黄色一水合物的密度。
+
+读者可以按这六步重做，不需要我们的结论：
+
+1. 用 `node` 调用 `bohr-cli/run.js chat`，消息用 `prompt-formula-density.txt` 的全文。确认 prompt token 不是约 71。
+2. 记下返回里的结论词，不要改字。
+3. 打开 PDF 第 9 页注 k，核对式子是不是 `(d−a−b/2)`。
+4. 打开第 10 页，核对计算值是不是 C4H6N6O4（202.0451）。
+5. 打开第 5 页和第 7 页，核对 1.92 属于 150 °C 加热后的样品、1.95 属于无水样品。
+6. 运行 `evidence/ob_formula_check.py`。印出的式子应得 −23.7571，表中是 −55.45。
 
 早先一次同论文提问把第 1、4、8 页贴进 `bohrium-pass/prompt-wang.txt`。返回的模型是 `chenkun/gpt-5-nano`，prompt token 432，文件是 `bohrium-pass/chat-wang-public.json`。它写出 9169 是计算，也写出五元环没有被筛过，但结论仍是“部分可用”。Skill 的规则是关键条件不覆盖就不能叫可用。
 
@@ -113,6 +126,7 @@ agent --print --output-format stream-json --model grok-4.7-high --trust --force 
 | `examples/` | 有 Skill、无 Skill、换论文，以及只核对两句的原始结果。无 Skill 的 `answer.md` 是落盘原件 |
 | `materials/source/wang2018-hedm-genome-constructed-pages1-2.pdf` | 案例 C 的残缺件，只含前两页，文件名标明 constructed |
 | `bohrium-pass/prompt-formula-density.txt` | 这次实际发给玻尔的氧平衡与密度摘录 |
-| `bohrium-pass/chat-formula-density-public.json` | 删去余额后的返回 |
+| `bohrium-pass/chat-formula-density-public.json` | 第一次返回，删去余额 |
+| `bohrium-pass/chat-formula-density-2-public.json` | 同一提示的第二次返回，删去余额 |
 | `bohrium-pass/prompt-wang.txt` | 早先的筛选提问，文件保持原样 |
 | `cases/` | 运行前写好的任务和验收。不要放进运行目录 |
