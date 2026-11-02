@@ -70,6 +70,8 @@ a 前面是减号，没有系数。第 10 页元素分析的计算值写着 C4H6
 
 第二次在 `bohrium-pass/chat-formula-density-2-public.json`。原文三行是：`摘录未出现代入过程 部分可用`，`摘录不支持 不可用`，然后单独一行“阻塞缺口”，后面没有句子。第一句被标成部分可用，第二句被标成不可用。提示词要求全文只有一个结论词。两次都没有把注 k 的式子改成 `(d−2a−b/2)`，也都没有把 1.95 说成黄色一水合物的密度。
 
+第三次只改输出格式，不改摘录。`prompt-formula-density-strict.txt` 要求固定三行，并且两句不一致时结论取更严的一个。返回在 `chat-formula-density-3-public.json`，模型仍是 `chenkun/gpt-5-nano`，prompt token 671。原文是：句1 摘录未出现代入过程；句2 摘录不支持；结论 不可用，阻塞缺口是代入过程未出现。这次没有再写两个结论词。
+
 读者可以按这六步重做，不需要我们的结论：
 
 1. 用 `node` 调用 `bohr-cli/run.js chat`，消息用 `prompt-formula-density.txt` 的全文。确认 prompt token 不是约 71。
@@ -128,5 +130,7 @@ agent --print --output-format stream-json --model grok-4.7-high --trust --force 
 | `bohrium-pass/prompt-formula-density.txt` | 这次实际发给玻尔的氧平衡与密度摘录 |
 | `bohrium-pass/chat-formula-density-public.json` | 第一次返回，删去余额 |
 | `bohrium-pass/chat-formula-density-2-public.json` | 同一提示的第二次返回，删去余额 |
+| `bohrium-pass/prompt-formula-density-strict.txt` | 只收紧输出格式的第三次提示 |
+| `bohrium-pass/chat-formula-density-3-public.json` | 第三次返回，结论是不可用 |
 | `bohrium-pass/prompt-wang.txt` | 早先的筛选提问，文件保持原样 |
 | `cases/` | 运行前写好的任务和验收。不要放进运行目录 |
