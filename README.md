@@ -87,6 +87,7 @@ Wang 这次返回的模型是 `chenkun/gpt-5-nano`。公开 JSON 去掉了账户
 2. 问 Wang 时用 `prompt-wang.txt`。期望它写出 9169 是计算，并且不要把结论收成可用。这次原返回停在“部分可用”，因为提示里还没有“关键条件不覆盖就不是可用”。
 3. 问注 k 和 1.95 时用 `prompt-formula-density-strict.txt`。期望三行：代入过程未在摘录中出现，1.95 那句摘录不支持，结论不可用。不限行数的两次原提示留在同目录，那两次没有把结论收成一个词。
 4. 用 DOI 检索到 0 条时，打开 PDF 末页看许可证，再决定这篇能不能放进公开仓库。
+5. 用玻尔解析 PDF 时，分子式和下标要回对文本层。2026-11-02 对 Wang 全文跑了一次 `pdf parse`（Bohr CLI 2.9.17，`--equation 1 --table 2 --textual 1 --sync`）。返回 `status` 为 success，`charged_amount` 是 0.55，`amount_fen` 是 55。解析把第 9 页注 k 的 `C aHbNcOd` 写成 `CaHbNcOg`，把 `1600×(d−a−b/2)/Mw` 写成 `1600×(d-a—b/2)/Mw`，并把方法里的 `C 4H6N6O4 (202.0451)` 写成 `C4HNO4 (202.0451)`。两个下标 6 没了，式量还在。对照句在 `bohrium-pass/parser-wang-note.md`。
 
 费用以当次返回为准。
 
@@ -120,4 +121,4 @@ agent --print --output-format stream-json --model grok-4.7-high --trust --force 
 | `materials/source/*.pdf` | 两篇 CC BY 全文，以及案例 C 的两页残缺件 |
 | `examples/` | 有 Skill、无 Skill、换论文和残缺件的原始结果。无 Skill 的 `answer.md` 是落盘原件 |
 | `cases/` | 运行前写好的任务和验收 |
-| `bohrium-pass/` | 发出的提示，以及去掉账户余额后的返回 |
+| `bohrium-pass/` | 发出的提示，以及去掉账户余额后的返回。`parser-wang-note.md` 是 PDF 解析和文本层的两处差别 |
