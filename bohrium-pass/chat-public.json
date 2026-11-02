@@ -1,8 +1,116 @@
 {
-  "model": "chenkun/gpt-5-nano",
-  "content": "1. 部分可用——依据：摘录 Methods 仅写到“原子模型使用 Smith and Bharadwaj (SB) potential”，但没有在摘录中明确 SB 是否是反应力场。 \n\n2. 不可用——依据：摘录未覆盖冲击/冲击模拟的相关内容，仅提到粗粒化、截断距离、初始训练温度等，没有冲击实验或模拟的信息。\n\n3. 热结构研究：部分可用；热动力学研究：部分可用——依据：摘录 P2 提及在 250、500、750 K 的晶体 NVT 下的初始训练，涉及温度对结构的影响；摘录 Methods 给出 250–800 K 与 0–20 GPa 的温度/压力范围，Discussion 提到动力学差异与时间尺度等内容，涉及热结构与热动力学相关方面但并未完整覆盖所有细节。 \n\n4. 部分可用；阻塞缺口：SB 潜在是否为反应力场，以及在冲击/高温条件下是否能描述断键的能力，尚未在摘录中得到证实。",
-  "prompt_tokens": 413,
-  "completion_tokens": 6217,
-  "command": "bohr chat",
-  "cli_version": "2.9.17"
+  "ok": true,
+  "data": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "annotations": [],
+          "content": "1. 部分可用——依据：摘录 Methods 仅写到“原子模型使用 Smith and Bharadwaj (SB) potential”，但没有在摘录中明确 SB 是否是反应力场。 \n\n2. 不可用——依据：摘录未覆盖冲击/冲击模拟的相关内容，仅提到粗粒化、截断距离、初始训练温度等，没有冲击实验或模拟的信息。\n\n3. 热结构研究：部分可用；热动力学研究：部分可用——依据：摘录 P2 提及在 250、500、750 K 的晶体 NVT 下的初始训练，涉及温度对结构的影响；摘录 Methods 给出 250–800 K 与 0–20 GPa 的温度/压力范围，Discussion 提到动力学差异与时间尺度等内容，涉及热结构与热动力学相关方面但并未完整覆盖所有细节。 \n\n4. 部分可用；阻塞缺口：SB 潜在是否为反应力场，以及在冲击/高温条件下是否能描述断键的能力，尚未在摘录中得到证实。",
+          "provider_specific_fields": {
+            "refusal": null
+          },
+          "role": "assistant"
+        },
+        "provider_specific_fields": {
+          "content_filter_results": {
+            "hate": {
+              "filtered": false,
+              "severity": "safe"
+            },
+            "protected_material_code": {
+              "detected": false,
+              "filtered": false
+            },
+            "protected_material_text": {
+              "detected": false,
+              "filtered": false
+            },
+            "self_harm": {
+              "filtered": false,
+              "severity": "safe"
+            },
+            "sexual": {
+              "filtered": false,
+              "severity": "safe"
+            },
+            "violence": {
+              "filtered": false,
+              "severity": "safe"
+            }
+          }
+        }
+      }
+    ],
+    "created": 1793586961,
+    "id": "chatcmpl-EfcBtxWyhvmV27LweFD91Vf5ejKyX",
+    "model": "chenkun/gpt-5-nano",
+    "object": "chat.completion",
+    "prompt_filter_results": [
+      {
+        "content_filter_results": {
+          "hate": {
+            "filtered": false,
+            "severity": "safe"
+          },
+          "jailbreak": {
+            "detected": false,
+            "filtered": false
+          },
+          "self_harm": {
+            "filtered": false,
+            "severity": "safe"
+          },
+          "sexual": {
+            "filtered": false,
+            "severity": "safe"
+          },
+          "violence": {
+            "filtered": false,
+            "severity": "safe"
+          }
+        },
+        "prompt_index": 0
+      }
+    ],
+    "routing": {
+      "serving_pipereplica": "d20261027040627-02e74140-default-r1-dp0-default"
+    },
+    "service_tier": "default",
+    "usage": {
+      "completion_tokens": 6217,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 5952,
+        "rejected_prediction_tokens": 0
+      },
+      "latency_checkpoint": {
+        "engine_tbt_ms": 3,
+        "engine_ttft_ms": 23,
+        "engine_ttlt_ms": 21670,
+        "pre_inference_ms": 78,
+        "service_tbt_ms": 3,
+        "service_ttft_ms": 595,
+        "service_ttlt_ms": 22218,
+        "user_visible_ttft_ms": 517
+      },
+      "prompt_tokens": 413,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 6630
+    }
+  },
+  "meta": {
+    "request_id": "fbaccae2-af2b-4a9e-bf74-c502421818a9",
+    "cli_version": "2.9.17",
+    "cli_commit": "cd9b8ee9cf036c8a794a46beba406ca2c89df230",
+    "cli_modified": false,
+    "command": "bohr chat",
+    "duration_ms": 24810,
+    "timestamp": 1793586985
+  }
 }

@@ -1,8 +1,116 @@
 {
-  "model": "chenkun/gpt-5-nano",
-  "content": "1) 计算得到的爆轰速度，依据摘录 P8（“the calculated detonation velocity … 9169 m s−1 … using EXPLO5”）。\n\n2) 否。依据摘录 P1，“can also be applicable”指的是方法学上的可扩展性，并未表示五元杂环已被筛选；再结合摘录 P4，该文仅对六元环进行了筛选枚举。\n\n3) 部分可用；阻塞缺口：尚缺乏对五元杂环候选物在现有框架下实现同时达到 HMX 能量与 TATB 感度的直接证据。",
-  "prompt_tokens": 432,
-  "completion_tokens": 3992,
-  "command": "bohr chat",
-  "cli_version": "2.9.17"
+  "ok": true,
+  "data": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "annotations": [],
+          "content": "1) 计算得到的爆轰速度，依据摘录 P8（“the calculated detonation velocity … 9169 m s−1 … using EXPLO5”）。\n\n2) 否。依据摘录 P1，“can also be applicable”指的是方法学上的可扩展性，并未表示五元杂环已被筛选；再结合摘录 P4，该文仅对六元环进行了筛选枚举。\n\n3) 部分可用；阻塞缺口：尚缺乏对五元杂环候选物在现有框架下实现同时达到 HMX 能量与 TATB 感度的直接证据。",
+          "provider_specific_fields": {
+            "refusal": null
+          },
+          "role": "assistant"
+        },
+        "provider_specific_fields": {
+          "content_filter_results": {
+            "hate": {
+              "filtered": false,
+              "severity": "safe"
+            },
+            "protected_material_code": {
+              "detected": false,
+              "filtered": false
+            },
+            "protected_material_text": {
+              "detected": false,
+              "filtered": false
+            },
+            "self_harm": {
+              "filtered": false,
+              "severity": "safe"
+            },
+            "sexual": {
+              "filtered": false,
+              "severity": "safe"
+            },
+            "violence": {
+              "filtered": false,
+              "severity": "safe"
+            }
+          }
+        }
+      }
+    ],
+    "created": 1793592554,
+    "id": "chatcmpl-Efde6YH6joYPARFWgusfrE6VzBWSH",
+    "model": "chenkun/gpt-5-nano",
+    "object": "chat.completion",
+    "prompt_filter_results": [
+      {
+        "content_filter_results": {
+          "hate": {
+            "filtered": false,
+            "severity": "safe"
+          },
+          "jailbreak": {
+            "detected": false,
+            "filtered": false
+          },
+          "self_harm": {
+            "filtered": false,
+            "severity": "safe"
+          },
+          "sexual": {
+            "filtered": false,
+            "severity": "safe"
+          },
+          "violence": {
+            "filtered": false,
+            "severity": "safe"
+          }
+        },
+        "prompt_index": 0
+      }
+    ],
+    "routing": {
+      "serving_pipereplica": "d20261101062227-42c86856-default-r0-dp0-default"
+    },
+    "service_tier": "default",
+    "usage": {
+      "completion_tokens": 3992,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 3840,
+        "rejected_prediction_tokens": 0
+      },
+      "latency_checkpoint": {
+        "engine_tbt_ms": 4,
+        "engine_ttft_ms": 27,
+        "engine_ttlt_ms": 17834,
+        "pre_inference_ms": 97,
+        "service_tbt_ms": 4,
+        "service_ttft_ms": 505,
+        "service_ttlt_ms": 18305,
+        "user_visible_ttft_ms": 408
+      },
+      "prompt_tokens": 432,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 4424
+    }
+  },
+  "meta": {
+    "request_id": "965ffdd8-0fa9-4e9e-a908-ed3fc2f3a569",
+    "cli_version": "2.9.17",
+    "cli_commit": "cd9b8ee9cf036c8a794a46beba406ca2c89df230",
+    "cli_modified": false,
+    "command": "bohr chat",
+    "duration_ms": 21271,
+    "timestamp": 1793592574
+  }
 }
