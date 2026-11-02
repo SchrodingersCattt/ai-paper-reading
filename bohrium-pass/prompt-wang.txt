@@ -1,0 +1,14 @@
+你在玻尔里阅读 Wang et al., Nature Communications 9, 2444 (2018), DOI 10.1038/s41467-018-04897-z。不要凭记忆补数字。只根据下面摘录回答，每条结论标上摘录编号。摘录里没有的筛选库或实测爆速，写成“摘录未出现”。
+
+摘录 P1：摘要把 measured density 1.95 g cm−3、thermal decomposition temperature 284 °C、detonation velocity 9169 m s−1、impact sensitivity >60 J、friction sensitivity >360 N 写在一起。接着写：Besides the considered system of six-member aromatic and hetero-aromatic rings, this materials genome approach can also be applicable to the development of new high-performing energetic materials.
+
+摘录 P4：14 kinds of six-member aromatic rings are selected. 氧平衡窗口是 low CO2-based oxygen balance of −80 to −40%. 文中 HMX 的氧平衡出现在后文表格，为 −21.69，不在这个窗口里。五元环 ANTA 被写成没有形成石墨状堆积的例子，没有进入这 14 种母环的枚举。
+
+摘录 P8：the calculated detonation velocity and detonation pressure of ICM-102 are 9169 m s−1 and 34.3 GPa, evaluated using EXPLO5 (v6.02), using the measured density.
+
+读者的后续工作是：不新合成、不测感度，判断一个五元杂环候选物能不能同时达到 HMX 的能量和 TATB 的感度。
+
+请回答：
+1. 9169 m s−1 是实测还是计算，依据哪条摘录。
+2. “can also be applicable” 是否等于五元杂环已经被筛过。
+3. 结论只能是：可用、部分可用、不可用。一句阻塞缺口。

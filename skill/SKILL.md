@@ -1,12 +1,12 @@
 ---
 name: method-fit-check
 description: Use when deciding whether one open-access paper's method and conditions cover a stated follow-up. Maps claims to page locations and separates paper text, inference, and unsupported statements.
-version: method-fit-check-v1
+version: method-fit-check-v2
 ---
 
 # 方法适用性核对
 
-版本 `method-fit-check-v1`。一次调用只处理一篇已在工作目录中的全文，外加一个写明的后续工作。
+版本 `method-fit-check-v2`。一次调用只处理一篇已在工作目录中的全文，外加一个写明的后续工作。
 
 ## 何时使用
 
@@ -40,11 +40,13 @@ version: method-fit-check-v1
 ## 步骤
 
 1. 先数 PDF 页数，并列出目录里实际有的章节标题（摘要、方法、结果、讨论）。缺结果或讨论时，进入停止规则，不继续做覆盖判断。
-2. 只从原文抄方法与条件。力场名字、温度、密度、是否断键，各自单独一行。
-3. 把后续工作拆成可核对的条件（现象、化学、温度、密度、时间尺度）。
-4. 对照。论文没做的现象，标不覆盖。论文做了结构、没做动力学，标部分覆盖，并写出不一致的页。
-5. 结论取最严的一条：有任一关键条件不覆盖，就不是 `可用`。
-6. 写完后检查：每个 `原文事实` 都有页码；没有页码的句子改成 `不能确定` 或删掉。
+2. 只从原文抄方法与条件。力场、筛选库、温度、密度，各自单独一行。论文没有的项写“本文没有该项”，不要留空，也不要补一个常见值。
+3. 每个带单位或程序名的数再标一个来源：`实测`、`计算` 或 `未说明`。计算必须写出程序或公式所在的页。摘要把实测密度和计算爆速写在同一句时，拆开标，不要整句都当成实测。
+4. 摘要或讨论里的“也可适用、可推广”只是主张。覆盖判断要引用实际做过的库、样品或轨迹。没有那一页，就不能写成已经覆盖。
+5. 把后续工作拆成可核对的条件（对象、现象、温度、密度、是否还要做实验）。
+6. 对照。论文没做的现象，标不覆盖。论文做了结构、没做动力学，标部分覆盖，并写出不一致的页。
+7. 结论取最严的一条：有任一关键条件不覆盖，就不是 `可用`。
+8. 用 Python 把完整答案以 UTF-8 写入 `answer.md`（`Path('answer.md').write_text(答案, encoding='utf-8')`）。然后运行同目录的 `python check_answer.py`。报错就改文件再运行。不要用系统默认编码保存。
 
 ## 停止规则
 
