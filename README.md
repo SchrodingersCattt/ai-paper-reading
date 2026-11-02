@@ -26,7 +26,7 @@
 
 有 Skill 的三次都写成不可用，并且把 9169 标成计算、把 BAM 感度标成实测。耗时 385.2 s、406.8 s、499.1 s。第三次是同一任务的复测，结论不变。原文在 `examples/A-with-1/answer.md`。
 
-没有 Skill 的两次更快，105.8 s 和 133.0 s。会话里也得出不覆盖，并提到六元环、EXPLO5 和 −21.69%，见 `examples/A-without-1/visible-from-stream.md`。落盘的 `answer.md` 仍不是合法 UTF-8。增益是一份能打开的页码账本，不是把错结论改对，也不是更省时间。
+没有 Skill 的两次更快，105.8 s 和 133.0 s。会话里也得出不覆盖，并提到六元环、EXPLO5 和 −21.69%，见 `examples/A-without-1/visible-from-stream.md`。落盘的 `answer.md` 是合法 UTF-8，汉字被换成了 `?`。成因见 `evidence/encoding.md`。增益是页码账本，不是把错结论改对，也不是更省时间。
 
 同一 Skill 换到 Zeng et al., *Nature Communications* 11, 5713 (2020)，CC BY。问题换成约 1 atm、低于 2000 K 的稀释甲烷–空气火焰。结论不可用：原文轨迹是 3000 K、0.25 g/cm3 的纯 CH4/O2，约 1 atm 没有写出。324.8 s。`examples/B-with/answer.md`。
 
@@ -38,7 +38,14 @@
 
 这次返回的模型是 `chenkun/gpt-5-nano`，prompt token 432。原返回去掉账户余额后在 `bohrium-pass/chat-wang-public.json`。它写出 9169 是计算，也写出五元环没有被筛过，但结论仍是“部分可用”。Skill 的规则是关键条件不覆盖就不能叫可用。返回没有被改写。
 
-`bohr paper search` 用另一篇的 DOI 会返回 0 条。检索不能代替打开 PDF 末页。Lee et al. 2024 的末页是 CC BY-NC-ND，所以没有放进本仓库。
+`bohr paper search` 用 Lee et al. 2024 的 DOI 返回 0 条。检索不能代替打开 PDF 末页。该 PDF 第 11 页是 CC BY-NC-ND，所以没有放进本仓库。`bohrium-pass/prompt.txt` 是当时实际发出的提示，里面误写成 CC BY。文件保持原样。更正写在 `bohrium-pass/prompt-as-sent.md`。
+
+玻尔这一侧踩过的坑，都有记录：
+
+- `bohr.cmd` 传中文时，请求只剩约 71 个 prompt token，模型看不到摘录。改用 `node` 调用 `bohr-cli/run.js` 后是 413 或 432。
+- 摘录里已经有 EXPLO5 和六元环库时，返回仍把后续工作写成「部分可用」。关键条件不覆盖时，这个结论比论文能支持的更松。
+- DOI 检索返回 0，不表示论文不存在。
+- 许可证以 PDF 末页为准，不以期刊习惯或提示词里的写法为准。
 
 ## 复现
 
@@ -46,8 +53,10 @@
 2. 空目录里只放 PDF 和下面的任务。有 Skill 的那次再放入 `skill/` 下两个文件。
 3. 新进程，不要 `--resume`。两侧都加 `--force` 和 `--sandbox disabled`：
 
+工作目录里先把 PDF 复制为 `paper.pdf`。下面这条的最后一个参数是任务全文。有 Skill 的那次，目录里还要有 `SKILL.md` 和 `check_answer.py`。Cursor agent CLI 的版本是 `2026.10.19-6bbf2c4`。没有这个模型时，不要改用 Auto 再声称对照仍然公平。
+
 ```text
-agent --print --output-format stream-json --model grok-4.7-high --trust --force --sandbox disabled --workspace <该目录>
+agent --print --output-format stream-json --model grok-4.7-high --trust --force --sandbox disabled --workspace <该目录> -- "<任务全文>"
 ```
 
 任务原文：
