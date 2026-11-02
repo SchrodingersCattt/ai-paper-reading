@@ -16,6 +16,12 @@
 
 所以后续工作的四条都不被已执行的筛选覆盖：对象不是六元环，能量不是筛选输出，感度不是筛选输出，而且论文自己的第三步是合成。结论是不可用，不是“方法可推广所以部分可用”。
 
+| 可带走的规则 | 核对位置 |
+| --- | --- |
+| 推广句不能代替已执行的库 | 第 1 页 “can also be applicable”；第 4 页只有 P1–P14 |
+| 同一句里的密度和爆速要拆来源 | 第 1 页 measured density；第 8 页 EXPLO5 |
+| 许可证看 PDF 末页，不看提示词 | Wang、Zeng 末页是 CC BY 4.0。Lee 2024 第 11 页是 CC BY-NC-ND，`prompt.txt` 里的 CC BY 是写错的 |
+
 ## 方法
 
 `skill/SKILL.md` 版本 `method-fit-check-v2`。它不包含这两篇论文的答案。步骤是：先数页；论文没有的项写“本文没有该项”；每个带单位的数标实测、计算或未说明；推广句必须对到已执行的库或轨迹；关键条件有一条不覆盖，结论就不是可用。`skill/check_answer.py` 只查 UTF-8 和这些词，不判断科学对错。
@@ -26,7 +32,7 @@
 
 有 Skill 的三次都写成不可用，并且把 9169 标成计算、把 BAM 感度标成实测。耗时 385.2 s、406.8 s、499.1 s。第三次是同一任务的复测，结论不变。原文在 `examples/A-with-1/answer.md`。
 
-没有 Skill 的两次更快，105.8 s 和 133.0 s。会话里也得出不覆盖，并提到六元环、EXPLO5 和 −21.69%，见 `examples/A-without-1/visible-from-stream.md`。落盘的 `answer.md` 是合法 UTF-8，汉字被换成了 `?`。成因见 `evidence/encoding.md`。增益是页码账本，不是把错结论改对，也不是更省时间。
+没有 Skill 的两次更快，105.8 s 和 133.0 s。会话里也得出不覆盖，并提到六元环、EXPLO5 和 −21.69%，见 `examples/A-without-1/visible-from-stream.md`。落盘的 `answer.md` 是合法 UTF-8，汉字被换成了 `?`。`m s?1` 和 `?80%` 是同一次替换，不是另一套损坏。成因见 `evidence/encoding.md`。增益是页码账本，不是把错结论改对，也不是更省时间。
 
 同一 Skill 换到 Zeng et al., *Nature Communications* 11, 5713 (2020)，CC BY。问题换成约 1 atm、低于 2000 K 的稀释甲烷–空气火焰。结论不可用：原文轨迹是 3000 K、0.25 g/cm3 的纯 CH4/O2，约 1 atm 没有写出。324.8 s。`examples/B-with/answer.md`。
 
@@ -74,7 +80,8 @@ agent --print --output-format stream-json --model grok-4.7-high --trust --force 
 | --- | --- |
 | `evidence/quotes.md` | 上面三处原文的页码 |
 | `skill/SKILL.md` | v2 步骤 |
-| `materials/source/*.pdf` | 两篇 CC BY 全文 |
+| `materials/source/*.pdf` | 两篇 CC BY 全文，以及案例 C 的两页残缺件。仓库里保留全文 |
+| `materials/excerpts/` | 评分包使用的页摘录。pypdf 文本层，不是转述。不含这些摘录、含两篇全文时，抽出文本是 215058 字节，加上提交说明就高于建议的 204800。评分包因此不放两篇全文 PDF |
 | `examples/` | 有 Skill、无 Skill、以及换论文的原始结果。无 Skill 的 `answer.md` 是落盘原件，汉字已变成 `?`，说明在 `evidence/encoding.md` |
 | `materials/source/wang2018-hedm-genome-constructed-pages1-2.pdf` | 案例 C 的残缺件，只含前两页，文件名标明 constructed |
 | `bohrium-pass/` | 提示词和删去余额后的返回 |

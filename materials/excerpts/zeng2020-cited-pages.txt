@@ -1,0 +1,561 @@
+Zeng et al., Nature Communications 11, 5713 (2020)，DOI 10.1038/s41467-020-19497-z。来源文件 materials/source/zeng2020-methane-nn-md.pdf，共 9 页。
+下面是 pypdf 抽出的文本层，页码是 PDF 页码，不是转述。
+评分包不放这份全文 PDF，只留 README 引用到的页。全文仍在公开仓库。
+
+----- PDF page 1 of 9 -----
+ARTICLE
+Complex reaction processes in combustion
+unraveled by neural network-based molecular
+dynamics simulation
+Jinzhe Zeng 1, Liqun Cao 1, Mingyuan Xu 1, Tong Zhu 1,2 ✉ & John Z. H. Zhang 1,2,3,4 ✉
+Combustion is a complex chemical system which involves thousands of chemical reactions
+and generates hundreds of molecular species and radicals during the process. In this work, a
+neural network-based molecular dynamics (MD) simulation is carried out to simulate the
+benchmark combustion of methane. During MD simulation, detailed reaction processes
+leading to the creation of speci ﬁc molecular species including various intermediate radicals
+and the products are intimately revealed and characterized. Overall, a total of 798 different
+chemical reactions were recorded and some new chemical reaction pathways were dis-
+covered. We believe that the present work heralds the dawn of a new era in which neural
+network-based reactive MD simulation can be practically applied to simulating important
+complex reaction systems at ab initio level, which provides atomic-level understanding of
+chemical reaction processes as well as discovery of new reaction pathways at an unprece-
+dented level of detail beyond what laboratory experiments could accomplish.
+https://doi.org/10.1038/s41467-020-19497-z OPEN
+1 Shanghai Engineering Research Center of Molecular Therapeutics & New Drug Development, School of Chemistry and Molecular Engineering, East China
+Normal University, Shanghai 200062, China. 2 NYU-ECNU Center for Computational Chemistry at NYU Shanghai, Shanghai 200062, China. 3 Department of
+Chemistry, New York University, New York, NY 10003, USA. 4 Collaborative Innovation Center of Extreme Optics, Shanxi University, Taiyuan, Shanxi
+030006, China. ✉email: tzhu@lps.ecnu.edu.cn; john.zhang@nyu.edu
+NATURE COMMUNICATIONS |         (2020) 11:5713 | https://doi.org/10.1038/s41467-020-19497-z | www.nature.com/naturecommunications 1
+1234567890():,;
+
+----- PDF page 2 of 9 -----
+E
+ver since learning to use ﬁre, human beings have never
+stopped studying combustion. With increasingly serious
+concern on environmental pollution from combustion,
+understanding and mastering the combustion mechanisms is of
+great importance. Gaining fundamental insights into combustion
+processes can help us design more ef ﬁcient engines and minimize
+the production of pollutants. A typical combustion may contain
+hundreds of chemical species and thousands of fundamental
+chemical reactions. In particular, combustion occurs at extreme
+physical conditions with high pressures and high temperatures up
+to several thousand degrees. Also, many elementary reactions in a
+combustion typically occur on sub picosecond time scale. These
+extreme physical conditions make it very dif ﬁcult, if not impos-
+sible, to carry out real-time experimental study of combustion.
+Thus, most experimental investigations of chemical reaction
+mechanisms focus on individual reactions instead of the complex
+reaction processes occurring in a combustion. In the past decades,
+in slico experiments such as reactive molecular dynamics (MD)
+simulations have shown their values in providing molecular
+(atomic)-level insights into the mechanism of combustions. In a
+reactive MD simulation, the reaction condition can be easily
+controlled in the simulation and some supercritical conditions
+that are difﬁcult to achieve in the experiment can also be handled.
+Compared with the traditional theoretical approaches such as
+transition sate theory and quantum collision theory that focuses
+on studying a single reaction, reactive MD simulation can con-
+struct the entire interwoven reaction network of a combustion
+system1. The heart of the reactive MD simulation is the potential
+energy surface (PES), which describes the inter- and intra-
+molecular interactions for molecules. Currently, there are mainly
+two classes of methods that can be used to construct the PES of a
+given molecular system: the quantum mechanics (QM)-based
+methods and the empirical force ﬁelds. Quantum mechanics is
+undoubtedly more rigorous and accurate, and MD simulations
+based on it are known as ab initio MD simulation (AIMD) 2,3.
+Although the AIMD method in principle can simulate complex
+chemical reactions in real time, it is limited to relatively small
+systems and short simulation time (typically, dozens of picose-
+conds) due to exorbitant computational costs of on-the- ﬂya b
+initio calculation. With the rapid development of computer
+hardware and algorithms, especially the employment of graphic
+processing units (GPUs), some AIMD methods have recently
+begun to handle larger chemical systems 4. But so far, it is still
+impractical to use AIMD to simulate large-scale complex reaction
+systems such as combustions. Over the past decades, many
+reactive force ﬁelds (or PESs) have been developed and success-
+fully used for various reactive molecular systems 5–12. A com-
+prehensive discussion of these reactive force ﬁelds can be found in
+refs. 13,14. Among these force ﬁelds, the empirical ReaxFF was
+widely used in MD simulation of combustion systems due to its
+computational ef ﬁciency15, but its accuracy and reliability are of
+signiﬁcant concern 16–18. The key points of developing a reaction
+force ﬁeld are the choice of the functional form and the para-
+meterization process, which are complicated and depend on
+human intervention.
+Recently, more researchers are switching to seek the help of
+machine-learning (ML) methods. ML method, especially arti ﬁcial
+neural networks (NN), provides the possibility to construct PESs
+with the accuracy of the QM method but with an ef ﬁciency
+comparable to that of force ﬁelds. Neural networks constitute a
+very ﬂexible and unbiased class of mathematical functions, which
+in principle is able to approximate any real-valued function to
+arbitrary accuracy. Since Behler and Parrinello proposed the
+high-dimensional neural network approach 19,20, several methods
+have been developed to implement this approach and many
+different kind of NN PESs have been proposed for water, small
+organic molecules, and metalloid materials 21–25. For example, the
+sGDML26–28, SchNet 29, PhysNet 30, and FCHL 31 methods. NN
+potentials have also been employed to study the reaction
+mechanisms of chemical systems. By combining high-precision
+NN PESs and quantum collision theory, Zhang and Jiang ’s group
+have studied a series of elementary reactions in the gas phase and
+on the surface 32–35. Liu and co-workers developed the LASP
+program to study the heterogeneous catalysis with NN PESs 36
+and built stochastic surface walking (SSW)-NN to explore reac-
+tion pathways from glucose to 5-hydroxymethylfurfural 37. Brickel
+et al. also studied the nucleophilic substitution reaction
+[Cl–CH3–Br]− in water with NN potential 38.
+In this report, we present an in silico simulation of methane
+combustion based on an NN potential derived by training a high-
+dimensional NN model from ab initio computed energies. To
+achieve high ef ﬁciency and accuracy, the DeePMD model was
+used39–41. This NN PES can accurately predict the energy and
+atomic forces of reactants, products and reaction intermediates.
+Based on this model, a 1-ns reactive MD simulation was per-
+formed for a combustion system initially containing 100 methane
+and 200 oxygen molecules with a sub-femtosecond time resolu-
+tion (Fig. 1). A complete reaction network of the methane com-
+bustion can be constructed from the MD trajectory. The
+simulation not only produced the main reaction pathways that
+are consistent with the experiment but also provided much more
+detailed insights about the combustion processes as will be
+described in the following.
+Results
+Accuracy of the NN PES . The performance of the NN potential
+highly depends on the quality of the reference datasets. Although
+several databases, such as QM7 42, QM9 43, ANI-1 44, and ANI-
+1x45, are accessible, they mainly include organic molecules and
+are therefore not suitable for this work. Combustion of methane
+will generate many molecular fragments and a lot of them are free
+radicals46. Therefore, we followed a work ﬂow (details are listed in
+the “Methods” section) to construct the reference datasets for the
+combustion. Then the DeepPot-SE model 47 was used to train
+the NN PES based on the reference. The predictive power of the
+NN model is shown in Supplementary Table 1 and Supplemen-
+tary Fig. 1. It is clear that the DFT energies can be accurately
+reproduced by the NN model. The mean absolute errors are only
+0.04 and 0.14 eV/atom in the training set and the test set,
+respectively. As for the atomic forces, the predicted values of the
+NN model are also highly consistent with the calculated results of
+the DFT (Supplementary Fig. 1). The correlation coef ﬁcient is
+0.999 and the MAE is 0.12 eV/Å. Considering that there are a
+large number of atomic and molecular collisions during the
+combustion process, and some atomic forces can be as high as
+dozens of eV/Å, the accuracy of the NN model is encouraging. To
+verify the energy conservation of the NN PES, we performed a
+reactive MD simulation under the NVE ensemble. The system is a
+periodic box containing 100 CH 4 molecules and 200 O 2 mole-
+cules (a total of 900 atoms) with a density of 0.25 g/cm 3.A s
+shown in Supplementary Fig. 2, the total energy is conserved in
+MD simulation.
+The initial stage of combustion . A 1 ns reactive MD simulation
+was performed for methane combustion with the NN PES under
+the NVT ensemble. The system is also a periodic box containing
+100 CH 4 molecules and 200 O 2 molecules (a total of 900 atoms)
+with a density of 0.25 g/cm 3. The MD simulations were run with a
+time-step of 0.1 fs and the temperature was kept at 3000 K by
+using the Berendsen thermostat. We chose a relatively high
+density (and thus high pressure) and high temperature to
+ARTICLE NATURE COMMUNICATIONS | https://doi.org/10.1038/s41467-020-19497-z
+2 NATURE COMMUNICATIONS |         (2020) 11:5713 | https://doi.org/10.1038/s41467-020-19497-z | www.nature.com/naturecommunications
+
+----- PDF page 3 of 9 -----
+enhance the collision probability and sampling ef ﬁciency, which
+is a widely used strategy in reactive MD simulations because the
+time scale of the simulation is much shorter than that of
+experiments. In fact, experiments usually do not use pure fuel for
+combustion, but rather mix the fuel into a relatively inert gas for
+safety. In future work, we will try to combine the NN potential
+and enhanced sampling algorithms to bring simulated conditions
+more realistic.
+Figure 1b and Supplementary Fig. 3 show the time-dependent
+progression of the main molecular species during the MD
+simulation. After 1 ns, about 90 CH 4 and 150 O 2 are consumed
+and about 160 H 2O, 30 CO, and 50 CO 2 are produced. The
+potential energy of the system during the simulation is shown in
+Supplementary Fig. 4. Although the system has not reached
+equilibrium, the important ignition process has already done,
+which includes much richer reaction information. In order to
+describe the complicated reaction network in more detail, we
+divided the combustion process into three stages, namely the
+initial stage of the combustion, the production of intermediate
+species of formaldehyde and formyl radical, and the production
+of CO and CO 2.
+The reaction network in the initial stage of the combustion is
+shown in Fig. 2a. The combustion of methane started with the
+abstraction of its hydrogen atom by O 2 to generate two radicals
+·CH3 and HOO· (R3). As is seen from Fig. 2b, this process started
+at about 32 ps and took about 0.2 ps to ﬁnish. During the
+simulation, other radicals such as ·OH, ·H, and HOO· also
+abstracted hydrogen atom from CH 4 to generate ·CH 3 radical.
+Among them, the ·OH radical is the main species who complete
+this work and generates water molecules (R1). The atomization of
+methane into ·H and ·CH 3 was also observed.
+Many ·CH 3 radicals interact with the ·OH radicals to form
+methanol (R6) molecules. According to Fig. 2c, this process was
+also very quick. Some ·CH 3 interacted with O 2 and HOO· to form
+methyldioxidanyl (CH 3OO·, R4) and methyl-hydroperoxide
+(CH3OOH, R5). Radicals such as ·OH can also abstract H atoms
+from ·CH 3 and produce :CH 2. Methanol can further react with
+·OH and ·H to generate methoxy radicals (CH 3O·, R10, R11),
+H2O and H 2. It can also react with ·H to generate ·CH 2OH and
+H2 (R12). The CH 3O· can also be produced by the interaction
+between CH 3OO· or CH 3OOH with ·H (R8 and R9).
+Production of formaldehyde and formyl radicals . Most meth-
+oxy radicals generated from the last step were converted to for-
+maldehyde mainly through two reaction pathways (Fig. 3a). The
+ﬁrst one is for methoxy radical to interact with ·OH to form
+formaldehyde and H 2O (R16). As shown in Fig. 3b, this process
+took about 0.3 ps. The other pathway is for methoxy radical to
+interact with ·H and generate formaldehyde and H 2 (R17). The
+·CH2OH radicals can also convert to formaldehyde by losing the
+hydrogen atom on its hydroxyl group (R14 and R15). If it loses
+one H atom on the methylene group, it can generate :CHOH
+radicals (R13). In addition, the :CH 2 radicals can interact with
+·OH and form formaldehyde and the methylidyne radical (R18
+and R19).
+The formaldehydes were further converted into the formyl
+(·CHO) radicals. The main reaction pathways are hydrogen
+abstraction by ·O and ·OH. Figure 3c shows the trajectory of the
+reaction CH 2O + ·OH → ·CHO + H2O. An ·OH radical
+approaches the rotating formaldehyde molecule and snatches an
+H atom to form a water molecule; the whole process takes about
+0.4 ps. In addition, other species such as ·H, O 2, HOO·, and ·CH 3
+also abstracted the hydrogen atom from formaldehyde to form
+formyl radicals. The R20 and R23 are two reactions that form
+formyl radicals without the participation of formaldehyde.
+Production of CO and CO 2. Formyl radicals can convert to CO
+by losing hydrogen in two ways (Fig. 4a). Firstly, it can lose an H
+atom directly (R25). Figure 4b shows a real-time trajectory of this
+process. A formyl radical lost its H atom at about 405.79 ps, but
+this reaction was quickly reversed and the formyl radical was re-
+formed. After another 0.4 ps the reaction took place again to form
+CO. Secondly, ·OH can also abstract the H atom from the formyl
+radical and generate H 2O and CO (R26).
+The formyl radical can combine with the ·OH radical to form
+formic acid (R24), which can further lose its H atom to form
+·COOH (R27) or HCOO· (R30). These two species can convert to
+CO2 through the reaction with ·OH or ·H (R29 and R31). The
+·COOH radical can also interact with ·H and generate CO and
+H2O (R28). Figure 4c shows the trajectory of reaction CO
++ ·OH → CO2 + ·H (R32). At 815.32 ps, an ·OH radical started to
+approach a CO molecule, and at 815.38 ps, an intermediate
+b
+a 0.0 ns 0.2 ns 0.4 ns 0.6 ns 0.8 ns 1.0 ns
+0 0.2 0.4 0.6 0.8 10
+50
+100
+150
+200
+O2
+CH4
+H2O
+CO
+CO2
+Number of molecules
+Time (ns)
+Fig. 1 Real-time dynamics of methane combustion. a Snapshots of the partial combustion system extracted from the reactive MD simulation of methane
+combustion (the time interval is 0.2 ns). The main molecular species of CH 4,O 2,H 2O and CO 2 molecules are colored in cyan, red, blue and black,
+respectively. Other molecular species are colored in white. One can see that the number of reaction products were continuously increasing while reac tants
+were being consumed. b Time dependences of the numbers of main molecular species in real-time MD simulation. These curves are smoothed to make
+them look better and clearer.
+NATURE COMMUNICATIONS | https://doi.org/10.1038/s41467-020-19497-z ARTICLE
+NATURE COMMUNICATIONS |         (2020) 11:5713 | https://doi.org/10.1038/s41467-020-19497-z | www.nature.com/naturecommunications 3
+
+----- PDF page 5 of 9 -----
+COOH was formed. The COOH should be relatively inactive, it
+stably existed for about 0.1 ps, and ﬁnally lost an H atom and
+became CO 2.
+Further analysis found that the above-mentioned 32 reactions
+have all been found by experiments, and the reaction networks
+constructed by them are also highly consistent with the main
+reaction networks found experimentally 48,49. We totally detected
+505 molecular species and 798 reactions from the trajectory.
+Species such as ethane, ethylene, and acetylene can also be found
+in the experimental database. In all, 130 of the 798 reactions
+extracted from the MD trajectory were included in the widely
+accepted GRI_Mech experimental mechanism library 48. Some
+experimentally observed reactions were not observed in our
+simulation, mostly likely because the present simulation was
+performed at relatively high temperature.
+In fact, discovering new reactions is an important advantage of
+the present approach. For methane oxidation, a system that has
+been extensively studied by experiments, NN-based reactive MD
+can still discover hundreds of chemical reactions that have not
+been experimentally reported. This demonstrates that reactive
+MD can be a powerful tool to study combustion reactions.
+Interestingly, we found a cyclopropene molecule in the trajectory,
+which has not been reported to our knowledge. As shown in
+Supplementary Fig. 5, at 634.09 ps, a CO molecule collided with a
+·CH3 radical and joined together. Then a CH 2CO molecule was
+formed through hydrogen loss. The CH 2CO was stable for about
+200 ps and then combined with another ·CH 3 radical. Subsequent
+hydrogen loss led to the formation of a cycloprop-2-en-1-one
+molecule at 828.65 ps. After another 60 ps, the third ·CH 3
+attacked the cycloprop-2-en-1-one molecule and kicked out the
+CO group to form the CH 3CCH2 molecule at 889.50 ps. Through
+further internal reaction and hydrogen loss, it ﬁnally formed a
+cyclopropene molecule at 891.16 ps and remained stable through-
+out the rest of the simulation. The entire process took about
+260 ps to complete. While it might be possible that ﬁnding
+cyclopropene in our simulation is a coincidence or driven by
+the relatively high temperature, it still illustrates the ability of
+reactive MD simulation to discover new molecules and new
+reactions.
+Discussion
+Accurate in silico MD simulation of combustion or other com-
+plex chemical reactions is one of the ultimate goals of compu-
+tational chemistry. In this work, an arti ﬁcial neural network
+potential model trained to ab initio data describes complex che-
+mical reactions in methane combustion. This NN potential model
+is orders of magnitude faster than the conventional DFT calcu-
+lation. Beneﬁt from the high ef ﬁciency of the NN model and GPU
+acceleration, nanosecond-sale MD simulations for a chemical
+system containing 900 atoms was achieved in about 4 days or so
+on an NVIDIA Tesla P100 card. Detailed reaction mechanisms
+were extracted from the MD trajectory and the detected mole-
+cular species and reaction networks are in excellent agreement
+with experimental observation. In addition, many new reactions
+were found that were not included in the experimental database.
+Compared to laboratory experiments, in silico simulations can be
+performed under more extreme conditions, and any speci ﬁc
+reaction of interest can be easily detected and tracked. In addi-
+tion, MD simulation can achieve ultra-high time resolution. The
+time-step used in this work is 0.1 fs. With the improvement of
+algorithms and hardware, even resolutions in smaller time scale
+can be achieved.
+Compared with the traditional prior knowledge-based theore-
+tical approach, reactive MD simulation can explore complex
+reaction networks and discover new reactions and species without
+any prior knowledge of reactions. Actually, complex reactions
+cannot be well understood without considering the kinetics of the
+reaction network it belongs to. Since reactive MD simulation
+tracks all chemical reactions in real time, one can even deduce the
+rate constants for individual reactions from a single MD trajec-
+tory by statistical analysis. We extracted the ten most statistically
+signiﬁcant reactions from the trajectory and calculated their rate
+constants based on the algorithms developed in previous
+studies50,51. As shown in Supplementary Table 2, most of the rate
+constants agree well with the GRI_Mech data 48. The main source
+of error might come from the uncertainties of parameters in the
+Arrhenius formula and the completeness of sampling. Ideally, one
+should run many trajectories with different initial conditions to
+obtain truly statistically accurate results. However, although these
+R24:
+R25:
+R26:
+R27:
+R28:
+R29:
+R30:
+R31:
+R32:
+R24
+R25
+R26
+R27
+R28 R29
+R30
+R31
+R32
+405.78 ps 405.79 ps 405.83 ps 405.84 ps 405.85 ps
+2.08 1.98 2.44
+815.32 ps 815.35 ps 815.38 ps 815.48 ps 815.49 ps
+2.43 1.74 1.40 2.03
+c
+b
+a
+O
+C
+H
+O O O
+O
+O
+C C
+C OO C
+O
+O
+C
+H
+H
+H
+H
+.CHO + .OH HCOOH
+HCOOH + .OH .COOH + H2O
+.CHO CO + .H
+.CHO + .OH CO + H2O
+.COOH + .H CO + H2O
+.COOH + .OH CO2 + H2O
+HCOO . + .H CO2 + H2
+CO + . OH CO2 + .H
+HCOOH + .OH HCOO . + H2O
+Fig. 4 Production of CO and CO 2.a Main reaction pathways for the formation of CO and CO 2. b The real-time trajectory of the reaction ·CHO → CO + ·H.
+Atoms in cyan, red and gray colors are carbon, oxygen and hydrogen, respectively. c The real-time trajectory of the reaction CO + ·OH → CO2 + ·H.
+Deﬁnition of colored atoms is the same as in ( b).
+NATURE COMMUNICATIONS | https://doi.org/10.1038/s41467-020-19497-z ARTICLE
+NATURE COMMUNICATIONS |         (2020) 11:5713 | https://doi.org/10.1038/s41467-020-19497-z | www.nature.com/naturecommunications 5
+
+----- PDF page 6 of 9 -----
+rates may not be accurate enough to be used directly in kinetic
+modeling, they can be effective in contributing to a comprehen-
+sive understanding of the combustion reaction.
+A practical issue to be pointed out is that although some
+algorithms were used in this study to minimize the size of the
+reference dataset, there are still 578,731 structures in the reference
+set. Although the DFT calculation is very ef ﬁcient, such a large
+reference set is dif ﬁcult to perform high-level post-Hartree −Fock
+calculations. In order to further minimize the size of the reference
+set while ensuring its completeness, new algorithms need to be
+developed to further enhance the ef ﬁciency of this approach.
+Recently, Zhang et al. developed the DP-GEN 52 (Deep potential
+Generator) software platform, which can automatically construct
+the reference dataset and train the NN model. The concurrent
+learning algorithm employed by this platform can make the
+redundancy of the reference set as small as possible. We are trying
+to integrate the algorithms developed in this work into the DP-
+GEN platform.
+In addition, it is worth to point that while combustion is
+usually thought to be dominated by free radical reactions,
+recent studies have begun to examine the role of electronically
+excited state species in combustion. For example, the additional
+introduction of plasma was found to be effective in promoting
+combustion in experiments 53. However, MD simulations
+involving excited states are highly nontrivial, and there are large
+uncertainties in ab initio quantum chemistry computation
+for treating excited states of large systems. Based on sophisti-
+cated empirical or machine-lear ning PESs, several recent works
+have achieved the excited-state MD simulation for model sys-
+tems54–62.F o re x a m p l e ,t h eO+O recombination reaction to
+form the ground and excited-state singlet O 2 molecules on
+amorphous solid water 60. Such strategy will be considered in
+our future studies.
+Despite further improvement is needed, the current report
+heralds the dawn of a new era in which neural network-based
+reactive MD simulation can be practically applied to simulating
+complex reaction systems at the ab initio level, which provides
+atomic-level understanding of every reaction process at unpre-
+cedented level of details beyond what laboratory experiment can
+accomplish.
+Methods
+Reference dataset . In this study, a work ﬂow was developed for making
+reference datasets (Fig. 5). The details of each module in the work ﬂow are given
+below.
+To increase the ef ﬁciency of dataset construction, reactive MD simulation with
+ReaxFF was used to sample an initial dataset. A model combustion system
+containing a lot of CH 4 and H 2 molecules was built by using the Amorphous Cell
+module in the Material Studio 63 software package. Then the LAMMPS 64 program
+was used to perform the MD simulation. The NVT ensemble was used and the
+temperature was set to 3000 K with the Berendsen thermostat. The ReaxFF
+parameter of Chenoweth et al. (CHO-2008 parameter set) 65 was employed. The
+Open Babel software 66 and the Depth-First Search algorithm 67 were used to detect
+species in every snapshot of the trajectory. Then, for each atom in each snapshot,
+we build a molecular cluster that contains this atom and species that within a
+speciﬁed cutoff centered on it. In this work, the cutoff was set to 5 Å.
+The initial dataset contains about 22.5 million structures, which is too large to
+perform QM calculations for every molecular cluster it contains. Therefore, it is
+necessary to resample it to remove redundant structures while ensuring its
+completeness. To this end, we ﬁrst classi ﬁed the initial dataset into sub-datasets
+based on the chemical bond information of the central atom. For example, the
+central H atom can be classi ﬁed into two different types: a single H atom (H0) and
+an H atom formed a single chemical bond with another atom (H1).
+Further treatment is still needed for large sub-datasets. For a given large sub-
+dataset, we ﬁrst expressed each molecular cluster it contains as a Coulomb
+matrix68:
+Cij ¼
+1
+2 Z2:4
+i ; i ¼ j
+Zi Zj
+Ri /C0 Rjjj ; i ≠ j ;
+8
+<
+: ð1Þ
+where Zi and Zj are nuclear charges of atom i and j, Ri and Rj are their Cartesian
+coordinates. The minimum image convention 69 was used to consider the
+periodic boundary condition. “Invisible atoms ” were introduced to ﬁx the
+dimension of the Coulomb matrix. These invisible atoms do not in ﬂuence the
+physics of the molecule of interest and make the total number of atoms in the
+molecule sum to a constant. To lower the dimension of the dataset and keep as
+much structural information as possible, the Coulomb matrix was further
+represented by the eigen-spectrum, which is obtained by solving the eigenvalue
+problem Cv ¼ λv under the constraint λi ≥ λiþ1. The clustering algorithm Mini
+Batch KMeans 70 was then used to cluster the given sub-datasets into smaller
+clusters according to the eigen-spectrum. Then we randomly selected
+10,000 structures from each cluster (If the cluster contains no more than
+10,000 structures, then all of them were selected).
+Large amplitude collisions and reactions in the combustion can produce a lot of
+unpredictable species and intermediates. To ensure the completeness of the
+reference dataset, an active learning approach 71 was used. Four different NN PES
+models were trained based on the dataset from the last step. Then several short MD
+simulations were performed based on these NN models. During the simulation, the
+atomic forces are evaluated by these four NN PES models simultaneously. For a
+Molecular system
+Sampling with
+ReaxFF
+Redundancy
+removal
+(Coulomb matrixes and
+Mini Batch Kmeans)
+QM calculation NN training
+Re-sampling
+(with NN-based short MDs)Dataset
+New data?
+Final dataset
+YES
+NO
+Active learning
+Fig. 5 The work ﬂow of reference dataset construction. The process and steps used in this study to generate the reference dataset needed for neural
+network training to generate the potential energy for MD simulation.
+ARTICLE NATURE COMMUNICATIONS | https://doi.org/10.1038/s41467-020-19497-z
+6 NATURE COMMUNICATIONS |         (2020) 11:5713 | https://doi.org/10.1038/s41467-020-19497-z | www.nature.com/naturecommunications
+
+----- PDF page 9 of 9 -----
+74. Wang, H., Zhang, L., Han, J. & Weinan, E. DeePMD-kit: a deep learning
+package for many-body potential energy representation and molecular
+dynamics. Comput. Phys. Commun. 228, 178 –184 (2018).
+75. He, K., Zhang, X., Ren, S. & Sun, J. Deep residual learning for image
+recognition. In: Tuytelaars, T. et al. (eds) Proc. IEEE Conference on Computer
+Vision and Pattern Recognition (IEEE, 2016).
+Acknowledgements
+The authors thank Dr. Linfeng Zhang and Dr. Han Wang for their discussion and help in
+using DeepPot-SE and DeePMD-kit. T.Z. would also like to thank Prof. Donghui Zhang
+for his valuable suggestions in this project. This work was supported by the National Key
+R&D Program of China (grant no. 2016YFA0501700), the National Natural Science
+Foundation of China (grant nos. 91641116, 91753103, and 21933010), and the Innova-
+tion Program of Shanghai Municipal Education Commission (201701070005E00020).
+J. Zeng was partially supported by the National Innovation and Entrepreneurship
+Training Program for Undergraduate (201910269080). We also thank the ECNU
+Multifunctional Platform for Innovation (No. 001) for providing supercomputer time.
+Author contributions
+J.Z. trained the neural network potential and performed most of the QM calculations.
+L.C. and M.X. analyzed the trajectory and performed part of the QM calculation. T.Z.
+and J.Z.H.Z. conceived the project and wrote the manuscript with input from all authors.
+Competing interests
+The authors declare no competing interests.
+Additional information
+Supplementary information is available for this paper at https://doi.org/10.1038/s41467-
+020-19497-z.
+Correspondence and requests for materials should be addressed to T.Z. or J.Z.H.Z.
+Peer review information Nature Communications thanks the anonymous reviewers for
+their contribution to the peer review of this work. Peer reviewer reports are available.
+Reprints and permission information is available at http://www.nature.com/reprints
+Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in
+published maps and institutional af ﬁliations.
+Open Access This article is licensed under a Creative Commons
+Attribution 4.0 International License, which permits use, sharing,
+adaptation, distribution and reproduction in any medium or format, as long as you give
+appropriate credit to the original author(s) and the source, provide a link to the Creative
+Commons license, and indicate if changes were made. The images or other third party
+material in this article are included in the article ’s Creative Commons license, unless
+indicated otherwise in a credit line to the material. If material is not included in the
+article’s Creative Commons license and your intended use is not permitted by statutory
+regulation or exceeds the permitted use, you will need to obtain permission directly from
+the copyright holder. To view a copy of this license, visit http://creativecommons.org/
+licenses/by/4.0/.
+© The Author(s) 2020
+NATURE COMMUNICATIONS | https://doi.org/10.1038/s41467-020-19497-z ARTICLE
+NATURE COMMUNICATIONS |         (2020) 11:5713 | https://doi.org/10.1038/s41467-020-19497-z | www.nature.com/naturecommunications 9
+

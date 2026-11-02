@@ -6,4 +6,6 @@
 
 成因对得上：把 `stream.jsonl` 里同一次工具调用的中文，用 Windows-1252 编码，无法表示的字换成 `?`，再存成 UTF-8。这样得到的字节和磁盘文件一致。把工具调用的 UTF-8 字节误当成 1252 来读，得到的是另一串乱码，不是这个文件。`stream.jsonl` 里没有这些问号字节。
 
+单位里的 `m s?1`、`cm?3`、`?80%` 是同一次替换。会话原文是 `9169 m s−1` 和 `−80%`，减号是 U+2212，不在 Windows-1252 里。公开片段在 `evidence/unit-glyph-snippet.txt`。落盘同一处是 `9169 m s?1`。完整 `stream.jsonl` 没有放进仓库。
+
 本地校验：`python tools/test_answer_encoding.py`（工作副本里的 `runs-v1`）。

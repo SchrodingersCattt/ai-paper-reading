@@ -1,0 +1,520 @@
+Wang et al., Nature Communications 9, 2444 (2018)，DOI 10.1038/s41467-018-04897-z。来源文件 materials/source/wang2018-hedm-genome.pdf，共 11 页。
+下面是 pypdf 抽出的文本层，页码是 PDF 页码，不是转述。
+评分包不放这份全文 PDF，只留 README 引用到的页。全文仍在公开仓库。
+
+----- PDF page 1 of 11 -----
+ARTICLE
+Accelerating the discovery of insensitive high-
+energy-density materials by a materials genome
+approach
+Yi Wang 1, Yuji Liu 1, Siwei Song 1, Zhijian Yang 1, Xiujuan Qi 2, Kangcai Wang 1, Yu Liu 1,
+Qinghua Zhang 1 & Yong Tian 1
+Finding new high-energy-density materials with desired properties has been intensely-
+pursued in recent decades. However, the contradictory relationship between high energy and
+low mechanical sensitivity makes the innovation of insensitive high-energy-density materials
+an enormous challenge. Here, we show how a materials genome approach can be used to
+accelerate the discovery of new insensitive high-energy explosives by identi ﬁcation of
+“genetic” features, rapid molecular design, and screening, as well as experimental synthesis
+of a target molecule, 2,4,6-triamino-5-nitropyrimidine-1,3-dioxide. This as-synthesized
+energetic compound exhibits a graphite-like layered crystal structure with a high measured
+density of 1.95 g cm −3, high thermal decomposition temperature of 284 °C, high detonation
+velocity of 9169 m s −1, and extremely low mechanical sensitivities (impact sensitivity, >60 J
+and friction sensitivity, >360 N). Besides the considered system of six-member aromatic and
+hetero-aromatic rings, this materials genome approach can also be applicable to the devel-
+opment of new high-performing energetic materials.
+DOI: 10.1038/s41467-018-04897-z OPEN
+1 Institute of Chemical Materials, China Academy of Engineering Physics (CAEP), Mianyang 621000, China. 2 Sichuan Co-Innovation Center for New
+Energetic Materials, Southwest University of Science and Technology, Mianyang 621010, China. Correspondence and requests for materials should be
+addressed to Q.Z. (email: qinghuazhang@caep.cn)
+NATURE COMMUNICATIONS |  (2018) 9:2444 | DOI: 10.1038/s41467-018-04897-z | www.nature.com/naturecommunications 1
+1234567890():,;
+
+----- PDF page 4 of 11 -----
+structures with high symmetry (e.g., C 1v or better symmetries)
+can also be identi ﬁed as the second key “genetic” feature of IHE
+molecules.
+In addition to molecular constitution and structures, under-
+standing how crystal packing manners affect the HEDMs ’
+sensitivity is also of vital importance. Due to unique high crystal
+density (1.94 g cm −3) and extremely low sensitivity to external
+stimuli, the example of TATB is still given for illustration (Fig. 2c).
+It is known that TATB has a graphitic-like crystal structure with
+low free space in the lattice, in which the TATB layers form a
+close-packing by intermolecular π–π stacking. In light of crystal
+packing, the graphitic-like layered crystal structure of TATB plays
+a vital role in its extremely low sensitivity to external stimuli (such
+as impact, shock, spark, friction, and heat) 40. In this regard, it is
+recognized that the HEDMs ’ graphitic-like crystal structure
+facilitates to translate less heat from shear and slip than other
+crystal packing structures (such as wavelike stacking, crossing
+stacking, and mixing stacking), with the concomitant reduced
+formation in hot spots. The similar results are observed in all other
+graphite-like HEDMs (e.g., DAAF and DAAzF) (Supplementary
+Fig. 2a), which have both high energy (detonation velocity > 8600
+m/s) and very low impact sensitivities (IS > 60 J) 41.
+People have realized the importance of graphite-like crystal
+structure for the insensitivity of IHE molecules. However, the
+knowledge on how to design an explosive molecule with graphite-
+like layered crystal structure is limited, and only a few graphite-
+like energetic compounds have been reported so far (Supplemen-
+tary Fig. 2a). Take TATB as an example, there are several factors
+playing the indispensable roles in the formation of graphite-like
+crystal structure (Fig. 2c), which include: (a) a planar molecular
+conﬁguration; (b) extensive hydrogen bonding interactions, which
+provide additional driving force to form one-dimensional
+molecular chain; (c) reasonable self-assembly of one-dimensional
+chains to two-dimensional molecular sheets by intermolecular
+hydrogen bonds; and (d) two-dimensional molecular sheets
+fabricate the three-dimensional layered packing by intermolecular
+π–π stacking. Only after all the above conditions are satis ﬁed, the
+designed molecules have the possibility to form the graphite-like
+layered crystal packing. A typical example is 5-amino-3-nitro-
+1,2,4-triazole (ANTA). Although ANTA has a planar molecular
+conﬁguration and can further assemble into one-dimensional
+molecular chain by intermolecular hydrogen bonds, it ﬁnally fails
+to form a graphite-like layered packing due to the absence of
+suitable hydrogen bonds for the formation of two-dimensional
+molecular sheet (Supplementary Fig. 3). Therefore, we conclude
+that the graphite-like crystal packing can be identi ﬁed as the third
+“genetic” feature of IHE molecules.
+Through systematically analyzing basic element constitution,
+molecular structures, and the manners of crystal packing, three
+key “genetic” features of potential IHE molecules have been
+extracted. These “genetic” features provide an important physical
+basis (i.e., the boundary conditions) for the following rapid design
+and screening of new IHE molecules.
+Rapid design and screening of new IHE molecules . Aiming at
+the rapid design and screening of new target IHE molecules, we
+ﬁrst tried to construct a library of several favorable structural
+segments (i.e., aromatic parent rings and substituent groups) and
+then enumerated all possible molecular formulas and structures by
+computationally-guided combinations between aromatic parent
+rings and substituent groups, as illustrated in Fig. 3a. Subse-
+quently, by virtue of three key “genetic” features of IHE molecules,
+we assign a set of boundary conditions to each molecule in the
+library, which allow us to quickly screen the candidate structures
+that may meet our requirements (Fig. 3a). In our approach, 14
+kinds of six-member aromatic rings (including benzene rings and
+N-hetero-aromatic rings) are selected and coded as P1 to P14, the
+selected substituent groups include nitro group ( –NO2), amino
+group ( –NH2), and hydrogen atom ( –H) (Fig. 3b). By means of
+self-compiled Java scripts, we enumerated all the combinatorial
+possibility between 14 selected six-member aromatic rings and
+three substituent groups, and 176 suited molecular formulas were
+screened out (see Supplementary Note 1). When we applied the
+ﬁrst key “genetic” feature (low CO 2-based oxygen balance of −80
+to −40%) as the boundary to these candidate molecules, the sui-
+table molecular formulas decreased from 176 to 45 (see Supple-
+mentary Note 2 and Fig. 4), and 402 molecules in the library
+passed this screen with the consideration of isomers (Supple-
+mentary Figs. 4–10). To further narrow the range of candidate
+IHE molecules, we continue to apply the second key “genetic”
+features as the boundary condition to the screened molecules.
+Among 402 candidates, only 40 molecules show the planar con-
+formation with high symmetry under the screening constraint of
+the second key “genetic” features (Fig. 4).
+To further screen the potential candidates, we also introduced
+the supramolecular synthons as a useful tool to guide the
+prediction of intermolecular interactions and screening of new
+graphite-like IHE molecules. It is known that supramolecular
+synthons represent some characteristic supramolecular spatial
+arrangements of intermolecular interactions42 and widely used for
+the crystal structure prediction in crystal engineering43–45.H e r e1 5
+main supramolecular synthons have been identi ﬁed from the
+reported graphite-like high explosives (Supplementary Fig. 2b).
+Among the selected 40 molecules with planar conformation and
+high symmetry, only seven molecules (pink and blue molecules in
+Fig. 4) have the potential to form the graphite-like crystal
+structures with the aids of supramolecular synthons (Fig. 5aa n d
+Supplementary Figs. 11–13), except some reported graphite-like
+explosives, such as P1NNNAAA (also known as TATB),
+P2NNAAA-2 (also known as TIBMUM in Supplementary
+Fig. 2a)46, P3NNAAH-1 (also known as TIBMIA in Supplemen-
+tary Fig. 2a)46, and P3NNAAA (also known as TIBMOG in
+Supplementary Fig. 2a)46 (the black molecules, Fig. 4). We further
+calculated the theoretical crystal density and found that P6NAAA
+(the blue molecule in Fig. 4) shows the highest theoretical crystal
+density (1.91 g cm −3) among seven molecules (Supplementary
+Note 4 and Supplementary Fig. 21). In this molecule, the alternate
+arrangement of energetic groups (nitro group and N +–O− group)
+and stabilizing groups (amino group) on the pyrimidine ring
+makes it a planar conformation with high symmetry (Fig. 5a). In
+addition, it has a high probability of constructing the two-
+dimensional layered structure by means of supramolecular synthon
+2 and supramolecular synthon 5. As a result, this candidate
+molecule has great potential to form the graphite-like crystal
+packing through π–π interactions between two-dimensional layers
+(Fig. 5a). The theoretical crystal predictions also demonstrate that
+this compound has the potential to form a graphite-like layered
+crystal structure through supramolecular synthon 4 and supramo-
+lecular synthon 5 (Supplementary Note 5 and Supplementary
+Fig. 22). Therefore, P6NAAA is ﬁnally screened as the target IHE
+molecule that is worthy of our synthetic effort.
+When looking at this screening process as a whole, a clear goal-
+directed thinking can be found: a library of basic structural
+segments (i.e., parent rings and substituents) is constructed with
+the guidance of designing new HEDMs molecules; all the
+chemical structures with speci ﬁed molecular formulas are
+computationally enumerated; rapid screening is carried out using
+three identi ﬁed key “genetic” features of IHE molecules as the
+boundary conditions; and ﬁnally, the candidate molecule with
+desired structural features is ﬁltered out.
+ARTICLE NATURE COMMUNICATIONS | DOI: 10.1038/s41467-018-04897-z
+4 NATURE COMMUNICATIONS |  (2018) 9:2444 | DOI: 10.1038/s41467-018-04897-z | www.nature.com/naturecommunications
+
+----- PDF page 8 of 11 -----
+tested, and the solubility results are listed in Supplementary
+Table 5. As compared to the solubility of 220 mg of ICM-102 in
+100 ml water at 25 °C, ICM-102 exhibited a much lower solubility
+of <10 mg per 100 ml in most organic solvents including ethanol,
+methanol, acetone, acetonitrile, ethyl acetate, and dichlor-
+omethane. Even in DMSO, ICM-102 was only slightly soluble at
+25 °C (20 mg per 100 ml) and partially soluble (400 mg per 100
+ml) at 130 °C (see Methods part). We speculate that extensive
+hydrogen bonding interactions play a crucial role in low solubility
+of ICM-102 in most organic solvents at room temperature.
+Detonation properties . After evaluating the physicochemical
+properties of ICM-102, including density, solubility, and thermal
+properties, our attention has been turned to its detonation
+properties. The heat of formation ( ΔfH) of ICM-102 was ﬁrst
+calculated by the isodesmic reaction approach using Gaussian 09
+(Revision D.01) suite program 54, and was estimated to be −8.1 kJ
+mol−1 (see Supplementary Note 3). Using the measured ambient
+temperature density (1.95 g cm −3) and the calculated heat of
+formation, the detonation velocity ( νD) and the detonation
+pressure ( P) of ICM-102 were evaluated using EXPLO5 (v6.02)
+program55. As shown in Table 1, the calculated detonation
+velocity and detonation pressure of ICM-102 are 9169 m s −1 and
+34.3 GPa, respectively, which are much superior to those of TATB
+(8114 m s−1 and 32.4 GPa) (Table 1). Except HMX
+(νD = 9221 m s−1), the detonation velocity of ICM-102 is also
+superior to those of RDX ( νD = 8878 m s−1), LLM-105
+(νD = 8560 m s−1), and FOX-7 ( νD = 9000 m s−1). Due to the
+relatively low OB ( −55.45%), the detonation pressure of ICM-102
+(34.2 GPa) is lower than those of HMX (39.2 GPa), FOX-7 (35.9
+GPa), and RDX (34.9 GPa). From the view of energy level, ICM-
+a
+cd
+b1.2 80
+60
+40
+20
+0
+3.0
+2.5
+2.0
+1.5
+1.0
+0.5
+0.0
+5 K/min
+200 °C
+180 °C
+160 °C
+140 °C
+120 °C
+100 °C
+80 °C
+60 °C
+40 °C
+25 °C
+200 °C
+180 °C
+160 °C
+140 °C
+120 °C
+100 °C
+80 °C
+60 °C
+40 °C
+25 °C
+15 K/min
+10 K/min
+261 °C
+284 °C
+Weight (%)
+Intensity (a.u.)
+Intensity (a.u.)
+Heat flow (mW/mg)
+Heat flow (mW/mg)
+1.0
+0.8
+0.6
+0.4
+0.2
+0.0
+50
+800 1600 2400 3200 1400 1200 1000 800 600 400 200 04000
+100 150 200
+Temperature (°C)
+Wavenumber (cm–1) Raman shift (cm –1)
+Temperature (°C)
+250 300 350 50 100 150 200 250 300 350 400
+Fig. 6 Thermostability of ICM-102. a Differential scanning calorimeter (DSC) and thermal gravimetric analyzer (TG) curves of ICM-102. b Differential
+scanning calorimeter (DSC) curves of ICM-102 with different heating rates. c In-situ variable-temperature infrared spectra of ICM-102. d In-situ variable-
+temperature Raman spectra of ICM-102
+N N
+H2N O2N
+O2N
+NH2
+NO2
+O O
+NH2
+H2N NH2
+NO2
+NH2
+NO2O2N N
+NH2N
+O2N
+O
+NH2
+NO2 NH2
+NH2
+abcd
+ICM-102 TATB LLM-105 FOX-7
+Nitro group charges:
+–0.564
+Nitro group charges:
+–0.393
+Nitro group charges:
+–0.461
+Nitro group charges:
+–0.567
+Most negative charge:
+–30.26
+Most negative charge:
+–38.13
+Most negative charge:
+–40.45
+Most negative charge:
+–26.76
+Average deviation of ESP:
+0.246
+Average deviation of ESP:
+0.184
+Average deviation of ESP:
+0.243
+Average deviation of ESP:
+0.249
+Fig. 7 Molecular simulations of ICM-102 and typical IHE molecules. a Molecular electrostatic potential (ESP) and nitro group charge of ICM-102. b
+Molecular electrostatic potential (ESP) and nitro group charge of TATB. c Molecular electrostatic potential (ESP) and nitro group charge of LLM-105. d
+Molecular electrostatic potential (ESP) and nitro group charge of FOX-7
+ARTICLE NATURE COMMUNICATIONS | DOI: 10.1038/s41467-018-04897-z
+8 NATURE COMMUNICATIONS |  (2018) 9:2444 | DOI: 10.1038/s41467-018-04897-z | www.nature.com/naturecommunications
+
+----- PDF page 9 of 11 -----
+102 has excellent detonation properties ( νD=9169 m s−1 and P =
+34.3 GPa) and is comparable to HMX.
+Sensitivities. The goal of our research is to obtain the desired IHE
+molecule with HMX ’s energy and TATB ’s sensitivity. Having
+evaluated the energetic properties of ICM-102, our attention was
+particularly shifted to investigate its sensitivities towards external
+stimuli. To ensure the accuracy and comparability of impact
+sensitivities, we employed two kinds of professional methods (i.e.,
+standard BAM and characteristic height ( H50) methods, respec-
+tively) for every test. The results showed that the impact sensi-
+tivity of ICM-102 is extremely low (IS > 60 J and H50 = 320 cm),
+which are comparable to TATB and much lower than typical low-
+sensitivity explosives (LLM-105 and FOX-7) (Table 1). The fric-
+tion sensitivity of ICM-102 also falls in the insensitivity range
+with the value of >360 N (Table 1). In addition, the electrostatic
+spark sensitivity of ICM-102 is also quite low ( Ea = 1.85 J), just
+slightly lower than TATB ( Ea = 2.27 J) (Table 1). Since ICM-102
+has extremely low sensitivities to external stimuli, we attempted
+to use a standard plate-dent test to evaluate its detonation per-
+formance. As expected, we found that ICM-102 can be success-
+fully initiated by a standard plate-dent test with an obvious dent
+in the steel anvil (Supplementary Fig. 18), demonstrating its
+promise as an IHE molecule.
+The extremely low sensitivity of ICM-102 is further explained
+from both molecular and crystal levels. At the molecular level, it is
+known that lower nitro group charges 56,57, more negative ESP 58,
+and an average deviation of ESP approaching 0.25 59 result in low
+sensitivity of high explosives. As compared with TATB, ICM-102
+has a more negative ESP, a comparable nitro group charge and
+average deviation of ESP caused by alternate positive and negative
+potentials (Fig. 7a, b). Though the negative ESP of LLM-105 and
+FOX-7 are lower than that of ICM-102, their two factors of nitro
+group charges and average deviation of ESP are not comparable
+to ICM-102 (Fig. 7a, b, d). Therefore, the extremely low
+sensitivity of ICM-102 can be explained by its unique electronic
+structure, including low group charge ( −0.564), very negative
+ESP ( −30.26), and excellent average deviation of ESP (0.246).
+From the view of crystal structure, we noted that the
+intermolecular hydrogen bond distances of ICM-102 in its two-
+dimensional layers are very short with an average value of 2.143
+Å, even shorter than other layered explosives (such as TATB,
+LLM-105, FOX-7, and NTO) (Supplementary Fig. 16). This
+implies that the intermolecular hydrogen bond interactions of
+ICM-102 are extremely strong and it has a strong tendency to
+self-assemble into two-dimensional layered structure. As a result,
+the layer-to-layer buffer and slip of ICM-102 could well consume
+external energy inputs to make the formation of local hot spots
+difﬁcult60. Therefore, both the unique electronic structure
+distribution and graphite-like layered structure of ICM-102 are
+responsible for its extremely low sensitivities to external stimuli.
+Discussion
+This study describes how a materials genomic approach is used to
+accelerate the discovery of a promising IHE molecule with HMX ’s
+energy and TATB ’s sensitivity. By rationalizing the relationships
+between structure and property from large amounts of experi-
+mental data, we ﬁrst identi ﬁed and extracted key materials
+“genetic” features that determine the high density and insensi-
+tivity of IHE molecules. Second, we performed a computationally-
+guided molecular design and rapid screening, which includes the
+library construction of molecular segments and the structural
+selection of candidate molecules that are worthy of synthetic
+efforts using the identi ﬁed “genetic” features as the ﬁltration
+conditions. Third, we experimentally validated our prediction
+through a facile and low-cost synthesis of ICM-102 from com-
+mercially available raw materials in high yields. Single crystal
+XRD analysis reveals that ICM-102 has the expected graphite-like
+crystal structure. The results of property studies demonstrate that
+ICM-102 has a high measured density of 1.95 g cm −3, high
+thermal decomposition temperature of 284 °C, high detonation
+velocity of 9169 m s −1, and extremely low sensitivities to external
+stimuli, showing good agreement between prediction and
+experiment. The success of this materials genome approach not
+only discovers a promising IHE molecule of ICM-102, but also
+opens a new avenue to develop new high-performing HEDMs by
+expanding this approach to multiple or fused hetero-aromatic
+ring systems.
+Methods
+General. Although ICM-102 shows the surprisingly low sensitivities to external
+mechanical stimuli (such as impact and friction), the fuming nitric acid, con-
+centrated sulfuric acid, and tri ﬂuoroacetic acid are used in the synthesis process.
+Table 1 Physical properties of ICM-102 and comparison with TATB, RDX, HMX, LLM-105, and FOX-7
+ICM-102 TATB RDX HMX LLM-105 FOX-7
+Td
+a (°C) 284 360 210 279 342 220
+ρb (g cm−3) 1.95 1.94 1.80 1.90 1.91 1.88
+ΔfHm (kJ mol−1) −8.1c −139.5d 86.3d 116.1d −12.0d −118.9d
+P (GPa) 34.3 e 32.4l 34.9e 39.2e 33.4m 35.9e
+νD (m s−1) 9169 f 8114l 8878f 9221f 8560m 9000f
+ISg (J) >60 >60 7.5 7.5 28.7 24.7
+FSh (N) >360 >360 120 120 >360 >360
+H50
+i (cm) 320 320 26 32 117 126
+E50
+j (J) 1.85 2.27 0.151 0.099 1.02 1.92
+OBk (%) −55.45 −55.81 −21.61 −21.69 −37.04 −21.61
+aDecomposition temperature (exothermic peak)
+bMeasured density by a gas pycnometer at 298 K
+cCalculated heat of formation
+dMeasured heats of formation
+eDetonation pressure calculated using EXPLO5/6.02
+fDetonation velocity calculated using EXPLO5/6.02
+gImpact sensitivity evaluated by a standard BAM fall-hammer
+hFriction sensitivity evaluated by a BAM friction tester
+iTested by 2.5 kg drop hammer
+jElectrostatic spark sensitivity
+kOxygen balance based on CO 2 for C aHbNcOd:OB (%) = 1600×(d−a−b/2)/Mw
+lRef. 9
+mRef. 61
+NATURE COMMUNICATIONS | DOI: 10.1038/s41467-018-04897-z ARTICLE
+NATURE COMMUNICATIONS |  (2018) 9:2444 | DOI: 10.1038/s41467-018-04897-z | www.nature.com/naturecommunications 9
+
+----- PDF page 11 of 11 -----
+33. Yang, K. et al. A search model for topological insulators with Rapidrobustness
+descriptors. Nat. Mater. 11, 614 –619 (2012).
+34. Gautier, R. et al. Prediction and accelerated laboratory discovery of previously
+unknown 18-electron ABX compounds. Nat. Chem. 7, 308 –316 (2015).
+35. Wilmer, C. E. et al. Large-scale screening of hypothetical metal-organic
+frameworks. Nat. Chem. 4,8 3 –89 (2012).
+36. Yang, Q., Liu, D., Zhong, C. & Li, J. R. Development of computational
+methodologies for metal-organic frameworks and their application in gas
+separations. Chem. Rev. 113, 8261 –8323 (2013).
+37. Bai, P. et al. Discovery of optimal zeolites for challenging separations and
+chemical transformations using predictive materials modeling. Nat. Commun.
+6, 5912 (2015).
+38. Li, Y., Li, X., Liu, J., Duan, F. & Yu, J. In silico prediction and screening of
+modular crystal structures via a Rapidgenomic approach. Nat. Commun. 6,
+8328 (2015).
+39. Kamlet, M. J. & Adolph, H. G. The relationship of impact sensitivity with
+structure of organic high explosives. II. Polynitroaromatic explosives.
+Propellants Explos. Pyrotech. 4,3 0 –34 (1979).
+40. Zhang, C., Wang, X. & Huang, H. π-Stacked interactions in explosive crystals:
+buffers against external mechanical stimuli. J. Am. Chem. Soc. 130, 8359–8365
+(2008).
+41. Ma, Y. et al. Crystal packing of low-sensitivity and high-energy explosives.
+Cryst. Growth Des. 14, 4703 –4713 (2014).
+42. Desiraju, G. R. Supramolecular synthons in crystal engineering — a new
+organic synthesis. Angew. Chem. Int. Ed. 34, 2311 –2327 (1995).
+43. Tiekink, E. R. T. Molecular crystals by design? Chem. Commun. 50,
+11079–11082 (2014).
+44. Mukherjee, A. Building upon supramolecular synthons: some aspects of
+crystal engineering. Cryst. Growth Des. 15, 3076 –3085 (2015).
+45. Roger, B. Organic crystal engineering beyond the Pauling hydrogen bond.
+CrystEngComm 17, 7448 –7460 (2015).
+46. Hollins, R. A., Merwin, L. H., Nissan, R. A., Wilson, W. S. & Gilardi, R.
+Aminonitropyridines and their N-oxides. J. Heterocycl. Chem. 33, 895 –904
+(1996).
+47. Delia, T. J., Portlock, D. E. & Venton, D. L. Pyrimidine N-oxides. Oxidation of
+5-nitroso-2,4,6-triaminopyrimidine (1). J. Heterocycl. Chem. 5, 449 –451
+(1968).
+48. Hollins, R. A., Merwen, L. H., Nissan, R. A., Wilson, W. S. & Gilardi, R. D.
+Aminonitroheterocyclic N-oxides— a new class of insensitive energetic
+materials. Mater. Res. Soc. Symp. Proc. 418, 31 (1996).
+49. Millar, R. W., Philbin, S. P., Claridge, R. P. & Hamid, J. Studies of novel
+heterocyclic insensitive high explosive compounds: pyridines, pyrimidines,
+pyrazines and their bicyclic analogues. Propellants Explos. Pyrotech. 29,8 1–92
+(2004).
+50. Kissinger, H. E. Reaction kinetics in differential thermal analysis. Anal. Chem.
+29, 1702 –1706 (1957).
+51. Ozawa, T. A new method of analyzing thermogravimetric data. Bull. Chem.
+Soc. Jpn. 38, 1881 –1886 (1965).
+52. Hu, R. Z. et al. Thermal Analysis Kinetics 2nd ed (Science Press, Beijing, 2008)
+(in Chinese).
+53. Gao, Z. et al. Synthesis, structural characterization, and thermal properties of a
+new energetic zinc-FOX-7 complex. J. Coord. Chem. 66, 3572 –3580 (2013).
+54. Frisch, M. J. et al. Gaussian 09, Revision D. 01 (Gaussian Inc., 2009).
+55. Su ćeska, M. EXPLO5 6.02 (Brodarski Institute, 2009).
+56. Zhang, C. et al. Investigation of correlation between impact sensitivities and
+nitro group charges in nitro compounds. J. Phys. Chem. B 109, 8978 –8982
+(2005).
+57. Zhang, C. Review of the establishment of nitro group charge method and its
+applications. J. Hazard. Mater. 161,2 1 –28 (2009).
+58. Murray, J. S. & Politzer, P. The electrostatic potential: an overview. WIRES
+Comput. Mol. Sci. 1, 153 –163 (2011).
+59. Murray, J. S., Concha, M. C. & Politzer, P. Links between surface electrostatic
+potentials of energetic molecules, impact sensitivities and C –NO2/N–NO2
+bond dissociation energies. Mol. Phys. 107,8 9 –97 (2009).
+60. Zhang, C. Sandwich complex of TATB/graphene: an approach to
+molecular monolayers of explosives. J. Phys. Chem. C 114, 22684 –22687
+(2010).
+61. Tian, D., Zhao, F. & Liu, J. Handbook of Energetic Materials and the Related
+Compounds (National Defense Industry Press, Beijing, 2011) (in Chinese).
+Acknowledgments
+This work was supported by the Science Challenge Project (TZ2018004), the National
+Natural Science Foundation of China (Nos. 21702195, U1530262, 21602211), National
+Postdoctoral Program for Innovative Talents (No. BX201600137), the Thousand Talents
+Plan (Youth), and the Development Foundation of CAEP (No. 2015B0302057).
+Author contributions
+Q.Z. and Y.W. designed the study. Y.W., S.S., and Y.L. performed most of the reactions
+and measurements. Z.Y. and Y.L. performed some measurements. S.S. and X.Q. ﬁnished
+the theoretical calculations. K.W. performed the crystallographic structural analysis.
+Y.W., S.S., and Q.Z. prepared the manuscript. Y.T. gave important suggestions on the
+paper.
+Additional information
+Supplementary Information accompanies this paper at https://doi.org/10.1038/s41467-
+018-04897-z.
+Competing interests: The authors declare no competing interests.
+Reprints and permission information is available online at http://npg.nature.com/
+reprintsandpermissions/
+Publisher's note: Springer Nature remains neutral with regard to jurisdictional claims in
+published maps and institutional af ﬁliations.
+Open Access This article is licensed under a Creative Commons
+Attribution 4.0 International License, which permits use, sharing,
+adaptation, distribution and reproduction in any medium or format, as long as you give
+appropriate credit to the original author(s) and the source, provide a link to the Creative
+Commons license, and indicate if changes were made. The images or other third party
+material in this article are included in the article ’s Creative Commons license, unless
+indicated otherwise in a credit line to the material. If material is not included in the
+article’s Creative Commons license and your intended use is not permitted by statutory
+regulation or exceeds the permitted use, you will need to obtain permission directly from
+the copyright holder. To view a copy of this license, visit http://creativecommons.org/
+licenses/by/4.0/.
+© The Author(s) 2018
+NATURE COMMUNICATIONS | DOI: 10.1038/s41467-018-04897-z ARTICLE
+NATURE COMMUNICATIONS |  (2018) 9:2444 | DOI: 10.1038/s41467-018-04897-z | www.nature.com/naturecommunications 11
+
