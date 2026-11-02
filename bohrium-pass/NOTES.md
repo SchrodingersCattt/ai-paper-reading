@@ -13,3 +13,7 @@
 提示词全文在 `prompt.txt`。模型结论是“部分可用”，理由是摘录没有写明 Smith–Bharadwaj 势是不是反应力场，所以它不肯判断断键。冲击被它写成不覆盖。热动力学被它写成部分可用。
 
 这和事后对照原文的差别在于：Methods 写的是经典原子势，讨论写的是结构与均方位移，全文没有反应坐标。不能因为摘录没出现“非反应”三个字，就把断键留成开放问题。这个差别写进 GitHub 的技术洞察，不把模型的措辞改成我们希望的答案。
+
+## 氧平衡和密度
+
+2026-11-02 另一次 `node` 调用 `run.js chat`。提示词全文是 `prompt-formula-density.txt`，没有改 `prompt.txt` 或 `prompt-wang.txt`。返回模型是 `chenkun/gpt-5-nano`，prompt token 557。公开文件 `chat-formula-density-public.json` 去掉了 `notice.billing`。模型写第一句“摘录未出现代入过程”，第二句“摘录不支持”。原文没有改。

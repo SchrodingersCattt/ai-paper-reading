@@ -1,0 +1,18 @@
+{
+  "id": "claim-check",
+  "case": "claim-check",
+  "condition": "pdf_only",
+  "pdf": "materials/source/wang2018-hedm-genome.pdf",
+  "exit": 0,
+  "started_at": "2026-11-02T11:12:59.699234+00:00",
+  "duration_seconds": 382.3,
+  "answer_present": true,
+  "workspace_files": [
+    "answer.md",
+    "paper.pdf"
+  ],
+  "model": "grok-4.7-high",
+  "harness": "Cursor agent CLI 2026.10.19-6bbf2c4",
+  "workspace_isolated": "C:\\Users\\gmy72\\AppData\\Local\\Temp\\bpf261102\\claim-check",
+  "flags": "--print --output-format stream-json --model grok-4.7-high --trust --force --sandbox disabled"
+}
