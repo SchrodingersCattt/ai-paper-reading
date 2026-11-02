@@ -112,7 +112,7 @@ agent --print --output-format stream-json --model grok-4.7-high --trust --force 
 ```
 
 4. 打开 `answer.md`。通过的最低检查：结论是“不可用”；9169 标为计算并指向 EXPLO5；五元环不在 P1–P14；文件是 UTF-8。运行前写好的完整标准在 `cases/A/acceptance.md`，运行目录里不要放它。
-5. 核对本文两句时，工作目录里只放 Wang 的 PDF。问注 k 的式子、第 10 页的 C4H6N6O4（202.0451），以及 1.95 与 1.92 各属于哪一个样品。一次这样的核对在 `examples/claim-check/`。落盘的 `answer.md` 不是合法 UTF-8，汉字变成了 `?`；会话里的核对在 `visible-from-stream.md`，三句都与印出文字一致。
+5. 核对本文两句时，工作目录里只放 Wang 的 PDF。问注 k 的式子、第 10 页的 C4H6N6O4（202.0451），以及 1.95 与 1.92 各属于哪一个样品。一次这样的核对的可读文本在 `examples/claim-check/visible-from-stream.md`，三句都与印出文字一致。当时落盘的 `answer.md` 不是合法 UTF-8，评分包不放它。
 6. 玻尔：用 `prompt-formula-density.txt` 的全文作为 `bohr chat` 的消息。费用以返回为准，未知费用不要写成 0。`prompt-wang.txt` 是早先那次筛选提问，不是这两句的提示。
 
 ## 材料
