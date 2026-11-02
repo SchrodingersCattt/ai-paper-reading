@@ -66,5 +66,6 @@ agent --print --output-format stream-json --model grok-4.7-high --trust --force 
 | `evidence/quotes.md` | 上面三处原文的页码 |
 | `skill/SKILL.md` | v2 步骤 |
 | `materials/source/*.pdf` | 两篇 CC BY 全文 |
-| `examples/` | 有 Skill、无 Skill、以及换论文的原始结果 |
+| `examples/` | 有 Skill、无 Skill、以及换论文的原始结果。无 Skill 的 `answer.md` 是落盘原件，汉字已变成 `?`，说明在 `evidence/encoding.md` |
+| `materials/source/wang2018-hedm-genome-constructed-pages1-2.pdf` | 案例 C 的残缺件，只含前两页，文件名标明 constructed |
 | `bohrium-pass/` | 提示词和删去余额后的返回 |
