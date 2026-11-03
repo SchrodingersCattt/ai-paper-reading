@@ -18,7 +18,7 @@
 
 ## 用玻尔拆解论文的方法
 
-Bohrium Uni-Parser 对 9 页全文的解析结果记在[元数据](bohrium-pass/zeng-parser-metadata.json)里：设置是 `textual=2`、`table=2`、`equation=2`、`figure=0`，状态为 `success`，费用 45 分。这份元数据没有附上那次的全文返回。第 6 页复跑留下了[返回文本](bohrium-pass/zeng-parser-retest-page6.txt)和[状态](bohrium-pass/zeng-parser-retest-metadata.json)：状态为 `success`，费用 5 分。文本里有 Fig. 5 图注和方法文字，没有图里的方框标签和箭头。把 `figure` 设为 1 的请求，保存结果是 [HTTP 403](bohrium-pass/zeng-figure-http403.txt)。
+PDF 第 6 页的单页重跑留有完整返回。Bohrium Uni-Parser 请求里的 `pages` 写成 `5`，页索引从 0 开始，所以对应第 6 页；设置是 `textual=2`、`table=2`、`equation=2`、`figure=0`。[返回文本](bohrium-pass/zeng-parser-retest-page6.txt)是这次实际拿到的文本，[状态](bohrium-pass/zeng-parser-retest-metadata.json)为 `success`，费用 5 分。文本里有 Fig. 5 图注和方法文字，没有图里的方框标签和箭头。把 `figure` 设为 1 的请求，保存结果是 [HTTP 403](bohrium-pass/zeng-figure-http403.txt)。
 
 我把第 6 页返回文本交给玻尔，问：“请列出这篇论文 Fig. 5 图中每个方框的名称及箭头顺序，并给出依据。用中文回答。”[基础回答](bohrium-pass/zeng-figure-baseline-answer.txt)说明看不到原图标签，随后依据方法文字推测了 16 个步骤。它讲到了采样和聚类，却不能用于逐框转录图示。
 
@@ -118,16 +118,39 @@ node $BohrEntry chat $FigureQuestion --model gpt-5-nano --output json
 
 `graph.json` 应列出 9 个节点和 9 条箭头，YES 返回 Dataset，NO 指向 Final dataset；然后对照原图和[事先写好的验收标准](bohrium-pass/zeng-figure-vector-protocol.md)检查回答。重跑模型可能得到不同表述。
 
-要重新调用 Uni-Parser，安装 `requests` 并配置 `BOHR_ACCESS_KEY`，再运行 `python bohrium-pass/parse_zeng.py submit --out ./parse-run` 和 `python bohrium-pass/parse_zeng.py poll --out ./parse-run`。首次仍在排队时，稍后再次执行 `poll`。请求设置与费用以实际返回为准。
+已经保存的这张 Fig. 5，可以用一条命令按原 PDF 再提取并核对。[check_fig5.py](bohrium-pass/check_fig5.py) 调用 [extract_fig5_graph.py](bohrium-pass/extract_fig5_graph.py)，读取论文第 6 页，再按验收标准里人工核对过的九个节点、九条边和 YES／NO 比较。在仓库根目录运行：
+
+```powershell
+python bohrium-pass/check_fig5.py --out ./fig5-check
+```
+
+`--out` 要写成一个还不存在的目录。目录已经存在时，脚本退出，不写入文件。预期退出码为 0：YES 从 New data? 回到 Dataset，NO 指向 Final dataset。这条命令只检查这篇 Zeng 2020 PDF 的 Fig. 5，读取的是本地 PDF 和协议文件。退出码为 0 表示矢量和协议一致，[原图](materials/excerpts/zeng2020-fig5.png)和 `graph.json` 仍要人眼对照。
+
+同一脚本可以在另一个新目录里生成一份六页空白 PDF，再交给同一个提取器：
+
+```powershell
+python bohrium-pass/check_fig5.py --blank --out ./fig5-blank
+```
+
+预期这条命令的退出码为 0。它生成的空白 PDF 有 6 页。提取器自己的退出码为 1，报错是 `Unexpected diagram structure: 0 nodes, 0 arrows`，目录里没有 `graph.json`。
+
+要按已保存的单页记录重新调用 Uni-Parser，安装 `requests` 并配置 `BOHR_ACCESS_KEY`，在仓库根目录运行：
+
+```powershell
+python bohrium-pass/parse_zeng.py submit --page-index 5 --out ./parse-run
+python bohrium-pass/parse_zeng.py poll --out ./parse-run
+```
+
+`--page-index 5` 从 0 开始，对应 PDF 第 6 页。首次仍在排队时，稍后再次执行 `poll`。请求设置和实际费用以返回为准。
 
 ## 论文与运行记录
 
 | 内容 | 位置 |
 | --- | --- |
 | 论文全文与授权 | [Zeng 2020 PDF](materials/source/zeng2020-methane-nn-md.pdf)、[本案例许可](materials/zeng2020-license.md) |
-| 玻尔解析与基础问答 | [9 页解析元数据](bohrium-pass/zeng-parser-metadata.json)、[第 6 页文本](bohrium-pass/zeng-parser-retest-page6.txt)、[第 6 页状态](bohrium-pass/zeng-parser-retest-metadata.json)、[基础回答](bohrium-pass/zeng-figure-baseline-answer.txt) |
+| 玻尔解析与基础问答 | [第 6 页返回文本](bohrium-pass/zeng-parser-retest-page6.txt)、[第 6 页状态](bohrium-pass/zeng-parser-retest-metadata.json)（`pages=5`，从 0 开始，`success`，5 分）、[基础回答](bohrium-pass/zeng-figure-baseline-answer.txt)。更早的 9 页全文解析，状态 `success` 和费用 45 分记在[元数据](bohrium-pass/zeng-parser-metadata.json)，完整返回不在材料包内 |
 | 加核验要求的问答 | [指令](bohrium-pass/zeng-figure-guarded-instruction.txt)、[回答](bohrium-pass/zeng-figure-guarded-answer.txt) |
-| 图中文字与矢量结构 | [文字层回答](bohrium-pass/zeng-figure-text-layer-answer.txt)、[节点和箭头](bohrium-pass/zeng-figure-vector-graph.json)、[提取脚本](bohrium-pass/extract_fig5_graph.py) |
+| 图中文字与矢量结构 | [文字层回答](bohrium-pass/zeng-figure-text-layer-answer.txt)、[节点和箭头](bohrium-pass/zeng-figure-vector-graph.json)、[提取脚本](bohrium-pass/extract_fig5_graph.py)、[本图核对](bohrium-pass/check_fig5.py) |
 | 两次补充问答与核查 | [运行 1](bohrium-pass/zeng-figure-vector-answer-1.txt)、[运行 2](bohrium-pass/zeng-figure-vector-answer-2.txt)、[运行前标准](bohrium-pass/zeng-figure-vector-protocol.md)、[核查](bohrium-pass/zeng-figure-vector-review.md)、[模型和哈希](bohrium-pass/zeng-figure-vector-metadata.json) |
 | Skill A 对照 | [任务](examples/zeng-v5/cases/A/task.md)、[验收标准](examples/zeng-v5/cases/A/acceptance.md)、[案例 A 复现脚本](examples/zeng-v5/reproduce_a.py) |
 
