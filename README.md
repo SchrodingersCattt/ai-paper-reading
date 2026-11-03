@@ -70,11 +70,22 @@ node $BohrEntry chat $PaperQuestion --model gpt-5-nano --output json
 
 脚本重建的是本案例的提问；阅读另一篇论文时，需要按新问题选择对应的解析块。
 
-再用同一份第 6 页解析文本，询问 Fig. 5 每个方框和箭头的顺序。第一次[直接提问](bohrium-pass/zeng-figure-baseline-prompt.txt)，第二次[增加核验要求](bohrium-pass/zeng-figure-guarded-instruction.txt)，要求模型先检查图内标签是否真的出现在文本里。两次请求都使用 `gpt-5-nano`，实际返回模型为 `chenkun/gpt-5-nano`。
+再用同一份第 6 页解析文本提问：“请列出这篇论文 Fig. 5 图中每个方框的名称及箭头顺序，并给出依据。用中文回答。”第二次[增加核验要求](bohrium-pass/zeng-figure-guarded-instruction.txt)，要求模型先检查图内标签是否真的出现在文本里。两次请求都使用 `gpt-5-nano`，实际返回模型为 `chenkun/gpt-5-nano`。
 
 两次回答都说明没有看到原图标签，但随后分别根据正文给出 16 步和 8 步的推测：[直接提问的回答](bohrium-pass/zeng-figure-baseline-answer.txt)、[增加核验后的回答](bohrium-pass/zeng-figure-guarded-answer.txt)。对照上面的原图，这些是对正文方法的拆解，不能当作图内方框的逐字转录。读取图示时，把模型推断与图里的实际标注分开即可。
 
 两次输入共用前面保存的第 6 页文本；[脚本](bohrium-pass/build_figure_question.py)可分别重建完整提问，[记录](bohrium-pass/zeng-figure-comparison-metadata.json)保存了模型名称和提示哈希。
+
+原 PDF 的文字层还保留了图中的词。我用 PyMuPDF 提取 Fig. 5 区域的 31 个词及坐标，补到同一个问题里再次提问。[这次回答](bohrium-pass/zeng-figure-text-layer-answer.txt)找到了 “Sampling with ReaxFF”“QM calculation” 等标签，但把区域名称 “Active learning” 排进线性流程，还遗漏了图中的 Redundancy removal → Dataset 连接。文字层能补回标签，箭头仍需看原图。
+
+安装 `PyMuPDF==1.26.7` 后，可以从论文生成[同一组词和位置](bohrium-pass/zeng-figure-text-layer-words.txt)及完整问题；接着沿用上面的 `$BohrEntry` 提问：
+
+```powershell
+python -m pip install PyMuPDF==1.26.7
+python bohrium-pass/build_figure_layer.py --out ./figure-run
+$FigureQuestion = Get-Content -Raw -Encoding utf8 './figure-run/question.txt'
+node $BohrEntry chat $FigureQuestion --model gpt-5-nano --output json
+```
 
 ## 把论文条件和自己的问题对上
 
@@ -132,7 +143,8 @@ node $BohrEntry chat $PaperQuestion --model gpt-5-nano --output json
 | Zeng 2020 全文及许可 | [PDF](materials/source/zeng2020-methane-nn-md.pdf)、[许可说明](materials/LICENSE.md) |
 | 玻尔全文解析 | [请求与状态](bohrium-pass/zeng-parser-metadata.json)、[关键块输出](bohrium-pass/zeng-parser-key-blocks.json)、[第 6 页复跑](bohrium-pass/zeng-parser-retest-page6.txt)、[复现脚本](bohrium-pass/parse_zeng.py) |
 | 解析后提问 | [构造脚本](bohrium-pass/build_question.py)、[实际提示](bohrium-pass/zeng-pipeline-prompt.txt)、[实际回答](bohrium-pass/zeng-pipeline-answer.txt)、[模型信息](bohrium-pass/zeng-pipeline-metadata.json) |
-| 流程图对照 | [直接提问](bohrium-pass/zeng-figure-baseline-prompt.txt)、[增加的核验要求](bohrium-pass/zeng-figure-guarded-instruction.txt)、[两次完整回答](bohrium-pass/zeng-figure-baseline-answer.txt)与[复跑回答](bohrium-pass/zeng-figure-guarded-answer.txt) |
+| 流程图对照 | [提问重建脚本](bohrium-pass/build_figure_question.py)、[增加的核验要求](bohrium-pass/zeng-figure-guarded-instruction.txt)、[两次完整回答](bohrium-pass/zeng-figure-baseline-answer.txt)与[复跑回答](bohrium-pass/zeng-figure-guarded-answer.txt) |
+| PDF 文字层补充 | [词与坐标](bohrium-pass/zeng-figure-text-layer-words.txt)、[完整回答](bohrium-pass/zeng-figure-text-layer-answer.txt)、[提取脚本](bohrium-pass/build_figure_layer.py)、[模型与哈希](bohrium-pass/zeng-figure-text-layer-metadata.json) |
 | Skill v5 对照 | [任务、标准与七份答案](examples/zeng-v5/) |
 | Wen 2020 核查材料 | [第 5、6 页](materials/excerpts/wen2020-original-pages5-6.pdf)、[第 8 页数据集说明](materials/excerpts/wen2020-page8-dataset.md) |
 | 其他文献案例 | [含能材料案例与原文证据](https://github.com/SchrodingersCattt/ai-paper-reading/blob/14371bcd1077ffaab6aca1b4f7869d0fbeaeec0b/evidence/quotes.md) |

@@ -1,0 +1,54 @@
+下面依据第6页 Fig.5 区域的文字层（从文本提取的各方框文字及其坐标）整理出该图中方框的名称，以及在图中比较可能的箭头顺序。由于仅靠文字层很难完全清晰地确定某些箭头的确切连接关系，未确证的边我在最后标注需要查看原图来确认。
+
+一、Fig.5 图中方框名称（按文字区域所能辨识的顺序聚合）
+
+- Molecular system（分子体系）
+- Sampling with ReaxFF（使用 ReaxFF 进行采样）
+- Redundancy removal（冗余剔除）
+  - 特别标注：Coulomb matrices（库仑矩阵）
+  - Mini Batch Kmeans
+- QM calculation（量子力学计算）
+- NN training（神经网络训练）
+- Re-sampling（再采样）
+  - with NN-based short MDs（基于 NN 的短时分子动力学）
+- Active learning（主动学习）
+- Dataset（数据集）
+- New data?（新数据？）
+- Final dataset（最终数据集）
+- YES（是/同意的分支）
+- NO（否/拒绝的分支）
+
+备注：以上名词来自文本区域所出现的词语，组合成一个较接近论文 Fig.5 的工作流程框框。括号中的说明用于理解文本中对某些方框的扩展描述（如“冗余剔除”下的“Coulomb matrices”和“Mini Batch Kmeans”）。
+
+二、箭头顺序（基于文本中的方框位置及工作流的常见顺序推断）
+
+- 初步推断的总体线性顺序（从左上到右下、并结合横向并列的关系）为：
+  1) Molecular system
+  2) Sampling with ReaxFF
+  3) Redundancy removal（含 Coulomb matrices、Mini Batch Kmeans 等细分要素）
+  4) QM calculation
+  5) NN training
+  6) Re-sampling（with NN-based short MDs）
+  7) Active learning
+  8) Dataset
+  9) New data?
+  10) Final dataset
+
+- 依据与合理性解释（为什么这样排列）：
+  - 位置关系与文本提示：左侧的“ Molecular system”与其后的“Sampling with ReaxFF”在文本坐标上呈现从左到右、逐步推进的趋势；随后“Redundancy removal（Coulomb matrices and Mini Batch Kmeans）”的描述紧接在前一组词之下，提示从采样到冗余剔除的顺序；再往右靠近的区域出现“QM calculation”和“NN training”，符合由标注数据的量化计算到模型训练的典型流程；再向右下方出现“Re-sampling（with NN-based short MDs）”和“Active learning”，也符合用训练好的 NN 来再采样并进行主动学习以扩充数据的常见步骤；最后是“Dataset”“New data?”与“Final dataset”的汇总与决定性阶段。
+  - 词语含义对应流程：QM calculation -> NN training -> Re-sampling（基于 NN 的短 MDs） -> Active learning（主动发现潜在空白区域并更新数据） -> New data?（是否需要新数据） -> Final dataset（最终形成可用的参考数据集）。
+  - 坐标线索：从文本区域坐标上看，方框的呈现顺序与上述线性工作流相符（左到右、并伴随垂直的分布）。例如 QM calculation（较左的 258–273 x）与 NN training（403.4 x 附近）之间存在明显的水平布局关系，后续的 Re-sampling 与 Active learning 也处于靠右的区域，符合“后处理/扩充”的阶段性定位。
+
+三、需要进一步核对原图才能确定的边（边界不确定的箭头）
+
+- Active learning 与 YES/NO 的分支边：图中有 Active learning（.Active learning）的文本区域位于右上方，旁边有 YES/NO 两个分支标记，但从文字层难以直接判定确切的箭头走向（哪条边直接指向 New data?、哪条指向 Final dataset 等）。因此这几条边需要查看原图以确定确切的箭头指向关系。
+- New data? 与 Final dataset 的具体连接：New data? 位于中偏右区域，Final dataset 位于下方偏右区域。是否 New data? 是进入 Final dataset 的必要条件，以及 YES/NO 两边的具体出边，需要通过原图的线条来确认。
+- Dataset 与 New data? 的连接关系：尽管文本中出现了 Dataset 与 New data? 的文字，但从文字层面很难明确“Dataset → New data?” 的具体箭头顺序和分支逻辑，同样需要查看原图来确定。
+
+四、简要总结
+
+- Fig.5 的方框名称（中文描述对照）大致包括：Molecular system、Sampling with ReaxFF、Redundancy removal（含 Coulomb matrices、Mini Batch Kmeans）、QM calculation、NN training、Re-sampling（with NN-based short MDs）、Active learning、Dataset、New data?、Final dataset，以及两个决策分支 YES 与 NO。
+- 根据文本区域的坐标位置，初步推断的箭头顺序为：Molecular system -> Sampling with ReaxFF -> Redundancy removal -> QM calculation -> NN training -> Re-sampling -> Active learning -> New data? -> Final dataset（YES/NO 决策分支的具体连线需以原图为准）。
+- 其中最需要原图确认的边是 Active learning 的分支（YES/NO 如何指向 New data? 与 Final dataset）、New data? 与 Final dataset 之间以及 Dataset 的具体进入点等连接。
+
+如果你愿意，我可以把Fig.5 的原图截图发给你，逐条标注出每条箭头的确切连线，以确保与原图完全一致。

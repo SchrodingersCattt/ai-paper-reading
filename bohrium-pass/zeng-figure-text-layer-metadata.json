@@ -1,0 +1,16 @@
+{
+  "pdf_sha256": "47987f623c3f5496bd699d905a11065078366abff6552e106e364a415ff0384e",
+  "page_index": 5,
+  "clip_points": [
+    100,
+    40,
+    480,
+    275
+  ],
+  "pymupdf_version": "1.26.7",
+  "word_count": 31,
+  "prompt_sha256": "b8c31b93acba1701ddda2440ea1b0ffd57ac6c8142e304d37fbabf332ace59e3",
+  "model": "chenkun/gpt-5-nano",
+  "prompt_tokens": 1962,
+  "answer_sha256": "2ced524b1fe0b6f8d7ab0fca3f21d62888cedb424abfe67a2bd8f1d7949b4457"
+}
