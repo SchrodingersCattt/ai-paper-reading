@@ -1,0 +1,11 @@
+我在读 Zeng 等人的论文《Complex reaction processes in combustion unraveled by neural network-based molecular dynamics simulation》（Nature Communications 11, 5713，2020，DOI 10.1038/s41467-020-19497-z）。我刚开始读机器学习势论文，请只依据下面摘录，用通俗但准确的中文解释方法。每条关键事实注明摘录页码；摘录中没有的信息请说没有提供。
+
+PDF 第 6 页 Methods / Reference dataset：To increase the efficiency of dataset construction, reactive MD simulation with ReaxFF was used to sample an initial dataset. ... for each atom in each snapshot, we build a molecular cluster ... within a specified cutoff centered on it. In this work, the cutoff was set to 5 Å. ... The initial dataset contains about 22.5 million structures ... resample it to remove redundant structures ... active learning ... four different NN PES models ... several short MD simulations.
+
+PDF 第 7 页 Methods / QM calculation：The potential energy and atomic forces for every structure in the final dataset were calculated by Gaussian 16 software at the MN15/6-31G** level.
+
+PDF 第 7 页 Methods / Training of the NN PES：The DeepPot-SE (Deep Potential-Smooth Edition) model was used to train the NN potential by the DeePMD-kit program. ... The cutoff radius was set to 6.0 Å and the descriptors decay smoothly from 1.0 to 6.0 Å. The loss is defined by energy and force errors.
+
+PDF 第 2 页 Results：The mean absolute errors are 0.04 and 0.14 eV/atom in the training set and the test set, respectively. ... for the atomic forces ... the MAE is 0.12 eV/Å. ... a periodic box containing 100 CH4 molecules and 200 O2 molecules ... density 0.25 g/cm3. ... 1 ns ... NVT ... time-step 0.1 fs ... temperature ... 3000 K.
+
+请根据以上摘录，为初学者解释本文的机器学习势方法，并判断能否直接用于约 1 atm、低于 2000 K 的稀释甲烷—空气火焰。

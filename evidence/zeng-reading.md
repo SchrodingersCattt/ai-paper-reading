@@ -5,7 +5,8 @@
 | 核查项 | 原文位置 | 依据与解释 |
 | --- | --- | --- |
 | 初始采样 | 第 6 页，Methods / Reference dataset，Fig. 5 | ReaxFF 反应性 MD 产生初始采样；截断 5 Å 用于围绕原子构建局部簇。 |
-| 减少冗余和补充数据 | 第 6—7 页，Methods / Reference dataset，Fig. 5 | 初始结构经分类、聚类和重采样；四个模型的预测用于主动学习补充构型。 |
+| 采样盒组成 | 第 6 页，Methods / Reference dataset | 文字写采样盒含大量 CH4 和 H2；第 2 页报告的生产盒为 100 CH4 加 200 O2。论文在这两处描述不同步骤，初始盒是否另含 O2 需要继续查数据。 |
+| 减少冗余和补充数据 | 第 6—7 页，Methods / Reference dataset，Fig. 5 | 初始集约 2250 万个结构，按成键类型分类，再用库仑矩阵本征谱与 Mini Batch KMeans 聚类；四模型的力预测差异在 0.5—1.0 eV/Å 的构型进入主动学习补充集。 |
 | 参考值 | 第 7 页，Methods / QM calculation | Gaussian 16 在 MN15/6-31G\*\* 水平计算每个最终数据构型的能量和原子力。 |
 | 模型 | 第 7 页，Methods / Training of the NN PES，Fig. 6 | DeepPot-SE 使用 DeePMD-kit 训练；6 Å 是模型描述符的截断半径。损失包含能量和力误差。 |
 | 误差 | 第 2 页，Results / Accuracy of the NN PES | 训练集和测试集的能量 MAE 是 0.04 和 0.14 eV/atom；原子力 MAE 是 0.12 eV/Å。正文对应的细节另见 Supplementary Table 1 和 Supplementary Fig. 1，本仓库未包括补充材料。 |
