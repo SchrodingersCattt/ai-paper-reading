@@ -106,6 +106,10 @@ node $BohrEntry chat $PaperQuestion --model gpt-5-nano --output json
 
 四份回答都解释了主要方法并判断目标条件未被展示。两份有 Skill 的回答保留了训练集元素范围未明确报告的边界，耗时也高于两份无 Skill 回答。虽然四次传入的模型 ID 相同，两份有 Skill 的初始化显示名带 `256K`，两份无 Skill 的显示名没有；服务未公开权重版本，无法完全排除后端配置差异对结果的影响。
 
+换用 Wen 和 Tadmor 的 DUNN 论文后，[另一次运行](examples/zeng-v5/B-with/answer.md)分清了包含金刚石的 DFT 数据集、未用金刚石训练的检测势，以及加入金刚石后的重拟合势。它额外写了一句过强的反事实：如果检测势已训练金刚石，原先的差异就不会出现。论文直接展示的是一次重拟合后的下降。[原文第 5、6 页](materials/excerpts/wen2020-original-pages5-6.pdf)和[第 8 页数据集说明](materials/excerpts/wen2020-page8-dataset.md)可用于核查。
+
+从 Zeng 论文构造的[前两页 PDF](materials/source/zeng2020-constructed-pages1-2.pdf)上，[两次运行](examples/zeng-v5/)都停在“材料不足”，列出需要补读的 Methods 和结果内容。现有两页不足以确定缺失章节的页码，两份回答均没有猜测。
+
 ## 在自己的论文上复用
 
 先准备 PDF 和你真正想回答的问题，例如：
@@ -119,7 +123,7 @@ node $BohrEntry chat $PaperQuestion --model gpt-5-nano --output json
 关键事实请给 PDF 页码；论文未说明的内容请标出。
 ```
 
-在支持 Skill 的 Agent 中加载 [skill/](skill/)，将 PDF 与问题交给它。核对时优先检查参考标签来源、指标及单位、模拟条件和图表上下文。要复查本例，可以打开[任务、标准和四份答案](examples/zeng-v5/)，也可以按其中的 Windows 步骤重跑 A 案例；预检先比较两侧输入的哈希，再决定是否调用模型。
+在支持 Skill 的 Agent 中加载 [skill/](skill/)，将 PDF 与问题交给它。核对时优先检查参考标签来源、指标及单位、模拟条件和图表上下文。要复查本例，可以打开[任务、标准和七份答案](examples/zeng-v5/)，也可以按其中的 Windows 步骤重跑 A 案例；预检先比较两侧输入的哈希，再决定是否调用模型。
 
 ## 论文与证据
 
@@ -129,7 +133,8 @@ node $BohrEntry chat $PaperQuestion --model gpt-5-nano --output json
 | 玻尔全文解析 | [请求与状态](bohrium-pass/zeng-parser-metadata.json)、[关键块输出](bohrium-pass/zeng-parser-key-blocks.json)、[第 6 页复跑](bohrium-pass/zeng-parser-retest-page6.txt)、[复现脚本](bohrium-pass/parse_zeng.py) |
 | 解析后提问 | [构造脚本](bohrium-pass/build_question.py)、[实际提示](bohrium-pass/zeng-pipeline-prompt.txt)、[实际回答](bohrium-pass/zeng-pipeline-answer.txt)、[模型信息](bohrium-pass/zeng-pipeline-metadata.json) |
 | 流程图对照 | [直接提问](bohrium-pass/zeng-figure-baseline-prompt.txt)、[增加的核验要求](bohrium-pass/zeng-figure-guarded-instruction.txt)、[两次完整回答](bohrium-pass/zeng-figure-baseline-answer.txt)与[复跑回答](bohrium-pass/zeng-figure-guarded-answer.txt) |
-| Skill v5 对照 | [任务、标准与四份答案](examples/zeng-v5/) |
+| Skill v5 对照 | [任务、标准与七份答案](examples/zeng-v5/) |
+| Wen 2020 核查材料 | [第 5、6 页](materials/excerpts/wen2020-original-pages5-6.pdf)、[第 8 页数据集说明](materials/excerpts/wen2020-page8-dataset.md) |
 | 其他文献案例 | [含能材料案例与原文证据](https://github.com/SchrodingersCattt/ai-paper-reading/blob/14371bcd1077ffaab6aca1b4f7869d0fbeaeec0b/evidence/quotes.md) |
 
 论文和既有软件归原作者所有；提示、核查记录、Skill 和所列运行由本项目整理。
