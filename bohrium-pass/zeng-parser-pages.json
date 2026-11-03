@@ -1,0 +1,404 @@
+{
+  "note": "Projection of all ordered blocks on PDF pages 2, 6 and 7; only order, type, text and latex_repr are retained.",
+  "pages": [
+    {
+      "pdf_page": 2,
+      "blocks": [
+        {
+          "order": 0,
+          "type": "pageheader",
+          "text": "ARTICLE"
+        },
+        {
+          "order": 1,
+          "type": "hline"
+        },
+        {
+          "order": 2,
+          "type": "pageheader",
+          "text": "NATURE COMMUNICATIONS | https://doi.org/10.1038/s41467-020-19497-z"
+        },
+        {
+          "order": 3,
+          "type": "paragraph",
+          "text": "Ever since learning to use fire, human beings have never stopped studying combustion. With increasingly serious concern on environmental pollution from combustion, understanding and mastering the combustion mechanisms is of great importance. Gaining fundamental insights into combustion processes can help us design more efficient engines and minimize the production of pollutants. A typical combustion may contain hundreds of chemical species and thousands of fundamental chemical reactions. In particular, combustion occurs at extreme physical conditions with high pressures and high temperatures up to several thousand degrees. Also, many elementary reactions in a combustion typically occur on sub picosecond time scale. These extreme physical conditions make it very difficult, if not impossible, to carry out real-time experimental study of combustion. Thus, most experimental investigations of chemical reaction mechanisms focus on individual reactions instead of the complex reaction processes occurring in a combustion. In the past decades, in slico experiments such as reactive molecular dynamics (MD) simulations have shown their values in providing molecular (atomic)-level insights into the mechanism of combustions. In a reactive MD simulation, the reaction condition can be easily controlled in the simulation and some supercritical conditions that are difficult to achieve in the experiment can also be handled. Compared with the traditional theoretical approaches such as transition state theory and quantum collision theory that focuses on studying a single reaction, reactive MD simulation can construct the entire interwoven reaction network of a combustion system \\(^{1}\\) . The heart of the reactive MD simulation is the potential energy surface (PES), which describes the inter- and intramolecular interactions for molecules. Currently, there are mainly two classes of methods that can be used to construct the PES of a given molecular system: the quantum mechanics (QM)-based methods and the empirical force fields. Quantum mechanics is undoubtedly more rigorous and accurate, and MD simulations based on it are known as ab initio MD simulation (AIMD) \\(^{2,3}\\) . Although the AIMD method in principle can simulate complex chemical reactions in real time, it is limited to relatively small systems and short simulation time (typically, dozens of picoseconds) due to exorbitant computational costs of on-the-fly ab initio calculation. With the rapid development of computer hardware and algorithms, especially the employment of graphic processing units (GPUs), some AIMD methods have recently begun to handle larger chemical systems \\(^{4}\\) . But so far, it is still impractical to use AIMD to simulate large-scale complex reaction systems such as combustions. Over the past decades, many reactive force fields (or PESs) have been developed and successfully used for various reactive molecular systems \\(^{5-12}\\) . A comprehensive discussion of these reactive force fields can be found in refs. \\(^{13,14}\\) . Among these force fields, the empirical ReaxFF was widely used in MD simulation of combustion systems due to its computational efficiency \\(^{15}\\) , but its accuracy and reliability are of significant concern \\(^{16-18}\\) . The key points of developing a reaction force field are the choice of the functional form and the parameterization process, which are complicated and depend on human intervention."
+        },
+        {
+          "order": 4,
+          "type": "paragraph",
+          "text": "Recently, more researchers are switching to seek the help of machine-learning (ML) methods. ML method, especially artificial neural networks (NN), provides the possibility to construct PESs with the accuracy of the QM method but with an efficiency comparable to that of force fields. Neural networks constitute a very flexible and unbiased class of mathematical functions, which in principle is able to approximate any real-valued function to arbitrary accuracy. Since Behler and Parrinello proposed the high-dimensional neural network approach \\(^{19,20}\\) , several methods have been developed to implement this approach and many different kind of NN PESs have been proposed for water, small"
+        },
+        {
+          "order": 5,
+          "type": "paragraph",
+          "text": "organic molecules, and metalloid materials \\(^{21-25}\\) . For example, the sGDML \\(^{26-28}\\) , SchNet \\(^{29}\\) , PhysNet \\(^{30}\\) , and FCHL \\(^{31}\\)  methods. NN potentials have also been employed to study the reaction mechanisms of chemical systems. By combining high-precision NN PESs and quantum collision theory, Zhang and Jiang's group have studied a series of elementary reactions in the gas phase and on the surface \\(^{32-35}\\) . Liu and co-workers developed the LASP program to study the heterogeneous catalysis with NN PESs \\(^{36}\\)  and built stochastic surface walking (SSW)-NN to explore reaction pathways from glucose to 5-hydroxymethylfurfural \\(^{37}\\) . Brickel et al. also studied the nucleophilic substitution reaction  \\([Cl-CH_{3}-Br]^{-}\\)  in water with NN potential \\(^{38}\\) ."
+        },
+        {
+          "order": 6,
+          "type": "paragraph",
+          "text": "In this report, we present an in silico simulation of methane combustion based on an NN potential derived by training a high-dimensional NN model from ab initio computed energies. To achieve high efficiency and accuracy, the DeePMD model was used \\(^{39-41}\\) . This NN PES can accurately predict the energy and atomic forces of reactants, products and reaction intermediates. Based on this model, a 1-ns reactive MD simulation was performed for a combustion system initially containing 100 methane and 200 oxygen molecules with a sub-femtosecond time resolution (Fig. 1). A complete reaction network of the methane combustion can be constructed from the MD trajectory. The simulation not only produced the main reaction pathways that are consistent with the experiment but also provided much more detailed insights about the combustion processes as will be described in the following."
+        },
+        {
+          "order": 7,
+          "type": "title",
+          "text": "Results"
+        },
+        {
+          "order": 8,
+          "type": "paragraph",
+          "text": "Accuracy of the NN PES. The performance of the NN potential highly depends on the quality of the reference datasets. Although several databases, such as QM7 \\(^{42}\\) , QM9 \\(^{43}\\) , ANI-1 \\(^{44}\\) , and ANI-1x \\(^{45}\\) , are accessible, they mainly include organic molecules and are therefore not suitable for this work. Combustion of methane will generate many molecular fragments and a lot of them are free radicals \\(^{46}\\) . Therefore, we followed a workflow (details are listed in the “Methods” section) to construct the reference datasets for the combustion. Then the DeepPot-SE model \\(^{47}\\)  was used to train the NN PES based on the reference. The predictive power of the NN model is shown in Supplementary Table 1 and Supplementary Fig. 1. It is clear that the DFT energies can be accurately reproduced by the NN model. The mean absolute errors are only 0.04 and 0.14 eV/atom in the training set and the test set, respectively. As for the atomic forces, the predicted values of the NN model are also highly consistent with the calculated results of the DFT (Supplementary Fig. 1). The correlation coefficient is 0.999 and the MAE is 0.12 eV/Å. Considering that there are a large number of atomic and molecular collisions during the combustion process, and some atomic forces can be as high as dozens of eV/Å, the accuracy of the NN model is encouraging. To verify the energy conservation of the NN PES, we performed a reactive MD simulation under the NVE ensemble. The system is a periodic box containing 100 CH \\(_{4}\\)  molecules and 200 O \\(_{2}\\)  molecules (a total of 900 atoms) with a density of 0.25 g/cm \\(^{3}\\) . As shown in Supplementary Fig. 2, the total energy is conserved in MD simulation."
+        },
+        {
+          "order": 9,
+          "type": "paragraph",
+          "text": "The initial stage of combustion. A 1 ns reactive MD simulation was performed for methane combustion with the NN PES under the NVT ensemble. The system is also a periodic box containing \\(100\\mathrm{CH}_4\\) molecules and \\(200\\mathrm{O}_2\\) molecules (a total of 900 atoms) with a density of \\(0.25\\mathrm{g/cm}^3\\). The MD simulations were run with a time-step of 0.1 fs and the temperature was kept at \\(3000\\mathrm{K}\\) by using the Berendsen thermostat. We chose a relatively high density (and thus high pressure) and high temperature to"
+        },
+        {
+          "order": 10,
+          "type": "pagenumber",
+          "text": "2"
+        },
+        {
+          "order": 11,
+          "type": "pagefooter",
+          "text": "NATURE COMMUNICATIONS | (2020)11:5713 | https://doi.org/10.1038/s41467-020-19497-z | www.nature.com/naturecommunications"
+        }
+      ]
+    },
+    {
+      "pdf_page": 6,
+      "blocks": [
+        {
+          "order": 0,
+          "type": "pageheader",
+          "text": "ARTICLE"
+        },
+        {
+          "order": 1,
+          "type": "hline"
+        },
+        {
+          "order": 2,
+          "type": "pageheader",
+          "text": "NATURE COMMUNICATIONS | https://doi.org/10.1038/s41467-020-19497-z"
+        },
+        {
+          "order": 3,
+          "type": "group"
+        },
+        {
+          "order": 4,
+          "type": "image"
+        },
+        {
+          "order": 5,
+          "type": "figure"
+        },
+        {
+          "order": 6,
+          "type": "imagecaption",
+          "text": "Fig. 5 The workflow of reference dataset construction. The process and steps used in this study to generate the reference dataset needed for neural network training to generate the potential energy for MD simulation."
+        },
+        {
+          "order": 7,
+          "type": "paragraph",
+          "text": "rates may not be accurate enough to be used directly in kinetic modeling, they can be effective in contributing to a comprehensive understanding of the combustion reaction."
+        },
+        {
+          "order": 8,
+          "type": "paragraph",
+          "text": "A practical issue to be pointed out is that although some algorithms were used in this study to minimize the size of the reference dataset, there are still 578,731 structures in the reference set. Although the DFT calculation is very efficient, such a large reference set is difficult to perform high-level post-Hartree–Fock calculations. In order to further minimize the size of the reference set while ensuring its completeness, new algorithms need to be developed to further enhance the efficiency of this approach. Recently, Zhang et al. developed the DP-GEN \\(^{52}\\) (Deep potential Generator) software platform, which can automatically construct the reference dataset and train the NN model. The concurrent learning algorithm employed by this platform can make the redundancy of the reference set as small as possible. We are trying to integrate the algorithms developed in this work into the DP-GEN platform."
+        },
+        {
+          "order": 9,
+          "type": "paragraph",
+          "text": "In addition, it is worth to point that while combustion is usually thought to be dominated by free radical reactions, recent studies have begun to examine the role of electronically excited state species in combustion. For example, the additional introduction of plasma was found to be effective in promoting combustion in experiments \\(^{53}\\) . However, MD simulations involving excited states are highly nontrivial, and there are large uncertainties in ab initio quantum chemistry computation for treating excited states of large systems. Based on sophisticated empirical or machine-learning PESs, several recent works have achieved the excited-state MD simulation for model systems \\(^{54-62}\\) . For example, the O+O recombination reaction to form the ground and excited-state singlet  \\(O_{2}\\)  molecules on amorphous solid water \\(^{60}\\) . Such strategy will be considered in our future studies."
+        },
+        {
+          "order": 10,
+          "type": "paragraph",
+          "text": "Despite further improvement is needed, the current report heralds the dawn of a new era in which neural network-based reactive MD simulation can be practically applied to simulating complex reaction systems at the ab initio level, which provides atomic-level understanding of every reaction process at unprecedented level of details beyond what laboratory experiment can accomplish."
+        },
+        {
+          "order": 11,
+          "type": "title",
+          "text": "Methods"
+        },
+        {
+          "order": 12,
+          "type": "paragraph",
+          "text": "Reference dataset. In this study, a workflow was developed for making reference datasets (Fig. 5). The details of each module in the workflow are given below."
+        },
+        {
+          "order": 13,
+          "type": "paragraph",
+          "text": "To increase the efficiency of dataset construction, reactive MD simulation with ReaxFF was used to sample an initial dataset. A model combustion system containing a lot of  \\(CH_{4}\\)  and  \\(H_{2}\\)  molecules was built by using the Amorphous Cell module in the Material Studio \\(^{63}\\)  software package. Then the LAMMPS \\(^{64}\\)  program was used to perform the MD simulation. The NVT ensemble was used and the temperature was set to 3000 K with the Berendsen thermostat. The ReaxFF parameter of Chenoweth et al. (CHO-2008 parameter set) \\(^{65}\\)  was employed. The Open Babel software \\(^{66}\\)  and the Depth-First Search algorithm \\(^{67}\\)  were used to detect species in every snapshot of the trajectory. Then, for each atom in each snapshot, we build a molecular cluster that contains this atom and species that within a specified cutoff centered on it. In this work, the cutoff was set to 5 Å."
+        },
+        {
+          "order": 14,
+          "type": "paragraph",
+          "text": "The initial dataset contains about 22.5 million structures, which is too large to perform QM calculations for every molecular cluster it contains. Therefore, it is necessary to resample it to remove redundant structures while ensuring its completeness. To this end, we first classified the initial dataset into sub-datasets based on the chemical bond information of the central atom. For example, the central H atom can be classified into two different types: a single H atom (H0) and an H atom formed a single chemical bond with another atom (H1)."
+        },
+        {
+          "order": 15,
+          "type": "paragraph",
+          "text": "Further treatment is still needed for large sub-datasets. For a given large sub-dataset, we first expressed each molecular cluster it contains as a Coulomb matrix \\(^{68}\\) :"
+        },
+        {
+          "order": 16,
+          "type": "group"
+        },
+        {
+          "order": 17,
+          "type": "equation",
+          "latex_repr": "\\mathbf {C} _ {i j} = \\left\\{ \\begin{array}{l} \\frac {1}{2} Z _ {i} ^ {2. 4}, i = j \\\\ \\frac {Z _ {i} Z _ {j}}{\\left| \\mathbf {R} _ {i} - \\mathbf {R} _ {j} \\right|}, i \\neq j, \\end{array} \\right."
+        },
+        {
+          "order": 18,
+          "type": "equationid",
+          "text": "(1)"
+        },
+        {
+          "order": 19,
+          "type": "paragraph",
+          "text": "where  \\(Z_{i}\\)  and  \\(Z_{j}\\)  are nuclear charges of atom i and j,  \\(R_{i}\\)  and  \\(R_{j}\\)  are their Cartesian coordinates. The minimum image convention \\(^{69}\\)  was used to consider the periodic boundary condition. “Invisible atoms” were introduced to fix the dimension of the Coulomb matrix. These invisible atoms do not influence the physics of the molecule of interest and make the total number of atoms in the molecule sum to a constant. To lower the dimension of the dataset and keep as much structural information as possible, the Coulomb matrix was further represented by the eigen-spectrum, which is obtained by solving the eigenvalue problem  \\(Cv = \\lambda v\\)  under the constraint  \\(\\lambda_{i} \\geq \\lambda_{i+1}\\) . The clustering algorithm Mini Batch KMeans \\(^{70}\\)  was then used to cluster the given sub-datasets into smaller clusters according to the eigen-spectrum. Then we randomly selected 10,000 structures from each cluster (If the cluster contains no more than 10,000 structures, then all of them were selected)."
+        },
+        {
+          "order": 20,
+          "type": "paragraph",
+          "text": "Large amplitude collisions and reactions in the combustion can produce a lot of unpredictable species and intermediates. To ensure the completeness of the reference dataset, an active learning approach \\(^{71}\\) was used. Four different NN PES models were trained based on the dataset from the last step. Then several short MD simulations were performed based on these NN models. During the simulation, the atomic forces are evaluated by these four NN PES models simultaneously. For a"
+        },
+        {
+          "order": 21,
+          "type": "pagenumber",
+          "text": "6"
+        },
+        {
+          "order": 22,
+          "type": "pagefooter",
+          "text": "NATURE COMMUNICATIONS | (2020)11:5713 | https://doi.org/10.1038/s41467-020-19497-z | www.nature.com/naturecommunications"
+        }
+      ]
+    },
+    {
+      "pdf_page": 7,
+      "blocks": [
+        {
+          "order": 0,
+          "type": "pageheader",
+          "text": "NATURE COMMUNICATIONS | https://doi.org/10.1038/s41467-020-19497-z"
+        },
+        {
+          "order": 1,
+          "type": "hline"
+        },
+        {
+          "order": 2,
+          "type": "pageheader",
+          "text": "ARTICLE"
+        },
+        {
+          "order": 3,
+          "type": "group"
+        },
+        {
+          "order": 4,
+          "type": "image"
+        },
+        {
+          "order": 5,
+          "type": "figure"
+        },
+        {
+          "order": 6,
+          "type": "imagecaption",
+          "text": "Fig. 6 The neural network model. The neural network model that generates the potential energy surface for MD simulation."
+        },
+        {
+          "order": 7,
+          "type": "paragraph",
+          "text": "specific atom, if the predicted forces by these four models are consistent with each other, then the molecular cluster that centered on this atom should be found in the dataset. On the contrary, if the results of these four models are inconsistent with each other and the error between them is in a specific range (0.5 eV/ \\(\\text{\\AA}\\)  < error < 1.0 eV/ \\(\\text{\\AA}\\)  in this work), the corresponding molecular cluster will be added into the dataset. The update of the dataset will be continued until the predictions of the four models are always consistent."
+        },
+        {
+          "order": 8,
+          "type": "paragraph",
+          "text": "QM calculation. The potential energy and atomic forces for every structure in the final dataset were calculated by Gaussian 16 \\(^{72}\\) software at the MN15/6-31G** level. The MN15 functional was employed because it has broad accuracy for multi-reference and single-reference systems \\(^{73}\\). To consider the spin polarization effect, the initial wave function of a given structure is obtained by the combination of the wave functions of individual molecular species forming the structure, while the wave function of each molecular species was calculated based on its own charge and spin."
+        },
+        {
+          "order": 9,
+          "type": "paragraph",
+          "text": "Training of the NN PES. The scheme of the NN model is shown in Fig. 6. The total energy E of a given structure is decomposed into a sum of atomic energy contributions \\(^{19,74}\\) , i.e.,  \\(E = \\sum_{i} E_{i}\\) , where i is the index of the atom. Each atomic energy is fully determined by the position of the ith atom and its near neighbors. To guarantee the translational, rotational, and permutational symmetries lying in the PES, the Cartesian coordinates of atomics are mapped to specific mathematical formulas called “descriptors” of the atomic chemical environment."
+        },
+        {
+          "order": 10,
+          "type": "paragraph",
+          "text": "The DeepPot-SE (Deep Potential-Smooth Edition) model \\(^{47}\\) was used to train the NN potential by the DeePMD-kit program \\(^{74}\\). Details of this method can be found in ref. \\(^{67}\\). The model includes two networks: the embedding network and the fitting network. Both networks use the ResNet architecture \\(^{75}\\). The size of the embedding network was set to (25, 50, 100) and the size of the embedding matrix was set to 12. The size of the fitting network is set to (240, 240, 240). The cutoff radius was set to 6.0 Å and the descriptors decay smoothly from 1.0 to 6.0 Å. The initial learning rate was set to 0.0005 and it will decay every 20,000 steps. The loss is defined by"
+        },
+        {
+          "order": 11,
+          "type": "group"
+        },
+        {
+          "order": 12,
+          "type": "equation",
+          "latex_repr": "\\mathcal {L} = \\frac {p _ {e}}{N} \\Delta E ^ {2} + \\frac {p _ {f}}{3 N} \\sum_ {i} \\left| \\Delta \\mathbf {F} _ {i} \\right| ^ {2},"
+        },
+        {
+          "order": 13,
+          "type": "equationid",
+          "text": "(2)"
+        },
+        {
+          "order": 14,
+          "type": "paragraph",
+          "text": "where  \\(\\Delta E\\)  and  \\(\\Delta F_{i}\\)  are root mean square errors in energy and force. The prefactor  \\(p_{e}\\)  is set to  \\(0.2\\,eV^{-2}\\)  and the  \\(p_{f}\\)  decays from  \\(1000\\,Å^{2}\\,eV^{-2}\\)  to  \\(1\\,Å^{2}\\,eV^{-2}\\) ."
+        },
+        {
+          "order": 15,
+          "type": "title",
+          "text": "Data availability"
+        },
+        {
+          "order": 16,
+          "type": "paragraph",
+          "text": "The datasets (structures, potential energies and atomic forces of molecular species) generated during the current study are available at https://github.com/tongzhugroup/NNREAX, https://doi.org/10.6084/m9.figshare.12973055. Source data are provided with this paper."
+        },
+        {
+          "order": 17,
+          "type": "title",
+          "text": "Code availability"
+        },
+        {
+          "order": 18,
+          "type": "paragraph",
+          "text": "The codes used to generate the datasets in the current study are available at https://github.com/tongzhugroup/mddatasetbuilder, https://doi.org/10.5281/zenodo.4035925."
+        },
+        {
+          "order": 19,
+          "type": "paragraph",
+          "text": "Received: 10 March 2020; Accepted: 6 October 2020; Published online: 11 November 2020"
+        },
+        {
+          "order": 20,
+          "type": "title",
+          "text": "References"
+        },
+        {
+          "order": 21,
+          "type": "reference",
+          "text": "1. Martinez, T. J. Ab initio reactive computer aided molecular design. Acc. Chem. Res. 50, 652–656 (2017)."
+        },
+        {
+          "order": 22,
+          "type": "reference",
+          "text": "2. Car, R. & Parrinello, M. Unified approach for molecular-dynamics and density-functional theory. Phys. Rev. Lett. 55, 2471-2474 (1985)."
+        },
+        {
+          "order": 23,
+          "type": "reference",
+          "text": "3. Tuckerman, M. E. Ab initiomolecular dynamics: basic concepts, current trends and novel applications. J. Phys. Condens. Matter 14, R1297–R1355 (2002)."
+        },
+        {
+          "order": 24,
+          "type": "reference",
+          "text": "4. Wang, L.-P. et al. Discovering chemistry with an ab initio nanoreactor. Nat. Chem. 6, 1044 (2014)."
+        },
+        {
+          "order": 25,
+          "type": "reference",
+          "text": "5. Van Duin, A. C., Dasgupta, S., Lorant, F. & Goddard, W. A. ReaxFF: a reactive force field for hydrocarbons. J. Phys. Chem. A 105, 9396–9409 (2001)."
+        },
+        {
+          "order": 26,
+          "type": "reference",
+          "text": "6. Brenner, D. W. et al. A second-generation reactive empirical bond order (REBO) potential energy expression for hydrocarbons. J. Phys. Condens. Matter 14, 783 (2002)."
+        },
+        {
+          "order": 27,
+          "type": "reference",
+          "text": "7. Nouranian, S., Tschopp, M. A., Gwaltney, S. R., Baskes, M. I. & Horstemeyer, M. F. An interatomic potential for saturated hydrocarbons based on the modified embedded-atom method. Phys. Chem. Chem. Phys. 16, 6233–6249 (2014)."
+        },
+        {
+          "order": 28,
+          "type": "reference",
+          "text": "8. Qu, C., Yu, Q. & Bowman, J. M. Permutationally invariant potential energy surfaces. Annu. Rev. Phys. Chem. 69, 151–175 (2018)."
+        },
+        {
+          "order": 29,
+          "type": "reference",
+          "text": "9. Li, J. & Guo, H. Permutationally invariant fitting of intermolecular potential energy surfaces: a case study of the Ne-C2H2 system. J. Chem. Phys. 143, 214304 (2015)."
+        },
+        {
+          "order": 30,
+          "type": "reference",
+          "text": "10. Braams, B. J. & Bowman, J. M. Permutationally invariant potential energy surfaces in high dimensionality. Int. Rev. Phys. Chem. 28, 577-606 (2009)."
+        },
+        {
+          "order": 31,
+          "type": "reference",
+          "text": "11. Nagy, T., Yosa Reyes, J. & Meuwly, M. Multisurface adiabatic reactive molecular dynamics. J. Chem. Theory Comput. 10, 1366–1375 (2014)."
+        },
+        {
+          "order": 32,
+          "type": "reference",
+          "text": "12. Warshel, A. & Florián, J. in Encyclopedia of Computational Chemistry (John Wiley and Sons, 2002)."
+        },
+        {
+          "order": 33,
+          "type": "reference",
+          "text": "13. Meuwly, M. Reactive molecular dynamics: from small molecules to proteins. Wires Comput. Mol. Sci. 9, e1386 (2019)."
+        },
+        {
+          "order": 34,
+          "type": "reference",
+          "text": "14. Koner, D., Salehi, S. M., Mondal, P. & Meuwly, M. Non-conventional force fields for applications in spectroscopy and chemical reaction dynamics. J. Chem. Phys. 153, 010901 (2020)."
+        },
+        {
+          "order": 35,
+          "type": "reference",
+          "text": "15. Zheng, M. et al. Pyrolysis of liulin coal simulated by GPU-based ReaxFF MD with cheminformatics analysis. Energy Fuels 28, 522–534 (2014)."
+        },
+        {
+          "order": 36,
+          "type": "reference",
+          "text": "16. Wang, E., Ding, J., Qu, Z. & Han, K. Development of a reactive force field for hydrocarbons and application to iso-octane thermal decomposition. Energy Fuels 32, 901–907 (2017)."
+        },
+        {
+          "order": 37,
+          "type": "reference",
+          "text": "17. Cheng, T., Jaramillo-Botero, A., Goddard, W. A. & Sun, H. Adaptive accelerated ReaxFF reactive dynamics with validation from simulating hydrogen combustion. J. Am. Chem. Soc. 136, 9434–9442 (2014)."
+        },
+        {
+          "order": 38,
+          "type": "reference",
+          "text": "18. Bertels, L. W., Newcomb, L. B., Alaghemandi, M., Green, J. R. & Head-Gordon, M. Benchmarking the performance of the ReaxFF reactive force field on hydrogen combustion systems. J. Phys. Chem. A 124, 5631–5645 (2020)."
+        },
+        {
+          "order": 39,
+          "type": "reference",
+          "text": "19. Behler, J. & Parrinello, M. Generalized neural-network representation of high-dimensional potential-energy surfaces. Phys. Rev. Lett. 98, 146401 (2007)."
+        },
+        {
+          "order": 40,
+          "type": "reference",
+          "text": "20. Behler, J. First principles neural network potentials for reactive simulations of large molecular and condensed systems. Angew. Chem. Int. 56, 12828–12840 (2017)."
+        },
+        {
+          "order": 41,
+          "type": "reference",
+          "text": "21. Smith, J. S., Isayev, O. & Roitberg, A. E. ANI-1: an extensible neural network potential with DFT accuracy at force field computational cost. Chem. Sci. 8, 3192–3203 (2017)."
+        },
+        {
+          "order": 42,
+          "type": "pagefooter",
+          "text": "NATURE COMMUNICATIONS | (2020)11:5713 | https://doi.org/10.1038/s41467-020-19497-z | www.nature.com/naturecommunications"
+        },
+        {
+          "order": 43,
+          "type": "pagenumber",
+          "text": "7"
+        }
+      ]
+    }
+  ]
+}

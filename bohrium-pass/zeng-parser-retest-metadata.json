@@ -1,0 +1,19 @@
+{
+  "request": {
+    "sync": "false",
+    "textual": "2",
+    "table": "2",
+    "equation": "2",
+    "molecule": "0",
+    "chart": "0",
+    "figure": "0",
+    "expression": "0",
+    "timeout": "1800",
+    "pages": "5"
+  },
+  "status": "success",
+  "requested_page_count": 1,
+  "figure_processed": 0,
+  "amount_fen": 5,
+  "charged_amount": "0.05"
+}

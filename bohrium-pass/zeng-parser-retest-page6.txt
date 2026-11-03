@@ -1,0 +1,56 @@
+\begin{pageheader}
+ARTICLE
+\end{pageheader}
+
+<hline>
+
+\begin{pageheader}
+NATURE COMMUNICATIONS | https://doi.org/10.1038/s41467-020-19497-z
+\end{pageheader}
+
+<figure>
+
+\begin{imagecaption}
+Fig. 5 The workflow of reference dataset construction. The process and steps used in this study to generate the reference dataset needed for neural network training to generate the potential energy for MD simulation.
+\end{imagecaption}
+
+rates may not be accurate enough to be used directly in kinetic modeling, they can be effective in contributing to a comprehensive understanding of the combustion reaction.
+
+A practical issue to be pointed out is that although some algorithms were used in this study to minimize the size of the reference dataset, there are still 578,731 structures in the reference set. Although the DFT calculation is very efficient, such a large reference set is difficult to perform high-level post-Hartree–Fock calculations. In order to further minimize the size of the reference set while ensuring its completeness, new algorithms need to be developed to further enhance the efficiency of this approach. Recently, Zhang et al. developed the DP-GEN \(^{52}\) (Deep potential Generator) software platform, which can automatically construct the reference dataset and train the NN model. The concurrent learning algorithm employed by this platform can make the redundancy of the reference set as small as possible. We are trying to integrate the algorithms developed in this work into the DP-GEN platform.
+
+In addition, it is worth to point that while combustion is usually thought to be dominated by free radical reactions, recent studies have begun to examine the role of electronically excited state species in combustion. For example, the additional introduction of plasma was found to be effective in promoting combustion in experiments \(^{53}\) . However, MD simulations involving excited states are highly nontrivial, and there are large uncertainties in ab initio quantum chemistry computation for treating excited states of large systems. Based on sophisticated empirical or machine-learning PESs, several recent works have achieved the excited-state MD simulation for model systems \(^{54-62}\) . For example, the O+O recombination reaction to form the ground and excited-state singlet  \(O_{2}\)  molecules on amorphous solid water \(^{60}\) . Such strategy will be considered in our future studies.
+
+Despite further improvement is needed, the current report heralds the dawn of a new era in which neural network-based reactive MD simulation can be practically applied to simulating complex reaction systems at the ab initio level, which provides atomic-level understanding of every reaction process at unprecedented level of details beyond what laboratory experiment can accomplish.
+
+\begin{title}
+Methods
+\end{title}
+
+Reference dataset. In this study, a workflow was developed for making reference datasets (Fig. 5). The details of each module in the workflow are given below.
+
+To increase the efficiency of dataset construction, reactive MD simulation with ReaxFF was used to sample an initial dataset. A model combustion system containing a lot of  \(CH_{4}\)  and  \(H_{2}\)  molecules was built by using the Amorphous Cell module in the Material Studio \(^{63}\)  software package. Then the LAMMPS \(^{64}\)  program was used to perform the MD simulation. The NVT ensemble was used and the temperature was set to 3000 K with the Berendsen thermostat. The ReaxFF parameter of Chenoweth et al. (CHO-2008 parameter set) \(^{65}\)  was employed. The Open Babel software \(^{66}\)  and the Depth-First Search algorithm \(^{67}\)  were used to detect species in every snapshot of the trajectory. Then, for each atom in each snapshot, we build a molecular cluster that contains this atom and species that within a specified cutoff centered on it. In this work, the cutoff was set to 5 Å.
+
+The initial dataset contains about 22.5 million structures, which is too large to perform QM calculations for every molecular cluster it contains. Therefore, it is necessary to resample it to remove redundant structures while ensuring its completeness. To this end, we first classified the initial dataset into sub-datasets based on the chemical bond information of the central atom. For example, the central H atom can be classified into two different types: a single H atom (H0) and an H atom formed a single chemical bond with another atom (H1).
+
+Further treatment is still needed for large sub-datasets. For a given large sub-dataset, we first expressed each molecular cluster it contains as a Coulomb matrix \(^{68}\) :
+
+\begin{equation}
+\mathbf {C} _ {i j} = \left\{ \begin{array}{l} \frac {1}{2} Z _ {i} ^ {2. 4}, i = j \\ \frac {Z _ {i} Z _ {j}}{\left| \mathbf {R} _ {i} - \mathbf {R} _ {j} \right|}, i \neq j, \end{array} \right.
+\end{equation}
+
+\begin{equationid}
+(1)
+\end{equationid}
+
+where  \(Z_{i}\)  and  \(Z_{j}\)  are nuclear charges of atom i and j,  \(R_{i}\)  and  \(R_{j}\)  are their Cartesian coordinates. The minimum image convention \(^{69}\)  was used to consider the periodic boundary condition. “Invisible atoms” were introduced to fix the dimension of the Coulomb matrix. These invisible atoms do not influence the physics of the molecule of interest and make the total number of atoms in the molecule sum to a constant. To lower the dimension of the dataset and keep as much structural information as possible, the Coulomb matrix was further represented by the eigen-spectrum, which is obtained by solving the eigenvalue problem  \(Cv = \lambda v\)  under the constraint  \(\lambda_{i} \geq \lambda_{i+1}\) . The clustering algorithm Mini Batch KMeans \(^{70}\)  was then used to cluster the given sub-datasets into smaller clusters according to the eigen-spectrum. Then we randomly selected 10,000 structures from each cluster (If the cluster contains no more than 10,000 structures, then all of them were selected).
+
+Large amplitude collisions and reactions in the combustion can produce a lot of unpredictable species and intermediates. To ensure the completeness of the reference dataset, an active learning approach \(^{71}\) was used. Four different NN PES models were trained based on the dataset from the last step. Then several short MD simulations were performed based on these NN models. During the simulation, the atomic forces are evaluated by these four NN PES models simultaneously. For a
+
+\begin{pagenumber}
+6
+\end{pagenumber}
+
+\begin{pagefooter}
+NATURE COMMUNICATIONS | (2020)11:5713 | https://doi.org/10.1038/s41467-020-19497-z | www.nature.com/naturecommunications
+\end{pagefooter}
+

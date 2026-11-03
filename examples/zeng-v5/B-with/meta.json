@@ -1,0 +1,20 @@
+{
+  "id": "B-with",
+  "case": "B",
+  "condition": "with_skill",
+  "pdf": "materials\\source\\wen2020-dunn-carbon.pdf",
+  "pdf_sha256": "d13bc9dbf9a8bdd3e5cb7aaccccbef3dd055522b2e3c87b8ade9fb5b657b089d",
+  "task_sha256": "697347ab2693f74cb7cbf0deb9984c3e23a4d7b5776165473ffaefeeb4c74d81",
+  "acceptance_sha256": "69eb18d1fb36a6811b896d90258cb98b2f965ec3bfe22d2fed3d6c672fd05e2e",
+  "skill_sha256": "54e99ecebb8c8c51f3c688cbd1fec4ddfaca5dd3225dd02e498bab8689d6c44d",
+  "exit": 0,
+  "timeout": false,
+  "started_at": "2026-11-03T03:13:24.979749+00:00",
+  "duration_seconds": 344.6,
+  "answer_present": true,
+  "model": "grok-4.7-high",
+  "harness": "Cursor agent CLI 2026.10.19-6bbf2c4",
+  "flags": "--print --output-format stream-json --trust --force --sandbox disabled",
+  "human_steps": [],
+  "cost": "无法取得"
+}

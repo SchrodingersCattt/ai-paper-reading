@@ -1,121 +1,117 @@
 # 用 AI 读懂一篇机器学习势论文
 
-读机器学习势论文时，最容易卡住的地方是：数据从哪里来，模型到底学了什么，论文中的误差又能说明什么？
+读一篇机器学习势论文，先要弄清三个问题：构型从哪里来，模型学了什么，结果能不能用于自己的体系？这篇教程拿一篇甲烷燃烧论文做例子，用玻尔解析全文、辅助解释方法，再回到原文核对关键细节。
 
-这篇教程用 Zeng 等人的甲烷燃烧研究走一遍阅读过程。我们把论文中的方法和结果摘录交给玻尔，请它拆解研究流程，再回到原文核对数字和模拟条件。读完后，你可以用同一组问题去读自己的论文。
+案例是 Zeng 等人的 [Complex reaction processes in combustion unraveled by neural network-based molecular dynamics simulation](https://doi.org/10.1038/s41467-020-19497-z)，*Nature Communications* **11**, 5713 (2020)。[论文 PDF](materials/source/zeng2020-methane-nn-md.pdf) 按 CC BY 4.0 分享；文中的页码均指该 PDF。
 
-论文：[Complex reaction processes in combustion unraveled by neural network-based molecular dynamics simulation](https://doi.org/10.1038/s41467-020-19497-z)，*Nature Communications* **11**, 5713 (2020)。[仓库里的 PDF](materials/source/zeng2020-methane-nn-md.pdf) 与出版方论文相同，按 Creative Commons Attribution 4.0 分享。下面的页码都指 PDF 页码。
+## 先看懂论文的方法链条
 
-## 这篇论文里的势函数学了什么
+作者希望用分子动力学观察甲烷燃烧中的反应。论文的方法可以分成四步：
 
-这篇论文想用分子动力学观察甲烷燃烧中的反应过程。作者先构造参考数据，再训练一个神经网络势，用它计算模拟过程中的能量和原子受力。
+1. **采样构型。** 用 ReaxFF 反应性分子动力学生成初始结构，按局部成键分类并用聚类去冗余；随后用多个模型的短轨迹补充构型（第 6—7 页）。
+2. **计算参考值。** 用 Gaussian 16 在 MN15/6-31G\*\* 水平计算构型的能量和原子力，得到训练参考（第 7 页）。
+3. **训练势函数。** 用 DeePMD-kit 训练 DeepPot-SE；模型学习构型与势能的关系，训练损失包含能量和力（第 7 页）。
+4. **运行与检查模拟。** 作者比较预测值与参考计算的误差，并用训练好的势模拟甲烷—氧气体系（第 2 页）。
 
-把论文的 Fig. 5 和 Methods 连起来看，主要步骤是：
+ReaxFF 用于初始采样，量化计算提供参考能量和力。模型给出体系势能；原子力是势能对坐标的负梯度。MD 用力推进轨迹，论文再从轨迹中识别反应路径。
 
-1. **采样构型。** 用 ReaxFF 反应性分子动力学生成初始结构，并对结构去冗余；随后通过多个神经网络模型的短时模拟补充数据（第 6—7 页）。
-2. **计算参考值。** 用 Gaussian 16 在 MN15/6-31G\*\* 水平计算构型的能量和原子力，作为模型训练的参考（第 7 页）。
-3. **训练势函数。** 使用 DeePMD-kit 训练 DeepPot-SE 模型，训练损失包含能量误差和力误差（第 7 页）。
-4. **运行和检查模拟。** 作者比较了模型与参考计算的能量和力，并用势函数模拟甲烷与氧气的反应轨迹（第 2 页）。
+第 6 页的初始集约有 2250 万个结构。作者先分类和聚类，再用四个神经网络比较原子力预测；力差落在 0.5—1.0 eV/Å 区间的构型进入补充数据集。这是**选取新构型的判据**。第 2 页的 0.12 eV/Å 则是模型与参考计算的力 MAE，回答的是另一件事。
 
-因此，ReaxFF 和量化计算虽然都出现在数据制备流程里，分工不同：前者帮助找到构型，后者为选出的构型提供能量和力的参考值。这个区别也适用于阅读其他势函数论文。
+## 用玻尔解析论文全文
 
-第 6 页给出的初始集约有 2250 万个结构。作者先按中心原子的成键情况分类，再用库仑矩阵本征谱和 Mini Batch KMeans 去除冗余。主动学习阶段用四个神经网络比较原子力预测：当模型间的力差落在文中给定的 0.5—1.0 eV/Å 区间时，将对应构型加入数据集。这个数值是**选取新构型的判据**；第 2 页的 0.12 eV/Å 则是模型与参考计算的力 MAE，两者回答不同问题。
+我用 Bohrium Uni-Parser 的文件接口解析了这篇 9 页 PDF：`textual=2`、`table=2`、`equation=2`、`figure=0`。任务返回 `success`，本次费用为 45 分。[请求设置与结果摘要](bohrium-pass/zeng-parser-metadata.json) 和 [第 6、7 页相关解析块](bohrium-pass/zeng-parser-key-blocks.json)保留了实际返回的文字及公式；后者按原始顺序选出与下文讨论有关的块，保留类型、文本或 LaTeX，省去坐标与任务标识。
 
-训练好的势将原子构型映射到势能，原子力由势能对坐标的导数得到。MD 用这些力推进轨迹，论文再从轨迹中识别物种和反应。因此，论文中出现的一条反应路径，是在给定模拟条件下从轨迹得到的结果。
+两处容易混淆的参数都被提取出来了：第 6 页的 **5 Å** 用于构造采样局部簇，第 7 页的 **6 Å** 用于模型描述符。第 7 页的能量—力损失函数也被识别为公式，可直接对照原文查看。
 
-## 用玻尔拆解论文的方法
+这次有一个实际需要回看原文的地方：解析结果包含第 6 页 Fig. 5 的图注，却没有图内的 “Sampling with ReaxFF” 等流程标签。本次请求将图像模块设为 `figure=0`，因此我打开 PDF 第 6 页核对了流程图。随后只对第 6 页请求 `figure=1`，接口返回 [HTTP 403](bohrium-pass/zeng-figure-http403.txt)。这说明本次账号和设置下，应继续用原 PDF 检查图内内容。
 
-我把 PDF 第 2、6、7 页中与方法和结果有关的摘录交给玻尔，依次问它：
+用下方脚本在新目录只解析第 6 页，任务再次成功，费用为 5 分；[实际返回文本](bohrium-pass/zeng-parser-retest-page6.txt)仍包含图注而没有图内流程标签，[请求与状态](bohrium-pass/zeng-parser-retest-metadata.json)单独保存。
 
-- ReaxFF、量化计算和 DeepPot-SE 分别做什么？模型学到什么？
-- 5 Å 和 6 Å 各属于哪一步？
-- 训练集、测试集的能量误差和原子力误差各是多少？
-- 论文展示的模拟，是否覆盖约 1 atm、低于 2000 K 的稀释甲烷—空气火焰？
+复现时，安装 Python `requests` 并配置环境变量 `BOHR_ACCESS_KEY`，在仓库根目录执行：
 
-完整输入在 [prompt](bohrium-pass/zeng-prompt.txt)，实际返回在 [response](bohrium-pass/zeng-response-public.json)。本次调用使用 Bohr CLI 2.9.17，请求模型 `gpt-5-nano`，返回模型名为 `chenkun/gpt-5-nano`。公开返回移除了包含账户信息的计费字段，回答正文保持原样。输入是人工选取的摘录，页码随摘录给出；这次调用不包含 PDF 上传或自动定位全文的步骤。
+```powershell
+python bohrium-pass/parse_zeng.py submit --out ./parse-run
+python bohrium-pass/parse_zeng.py poll --out ./parse-run
+```
 
-玻尔把 5 Å 与 6 Å 分别对应到局部簇构建和模型描述符，也列出了训练集、测试集的能量误差。它把量化计算结果称为“作为训练目标的真实值”。对照原文，更具体的说法是：这些量是 **MN15/6-31G\*\* 水平计算得到的参考能量和力**。知道参考值的来源，才能理解模型拟合的对象。
+首次返回排队时，间隔几秒再次执行 `poll`。输出目录保存任务引用与原始响应；费用按实际请求返回。若要尝试第 6 页的图像模块，使用新的输出目录并加 `--figure 1 --page-index 5`；页码参数从 0 开始。
 
-在干净目录中用同一提示复跑，返回保留了这些主要数字，却把 1 ns 的 NVT 轨迹称为“蒸发阶段”。论文第 2 页描述的是甲烷燃烧的反应性 MD，并未将这段轨迹称为蒸发。[第二次返回](bohrium-pass/zeng-retest-public.json)保留了原话。核对数字时，也要核对它所对应的过程。
+原始响应可能包含任务标识和计费字段；公开分享时可保留需要核查的文本、请求设置和页码，移除账户信息。
 
-我还保留相同摘录、改用一个[开放问题](bohrium-pass/zeng-open-prompt.txt)问方法和目标工况。这个[回答](bohrium-pass/zeng-open-response-public.json)也找到了两种截断半径和能量误差，却把 NVT 写成“牛顿-热力学模拟”。NVT 指粒子数、体积和温度固定的正则系综；这个展开不对应论文的说法。
+## 让 AI 解释方法，再回原文核对
 
-| 本次核对 | 分步问题：2 次 | 开放问题：1 次 |
+我将 PDF 第 2、6、7 页中与方法和结果有关的摘录交给玻尔，询问数据来源、模型训练、两个截断半径、误差和模拟条件。完整[分步提示](bohrium-pass/zeng-prompt.txt)与[第一次回答](bohrium-pass/zeng-chat-1.txt)均已保存。本次通过 Bohr CLI 2.9.17 请求 `gpt-5-nano`，返回模型名为 `chenkun/gpt-5-nano`。这里提供从原始 JSON 提取的完整助手文本；原 JSON 和[模型信息](bohrium-pass/zeng-chat-metadata.json)也在仓库中。
+
+第一次回答正确区分了两个截断，并列出训练集、测试集的能量 MAE：0.04、0.14 eV/atom。它把量化计算结果称为“作为训练目标的真实值”；第 7 页给出的具体来源是 **MN15/6-31G\*\* 计算的参考能量与力**。记录参考值从哪里来，才能理解模型拟合的对象。
+
+同一分步提示复跑一次；另用相同摘录问一个[开放问题](bohrium-pass/zeng-open-prompt.txt)。三次回答都找到了两个截断和能量误差，但对 NVT 轨迹的表述出现了差别：
+
+| 实际回答 | NVT 轨迹的表述 |
+| --- | --- |
+| [分步提问第一次](bohrium-pass/zeng-chat-1.txt) | 给出 3000 K、NVT 和 1 ns。 |
+| [分步提问复跑](bohrium-pass/zeng-chat-2.txt) | 把轨迹写成“蒸发阶段”。 |
+| [开放提问](bohrium-pass/zeng-chat-open.txt) | 把 NVT 写成“牛顿-热力学模拟”。 |
+
+论文第 2 页写的是甲烷燃烧的 NVT 反应分子动力学。NVT 指粒子数、体积和温度固定的正则系综。核对时，除了看数字和页码，还要看数字对应的过程。
+
+## 把论文条件和自己的问题对上
+
+假设我要研究约 1 atm、低于 2000 K 的稀释甲烷—空气火焰，论文的结果能直接回答吗？先把目标与已完成模拟放在一起：
+
+| 条件 | 论文展示的生产模拟 | 我的目标 |
 | --- | --- | --- |
-| 5 Å 与 6 Å 的用途 | 都区分了 | 区分了 |
-| 训练／测试能量 MAE | 都列出 0.04／0.14 eV/atom | 列出 0.04／0.14 eV/atom |
-| 1 ns NVT 轨迹的表述 | 一次正确，一次写成“蒸发阶段” | 写成“牛顿-热力学模拟” |
+| 组成 | 100 CH₄ + 200 O₂，无额外稀释气体 | 甲烷—空气，另有惰性气体稀释 |
+| 温度 | 3000 K | 低于 2000 K |
+| 密度／压力 | 0.25 g/cm³；正文称高密度、因而高压力，未报告压力数值 | 约 1 atm |
+| 轨迹 | 一条 1 ns 的 NVT 轨迹，时间步长 0.1 fs | 目标火焰中的反应路径 |
 
-这三次回答都复述了关键数字，但两次加入了不准确的术语。页码帮助定位原文，仍需检查数字旁边的解释。
+论文第 2—3 页展示的是高温、高密度的 CH₄/O₂ 周期盒；更接近实验的稀释条件被列为后续工作。因此，这条已发表轨迹回答的是论文自己的模拟条件。想用于目标火焰，还需要核查相关构型、元素和验证数据。
 
-## 回到原文核对关键解释
+方法描述中还有一处可以顺着数据继续查：第 6 页的初始采样盒被写成含大量 CH₄ 和 H₂，第 2 页的生产模拟则为 CH₄ 和 O₂。两处是不同步骤；仅凭这两段，不能确定初始盒是否另含氧气，或含氧构型如何进入参考集。论文第 7 页提供了数据集和代码地址。
 
-| 要核对的问题 | 原文中的信息 | 阅读时怎么用 |
-| --- | --- | --- |
-| 数据从哪里来？ | 第 6 页先用 ReaxFF 采样，第 7 页再用量化计算得到能量和力。 | 将采样方法与参考标签来源分别记下来。 |
-| 两个截断半径是什么？ | 第 6 页的 **5 Å** 用于构建以原子为中心的局部簇；第 7 页的 **6 Å** 用于模型描述符。 | 即使单位相同，也要对应各自的步骤。 |
-| 误差如何报告？ | 第 2 页的训练集与测试集能量 MAE 分别为 **0.04、0.14 eV/atom**；原子力 MAE 为 **0.12 eV/Å**。 | 先记指标、数据集和单位，再判断数字代表什么。 |
-| 论文实际模拟了什么？ | 第 2 页使用 **100 CH₄ + 200 O₂、3000 K、0.25 g/cm³** 的体系，NVT 轨迹长 1 ns、时间步长 0.1 fs。 | 将论文条件与你的体系、温度和组成逐项比较。 |
+## 用 Skill 检查证据边界
 
-例如，约 1 atm、低于 2000 K 的稀释甲烷—空气火焰与论文展示的条件不同；论文在这里展示的轨迹不能直接回答该工况下的反应路径。第 3 页也把使条件更接近实验的工作留给后续研究。模型能否用于新工况，还要核查目标体系相关的数据与验证。
+我把上面的阅读方法整理成 [method-fit-check](skill/SKILL.md)：先解释方法链条，再逐项对照读者的用途、论文条件和来源页码。它以本地 PDF 和具体问题为输入，输出一份可核查的 `answer.md`。
 
-训练集与测试集的能量 MAE 相差 0.10 eV/atom。这说明两份数据上的误差不同；测试集的组成和划分需要结合论文指向的补充材料核查。这个差值本身不能直接换算成新工况下的反应路径误差。
+使用同一份 Zeng PDF 和同一任务，分别运行两次有 Skill、两次无 Skill。四次均传入 `grok-4.7-high`，使用 Cursor agent CLI 2026.10.19 和独立目录；验收标准在运行前写好。
 
-还有一处值得顺着数据继续查：第 6 页介绍初始采样盒时写的是含大量 CH₄ 和 H₂，第 2 页的生产模拟则是 CH₄ 和 O₂。两段描述的是不同步骤；仅凭这里的文字，还不能确定氧气是否也存在于初始采样盒，或含氧构型如何在后续进入参考集。论文第 7 页提供了数据集和代码的公开地址，可从那里继续核对。
-
-这些项目的原文位置和来源摘录整理在 [核查记录](evidence/zeng-reading.md)。
-
-## Skill 带来了哪些变化
-
-为了检查 [Skill v4](skill/SKILL.md) 的作用，我用同一份论文和同一个阅读任务做了两组有／无 Skill 对照。四次都使用 `grok-4.7-high`、Cursor agent CLI 2026.10.19 和独立工作目录；任务和验收标准在运行前写好。
-
-| 运行 | 事先标准的核查结果 | 耗时 |
+| 运行 | 对训练集范围和压力的处理 | 耗时 |
 | --- | --- | ---: |
-| [有 Skill 1](examples/zeng-v4/with-1/answer.md) | 核心方法、数字和页码正确；额外估算了压力。 | 304.9 s |
-| [无 Skill 1](examples/zeng-v4/without-1/answer.md) | 核心方法、数字和页码正确；额外估算了压力。 | 433.9 s |
-| [有 Skill 2](examples/zeng-v4/with-2/answer.md) | 核心方法、数字和页码正确；压力标为原文未说明。 | 446.6 s |
-| [无 Skill 2](examples/zeng-v4/without-2/answer.md) | 核心方法、数字和页码正确；额外估算了压力。 | 384.5 s |
+| [有 Skill 1](examples/zeng-v5/A-with-1/answer.md) | 训练集元素范围和压力数值标为未说明。 | 625.5 s |
+| [无 Skill 1](examples/zeng-v5/A-without-1/answer.md) | 将训练集写成确定的 C/H/O，并另做压力估算。 | 363.2 s |
+| [有 Skill 2](examples/zeng-v5/A-with-2/answer.md) | 将惰性气体适用性留待验证，压力数值标为未说明。 | 609.9 s |
+| [无 Skill 2](examples/zeng-v5/A-without-2/answer.md) | 将参考集写成确定没有惰性气体；另估算密度和比例。 | 412.0 s |
 
-四次都判断：论文展示的高温、高密度 CH₄/O₂ 轨迹没有直接覆盖目标火焰。它们也都区分了采样、量化参考和模型训练，并给出原文页码。
+四份回答都解释了主要方法并判断目标条件未被展示。两份有 Skill 的回答保留了训练集元素范围未明确报告的边界，耗时也高于两份无 Skill 回答。虽然四次传入的模型 ID 相同，两份有 Skill 的初始化显示名带 `256K`，两份无 Skill 的显示名没有；服务未公开权重版本，无法完全排除后端配置差异对结果的影响。
 
-预先写好的验收标准要求论文未报告的压力数值保持“未说明”。三份回答额外给出理想气体估算，并标明这是推算，因此没有完全满足该条标准；另一份有 Skill 的回答没有补算压力。第一组有 Skill 更快，第二组无 Skill 更快，耗时差异没有呈现相同方向。四份原始答案、任务、验收标准和运行记录都在 [v4 对照材料](examples/zeng-v4/) 中；此前的 [v3 对照](examples/zeng-v3/) 也可查看。
+换用 Wen 和 Tadmor 的 DUNN 论文后，[另一次运行](examples/zeng-v5/B-with/answer.md)分清了包含金刚石的 DFT 数据集、未用金刚石训练的检测势，以及加入金刚石后的重拟合势。它额外写了一句过强的反事实：如果检测势已训练金刚石，原先的差异就不会出现。论文直接展示的是一次重拟合后的下降。[原文第 5、6 页](materials/excerpts/wen2020-original-pages5-6.pdf)和[第 8 页数据集说明](materials/excerpts/wen2020-page8-dataset.md)可用于核查。
+
+从 Zeng 论文构造的[前两页 PDF](materials/source/zeng2020-constructed-pages1-2.pdf)上，[两次运行](examples/zeng-v5/)都停在“材料不足”，列出需要补读的 Methods 和结果内容。现有两页不足以确定缺失章节的页码，两份回答均没有猜测。
 
 ## 在自己的论文上复用
 
-拿到一篇 PDF 后，可以先问：
+先准备 PDF 和你真正想回答的问题，例如：
 
 ```text
 请根据这篇论文说明：
 1. 构型如何采样，能量与力的参考值如何得到？
 2. 模型学习了什么，用哪些数据和指标验证？
 3. 最终模拟的体系、温度、密度或压力、组成和时间尺度是什么？
-4. 如果我的目标是【写明体系和用途】，论文里的哪些证据可以支持它，还有哪些条件需要核查？
-关键事实请给 PDF 页码；论文没有写明的内容标为“未说明”。
+4. 我的目标是【写明体系和用途】。哪些证据可以支持它，还需要查什么？
+关键事实请给 PDF 页码；论文未说明的内容请标出。
 ```
 
-用玻尔复现本例时，先登录 Bohr CLI，再把仓库里保存的完整提示发送给 `bohr chat`。以下命令适用于 PowerShell；请在仓库根目录执行：
+在支持 Skill 的 Agent 中加载 [skill/](skill/)，将 PDF 与问题交给它。核对时优先检查参考标签来源、指标及单位、模拟条件和图表上下文；要复查本例，可以直接打开[任务、标准和七份答案](examples/zeng-v5/)。
 
-```powershell
-bohr auth status
-$BohrEntry = Join-Path ((npm root -g).Trim()) '@dptech-corp/bohr-cli/run.js'
-$PaperQuestion = Get-Content -Raw -Encoding utf8 'bohrium-pass/zeng-prompt.txt'
-node $BohrEntry chat $PaperQuestion --model gpt-5-nano --output json
-```
-
-检查回答是否区分采样、量化标注和训练，再逐项对照上表的 PDF 页码。模型输出会随调用变化；论文原文是核对数字和条件的依据。实际费用以自己的调用返回为准。
-
-需要对一篇本地论文系统判断方法和后续用途时，可把 [Skill 目录](skill/) 加入支持 Skill 的 Agent，提供 PDF 与具体问题。Skill 会组织方法链条、证据和适用判断；[机器学习势阅读线索](skill/references/ml-potentials.md) 用于提醒区分采样、参考标签和模型训练。
-
-## 论文与运行记录
+## 论文与证据
 
 | 内容 | 位置 |
 | --- | --- |
 | Zeng 2020 全文及许可 | [PDF](materials/source/zeng2020-methane-nn-md.pdf)、[许可说明](materials/LICENSE.md) |
-| 玻尔实际提示与返回 | [分步提示](bohrium-pass/zeng-prompt.txt)、[第一次返回](bohrium-pass/zeng-response-public.json)、[复跑返回](bohrium-pass/zeng-retest-public.json)、[开放问题与回答](bohrium-pass/zeng-open-prompt.txt)（[回答](bohrium-pass/zeng-open-response-public.json)） |
-| 原文核查与页码 | [核查记录](evidence/zeng-reading.md) |
-| v4 同条件对照 | [任务、验收与四份回答](examples/zeng-v4/) |
-| v3 适用性对照 | [任务、Skill 和三次回答](examples/zeng-v3/) |
-| 可复用 Skill | [SKILL.md](skill/SKILL.md) 和 [检查脚本](skill/check_answer.py) |
-| 含能材料附加案例 | [原文证据](evidence/quotes.md) 和 [对照任务](cases/A/task.md) |
+| 玻尔全文解析 | [请求与状态](bohrium-pass/zeng-parser-metadata.json)、[关键块输出](bohrium-pass/zeng-parser-key-blocks.json)、[第 6 页复跑](bohrium-pass/zeng-parser-retest-page6.txt)、[复现脚本](bohrium-pass/parse_zeng.py) |
+| 玻尔问答 | [分步提示](bohrium-pass/zeng-prompt.txt)、[两次回答](bohrium-pass/zeng-chat-1.txt)、[复跑](bohrium-pass/zeng-chat-2.txt)、[开放问题](bohrium-pass/zeng-open-prompt.txt)及[回答](bohrium-pass/zeng-chat-open.txt) |
+| Skill v5 对照 | [任务、标准与七份答案](examples/zeng-v5/) |
+| Wen 2020 核查材料 | [第 5、6 页](materials/excerpts/wen2020-original-pages5-6.pdf)、[第 8 页数据集说明](materials/excerpts/wen2020-page8-dataset.md) |
+| 含能材料附加案例 | [原文证据](evidence/quotes.md)与[对照任务](cases/A/task.md) |
 
-论文和已有软件分别归原作者所有；阅读问题、提示、核查记录、Skill 和所列运行由本项目整理。
+论文和既有软件归原作者所有；提示、核查记录、Skill 和所列运行由本项目整理。

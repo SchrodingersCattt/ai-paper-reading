@@ -1,0 +1,20 @@
+{
+  "id": "A-with-1",
+  "case": "A",
+  "condition": "with_skill",
+  "pdf": "materials\\source\\zeng2020-methane-nn-md.pdf",
+  "pdf_sha256": "47987f623c3f5496bd699d905a11065078366abff6552e106e364a415ff0384e",
+  "task_sha256": "a9b010437d6a8b09791e374350609584be76128f96152bc122cf37075d02fc91",
+  "acceptance_sha256": "54bdd272c98162365cfee83882035f5e9dff1f6f5bcf62e0d721aefcd8107ec2",
+  "skill_sha256": "54e99ecebb8c8c51f3c688cbd1fec4ddfaca5dd3225dd02e498bab8689d6c44d",
+  "exit": 0,
+  "timeout": false,
+  "started_at": "2026-11-03T02:39:54.228445+00:00",
+  "duration_seconds": 625.5,
+  "answer_present": true,
+  "model": "grok-4.7-high",
+  "harness": "Cursor agent CLI 2026.10.19-6bbf2c4",
+  "flags": "--print --output-format stream-json --trust --force --sandbox disabled",
+  "human_steps": [],
+  "cost": "无法取得"
+}

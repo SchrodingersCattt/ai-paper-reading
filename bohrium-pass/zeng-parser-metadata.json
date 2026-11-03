@@ -1,0 +1,27 @@
+{
+  "paper": "Zeng et al. 2020, DOI 10.1038/s41467-020-19497-z",
+  "request": {
+    "sync": "false",
+    "textual": "2",
+    "table": "2",
+    "equation": "2",
+    "molecule": "0",
+    "chart": "0",
+    "figure": "0",
+    "expression": "0",
+    "timeout": "1800"
+  },
+  "status": "success",
+  "total_page": 9,
+  "figure_processed": 0,
+  "figure_detected": 21,
+  "model_version": "default",
+  "result_schema_version": 1,
+  "amount_fen": 45,
+  "charged_amount": "0.45",
+  "figure_enabled_retry": {
+    "pages": "5",
+    "figure": "1",
+    "http_status": 403
+  }
+}

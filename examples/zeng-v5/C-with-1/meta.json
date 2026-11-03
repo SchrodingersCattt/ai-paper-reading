@@ -1,0 +1,20 @@
+{
+  "id": "C-with-1",
+  "case": "C",
+  "condition": "with_skill",
+  "pdf": "work-20261103-v5\\source\\zeng2020-constructed-pages1-2.pdf",
+  "pdf_sha256": "4e644f20f46ff23a36835f2bb9b22e3aebeb87df2c86220f244f8d5c9cc7955e",
+  "task_sha256": "6b5f4f88f90402aeb98820ce7767d2a5f57266fbecbb47e1dc6607a11fd43961",
+  "acceptance_sha256": "f306349c80df30bb69ff5d3541dc755aa51437e8233ec02c2203a98ca14ca115",
+  "skill_sha256": "54e99ecebb8c8c51f3c688cbd1fec4ddfaca5dd3225dd02e498bab8689d6c44d",
+  "exit": 0,
+  "timeout": false,
+  "started_at": "2026-11-03T03:19:09.599919+00:00",
+  "duration_seconds": 450.5,
+  "answer_present": true,
+  "model": "grok-4.7-high",
+  "harness": "Cursor agent CLI 2026.10.19-6bbf2c4",
+  "flags": "--print --output-format stream-json --trust --force --sandbox disabled",
+  "human_steps": [],
+  "cost": "无法取得"
+}

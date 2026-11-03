@@ -1,0 +1,20 @@
+[
+  {
+    "answer": "zeng-chat-1.txt",
+    "source_json": "zeng-response-public.json",
+    "model": "chenkun/gpt-5-nano",
+    "prompt_tokens": 570
+  },
+  {
+    "answer": "zeng-chat-2.txt",
+    "source_json": "zeng-retest-public.json",
+    "model": "chenkun/gpt-5-nano",
+    "prompt_tokens": 570
+  },
+  {
+    "answer": "zeng-chat-open.txt",
+    "source_json": "zeng-open-response-public.json",
+    "model": "chenkun/gpt-5-nano",
+    "prompt_tokens": 478
+  }
+]

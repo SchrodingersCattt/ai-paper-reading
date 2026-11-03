@@ -1,0 +1,6 @@
+# Preserve the bytes of recorded model outputs and their runtime metadata.
+/examples/zeng-v5/*/answer.md -text
+/examples/zeng-v5/*/meta.json -text
+/bohrium-pass/zeng-chat-*.txt -text
+/bohrium-pass/zeng-parser-full.txt -text
+/bohrium-pass/zeng-parser-retest-page6.txt -text
