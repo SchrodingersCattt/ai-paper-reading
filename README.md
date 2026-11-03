@@ -79,6 +79,10 @@ Active learning 是包围这条循环的区域名称。YES 和 NO 是分支标�
 
 四份回答都解释了主要方法，并判断论文没有展示目标火焰条件。有 Skill 的两次更谨慎地处理了训练集元素范围，也都更慢。四次传入的模型 ID 相同，但有 Skill 的初始化显示名带 `256K`，无 Skill 的没有。服务未公开权重版本，因此不能排除后端配置差异；四份运行记录中的费用均为“无法取得”。[初始化记录](docs/reproduction.md#模型和费用)和完整结果可供核查。
 
+无 Skill 1 把论文的密度和温度用于压力估算。[回答](examples/zeng-v5/A-without-1/answer.md)假设初始的 100 个 CH₄ 和 200 个 O₂ 尚未反应，并把它们当作理想气体，得到约 2.31 × 10³ atm；回答同时注明论文没有报告这一数值。
+
+用相同假设和常数，[独立复算](bohrium-pass/estimate_initial_ideal_pressure.py)得到平均摩尔质量 26.679 g/mol，代入 P = ρRT/M 后约为 2,307 atm，与模型的算术结果一致。[论文](materials/source/zeng2020-methane-nn-md.pdf)第 2 页只给出初始组成、0.25 g/cm³、3000 K，并说明密度较高、因而压力较高。原[任务](examples/zeng-v5/cases/A/task.md)只要求依据论文，模型额外引入了理想气体假设；这个估算值不是论文报告的压力，也不能直接当作反应轨迹的实际压力。
+
 后来又做了一组独立配对：[任务](examples/zeng-v5/cases/A/task-compact.md)比前四次多了一条双方共用的篇幅要求，要求尽量写成 800—1200 字，因此单独比较。这组使用同一篇论文、[验收标准](examples/zeng-v5/cases/A/acceptance.md)、账号和 `grok-4.7-high`；只有有 Skill 的一侧加载 v5。
 
 两份回答都解释了采样、参考计算和训练，也都判断论文没有展示目标火焰条件。对照论文第 6—7 页，正文没有列出最终参考集的完整元素范围；这一点上两份回答不同：
@@ -142,5 +146,6 @@ node $BohrEntry chat $FigureQuestion --model gpt-5-nano --output json
 | 两次补充、原图与核查 | [图内文字](bohrium-pass/zeng-figure-text-layer-words.txt)、[文字层回答](bohrium-pass/zeng-figure-text-layer-answer.txt)、[矢量补充](bohrium-pass/zeng-figure-vector-supplement.txt)、[运行 1](bohrium-pass/zeng-figure-vector-answer-1.txt)、[运行 2](bohrium-pass/zeng-figure-vector-answer-2.txt)、[原图裁图](materials/excerpts/zeng2020-fig5.png)、[核查](bohrium-pass/zeng-figure-vector-review.md) |
 | 复现命令与检查 | [提问脚本](bohrium-pass/build_figure_question.py)、[图结构脚本](bohrium-pass/extract_fig5_graph.py)、[矢量提问脚本](bohrium-pass/build_vector_prompt.py)、[复现说明](docs/reproduction.md) |
 | Skill A 对照 | [任务](examples/zeng-v5/cases/A/task.md)、[验收标准](examples/zeng-v5/cases/A/acceptance.md)、[案例 A 复现脚本](examples/zeng-v5/reproduce_a.py)、[有 Skill 1 的记录](examples/zeng-v5/A-with-1/meta.json)、[无 Skill 1 的记录](examples/zeng-v5/A-without-1/meta.json) |
+| 初始压力的独立复算 | [估算脚本](bohrium-pass/estimate_initial_ideal_pressure.py)、[无 Skill 1 的回答](examples/zeng-v5/A-without-1/answer.md) |
 
 论文和已有软件归原作者所有。本项目整理了阅读问题、图结构提取、提示、核查记录和 Skill 对照。
