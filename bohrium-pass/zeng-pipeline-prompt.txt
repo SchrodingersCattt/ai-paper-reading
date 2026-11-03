@@ -1,0 +1,7 @@
+以下是玻尔解析 Zeng 2020 论文后保留的原文块。只依据这些块，用中文分四行解释：ReaxFF 的作用、能量和力参考值的来源、5 Å 的用途、6 Å 的用途。每行标对应块号；不要补充块外事实。
+
+[P6-13a] To increase the efficiency of dataset construction, reactive MD simulation with ReaxFF was used to sample an initial dataset.
+[P6-13b] Then, for each atom in each snapshot, we build a molecular cluster that contains this atom and species that within a specified cutoff centered on it. In this work, the cutoff was set to 5 Å.
+[P7-8] The potential energy and atomic forces for every structure in the final dataset were calculated by Gaussian 16 \(^{72}\) software at the MN15/6-31G** level.
+[P7-10a] The DeepPot-SE (Deep Potential-Smooth Edition) model \(^{47}\) was used to train the NN potential by the DeePMD-kit program
+[P7-10b] The cutoff radius was set to 6.0 Å and the descriptors decay smoothly from 1.0 to 6.0 Å.

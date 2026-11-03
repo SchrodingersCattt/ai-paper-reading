@@ -40,6 +40,19 @@ python bohrium-pass/parse_zeng.py poll --out ./parse-run
 
 ## 让 AI 解释方法，再回原文核对
 
+我先从已保存的解析结果中选出第 6、7 页的五段原文，按页码和块号编号后交给玻尔。[实际提示](bohrium-pass/zeng-pipeline-prompt.txt)和[完整回答](bohrium-pass/zeng-pipeline-answer.txt)都已保存：这次回答正确区分了 ReaxFF 的初始采样、量化计算的参考能量与力，以及 5 Å、6 Å 的不同用途。返回模型为 `chenkun/gpt-5-nano`。
+
+[构造提问的脚本](bohrium-pass/build_question.py)从仓库中保存的解析块提取同一组原句。已登录 Bohr CLI 后，可在 PowerShell 中重做这次提问：
+
+```powershell
+python bohrium-pass/build_question.py --out ./parse-run/question.txt
+$BohrEntry = Join-Path ((npm root -g).Trim()) '@dptech-corp/bohr-cli/run.js'
+$PaperQuestion = Get-Content -Raw -Encoding utf8 './parse-run/question.txt'
+node $BohrEntry chat $PaperQuestion --model gpt-5-nano --output json
+```
+
+脚本重建的是本案例的提问；阅读另一篇论文时，需要按新问题选择对应的解析块。
+
 我将 PDF 第 2、6、7 页中与方法和结果有关的摘录交给玻尔，询问数据来源、模型训练、两个截断半径、误差和模拟条件。完整[分步提示](bohrium-pass/zeng-prompt.txt)与[第一次回答](bohrium-pass/zeng-chat-1.txt)均已保存。本次通过 Bohr CLI 2.9.17 请求 `gpt-5-nano`，返回模型名为 `chenkun/gpt-5-nano`。这里提供从原始 JSON 提取的完整助手文本；原 JSON 和[模型信息](bohrium-pass/zeng-chat-metadata.json)也在仓库中。
 
 第一次回答正确区分了两个截断，并列出训练集、测试集的能量 MAE：0.04、0.14 eV/atom。它把量化计算结果称为“作为训练目标的真实值”；第 7 页给出的具体来源是 **MN15/6-31G\*\* 计算的参考能量与力**。记录参考值从哪里来，才能理解模型拟合的对象。
@@ -109,9 +122,10 @@ python bohrium-pass/parse_zeng.py poll --out ./parse-run
 | --- | --- |
 | Zeng 2020 全文及许可 | [PDF](materials/source/zeng2020-methane-nn-md.pdf)、[许可说明](materials/LICENSE.md) |
 | 玻尔全文解析 | [请求与状态](bohrium-pass/zeng-parser-metadata.json)、[关键块输出](bohrium-pass/zeng-parser-key-blocks.json)、[第 6 页复跑](bohrium-pass/zeng-parser-retest-page6.txt)、[复现脚本](bohrium-pass/parse_zeng.py) |
+| 解析后提问 | [构造脚本](bohrium-pass/build_question.py)、[实际提示](bohrium-pass/zeng-pipeline-prompt.txt)、[实际回答](bohrium-pass/zeng-pipeline-answer.txt)、[模型信息](bohrium-pass/zeng-pipeline-metadata.json) |
 | 玻尔问答 | [分步提示](bohrium-pass/zeng-prompt.txt)、[两次回答](bohrium-pass/zeng-chat-1.txt)、[复跑](bohrium-pass/zeng-chat-2.txt)、[开放问题](bohrium-pass/zeng-open-prompt.txt)及[回答](bohrium-pass/zeng-chat-open.txt) |
 | Skill v5 对照 | [任务、标准与七份答案](examples/zeng-v5/) |
 | Wen 2020 核查材料 | [第 5、6 页](materials/excerpts/wen2020-original-pages5-6.pdf)、[第 8 页数据集说明](materials/excerpts/wen2020-page8-dataset.md) |
-| 含能材料附加案例 | [原文证据](evidence/quotes.md)与[对照任务](cases/A/task.md) |
+| 其他文献案例 | [含能材料案例与原文证据](https://github.com/SchrodingersCattt/ai-paper-reading/blob/14371bcd1077ffaab6aca1b4f7869d0fbeaeec0b/evidence/quotes.md) |
 
 论文和既有软件归原作者所有；提示、核查记录、Skill 和所列运行由本项目整理。

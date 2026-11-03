@@ -1,0 +1,116 @@
+{
+  "ok": true,
+  "data": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "annotations": [],
+          "content": "[P6-13a] 为提高数据集构建的效率，使用基于 ReaxFF 的反应性分子动力学模拟来采样初始数据集。\n\n[P7-8] 最终数据集中每个结构的势能和原子力通过 Gaussian 16 软件在 MN15/6-31G** 水平计算。\n\n[P6-13b] 在本工作中，截断半径设为 5 Å，用于构建以该原子为中心、包含其周围物种的分子簇。\n\n[P7-10b] 截断半径设为 6.0 Å，描述子在 1.0 到 6.0 Å 间平滑衰减。",
+          "provider_specific_fields": {
+            "refusal": null
+          },
+          "role": "assistant"
+        },
+        "provider_specific_fields": {
+          "content_filter_results": {
+            "hate": {
+              "filtered": false,
+              "severity": "safe"
+            },
+            "protected_material_code": {
+              "detected": false,
+              "filtered": false
+            },
+            "protected_material_text": {
+              "detected": false,
+              "filtered": false
+            },
+            "self_harm": {
+              "filtered": false,
+              "severity": "safe"
+            },
+            "sexual": {
+              "filtered": false,
+              "severity": "safe"
+            },
+            "violence": {
+              "filtered": false,
+              "severity": "safe"
+            }
+          }
+        }
+      }
+    ],
+    "created": 1793679686,
+    "id": "chatcmpl-Eg0JSegQT5Z6EvzLZbRdOVnfQNj3Y",
+    "model": "chenkun/gpt-5-nano",
+    "object": "chat.completion",
+    "prompt_filter_results": [
+      {
+        "content_filter_results": {
+          "hate": {
+            "filtered": false,
+            "severity": "safe"
+          },
+          "jailbreak": {
+            "detected": false,
+            "filtered": false
+          },
+          "self_harm": {
+            "filtered": false,
+            "severity": "safe"
+          },
+          "sexual": {
+            "filtered": false,
+            "severity": "safe"
+          },
+          "violence": {
+            "filtered": false,
+            "severity": "safe"
+          }
+        },
+        "prompt_index": 0
+      }
+    ],
+    "routing": {
+      "serving_pipereplica": "d20261027040925-945f452f-default-r1-dp0-default"
+    },
+    "service_tier": "default",
+    "usage": {
+      "completion_tokens": 1895,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 1728,
+        "rejected_prediction_tokens": 0
+      },
+      "latency_checkpoint": {
+        "engine_tbt_ms": 4,
+        "engine_ttft_ms": 30,
+        "engine_ttlt_ms": 8465,
+        "pre_inference_ms": 86,
+        "service_tbt_ms": 4,
+        "service_ttft_ms": 596,
+        "service_ttlt_ms": 9020,
+        "user_visible_ttft_ms": 509
+      },
+      "prompt_tokens": 267,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 2162
+    }
+  },
+  "meta": {
+    "request_id": "2716e76a-7d5b-4e10-895a-c3b1f9c18294",
+    "cli_version": "2.9.21",
+    "cli_commit": "80634a3bd66cd00225a5ec2255c821574f96461c",
+    "cli_modified": false,
+    "command": "bohr chat",
+    "duration_ms": 11661,
+    "timestamp": 1793679695
+  }
+}
