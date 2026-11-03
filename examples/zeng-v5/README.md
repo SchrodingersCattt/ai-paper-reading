@@ -2,7 +2,7 @@
 
 案例 A 使用 [Zeng 2020 PDF](../../materials/source/zeng2020-methane-nn-md.pdf)、同一份[任务](cases/A/task.md)和运行前写好的[验收标准](cases/A/acceptance.md)。四份原始答案分别为[有 Skill 1](A-with-1/answer.md)、[无 Skill 1](A-without-1/answer.md)、[有 Skill 2](A-with-2/answer.md)和[无 Skill 2](A-without-2/answer.md)。
 
-不同论文的 [B 案例](B-with/answer.md)使用 Wen 2020，核查材料为[第 5、6 页](../../materials/excerpts/wen2020-original-pages5-6.pdf)和[第 8 页数据集说明](../../materials/excerpts/wen2020-page8-dataset.md)。缺页测试的 [C-with-1](C-with-1/answer.md) 和 [C-with-2](C-with-2/answer.md) 使用构造的[前两页 PDF](../../materials/source/zeng2020-constructed-pages1-2.pdf)。各案例的任务和标准在 [cases/](cases/)。
+本教程展示 A 案例；公开仓库还收录另一篇论文和缺页材料的运行，分别保存在 `B-with`、`C-with-1` 和 `C-with-2` 目录。
 
 运行目录保留原始答案、元数据和初始化事件；仓库另有包含任务及结束事件的 `trace-summary.jsonl`。记录已移除个人路径及会话标识。模型显示名称的差异和各次耗时见主文的对照表。
 
