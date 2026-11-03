@@ -1,0 +1,66 @@
+以下按您给出的信息整理，并尽量仅依据论文原文给出结论与定位。所涉及的页码均来自 PDF 的对应位置标注。
+
+一、Fig. 5 图中每个方框名称及箭头顺序（并给出依据）
+
+方框名称（按 Fig. 5 的工作流顺序）
+- N1: Molecular system
+- N2: Sampling with ReaxFF
+- N3: Redundancy removal (Coulomb matrixes and Mini Batch Kmeans)
+- N7: Dataset
+- N4: QM calculation
+- N5: NN training
+- N6: Re-sampling (with NN-based short MDs)
+- N8: New data?
+- N9: Final dataset
+
+箭头顺序（以及逐步依据）
+- N1 -> N2
+  依据：在“Reference dataset”部分写道，为提高数据集构建效率，使用 ReaxFF 的反应性 MD 采样来获得初始数据集（即从“ Molecular system”出发进入“Sampling with ReaxFF”）。出处：Methods-Reference dataset 段落，页6，Fig. 5 标题所示的工作流文字对应。
+- N2 -> N3
+  依据：初始数据集约 2250 万条结构，规模过大，需通过去冗余来缩小，同时保证完整性（redundancy removal）。出处：同页文字描述“初始数据集包含大约 22.5 百万结构，太大无法对每个结构做 QM 计算，因此需要重新采样以去除冗余结构并确保完整性”。
+- N3 -> N7
+  依据：对每一个大的子数据集，先将其中的分子簇表示为 Coulomb 矩阵，随后以 eigen-spectrum 进行降维，再用 Mini Batch KMeans 将子数据集聚成更小的簇，最后从每簇随机选取结构形成数据集（Dataset）。出处：文中关于 Coulomb 矩阵表示、不可见原子、降维为 eigen-spectrum，以及 Mini Batch KMeans 的描述。
+- N7 -> N4
+  依据：对“Dataset”中的结构进行 QM 计算（后文将得到的能量/力作为参考量用于 NN 的训练与评估）。出处：同段落的流程描述，紧接着进入 QM 计算的步骤。
+- N4 -> N5
+  依据：QM 计算得到的数据用于 NN PES 的训练（NN training）。出处：QM calculation 段落之后接 NN training 的流程。
+- N5 -> N6
+  依据：基于训练得到的 NN-PES 进行再采样，即进行 NN 基于短时分子动力学的再采样（短 MD），以扩充数据并监控模型的不确定性等。出处：NN training 之后的“Re-sampling (with NN-based short MDs)”。
+- N6 -> N8
+ 依据：进入“New data?” 分支，用以判断是否产生新数据以进入循环迭代。出处：补充材料中给出的分支文本结构，箭头标注为“New data?”。
+- N8 -> N7 (YES)
+  依据：若有新数据产生，则回到前面的数据集阶段以更新数据集并可能重新执行某些步骤。箭头上标注 (YES) 表明回环条件成立。
+- N8 -> N9 (NO)
+  依据：若没有新数据，退出循环，生成最终数据集 Final dataset。箭头上标注 (NO) 表明退出循环，达到终态。
+
+说明与结论
+- 图中具体的节点命名与箭头序列如上所列，直接来自 Fig. 5 的工作流描述（页6的“Reference dataset”段及 Fig. 5 标注的各阶段文字），图题为“Figura 5 The workflow of reference dataset construction.”，页面为 PDF 的页6。
+- YES/NO 的循环含义由箭头标注的 (YES) 与 (NO) 指出：YES 表示回到前一阶段继续迭代（产生新数据后重复流程），NO 表示完成迭代，进入最终数据集（Final dataset）。
+
+二、补充材料中的问题回答（按材料列出节点与箭头并解释 YES/NO 循环）
+
+- 初始数据集是在去冗余之前还是之后？
+  回答：在去冗余之前。
+  依据：文中写道“初始数据集包含大约 22.5 百万结构，太大无法对每个分子簇执行 QM 计算，因此有必要对其进行重新采样以去除冗余结构，同时确保完整性。”这表明初始数据集是在去冗余之前的；随后才进行冗余去除并生成后续数据集。出处：PDF 页6，Reference dataset 段落。
+
+- Coulomb 矩阵用什么表示后进行聚类？
+  回答：先将每个分子簇表示为 Coulomb 矩阵 C，随后将对角线元素和非对角线元素定义如下：
+  - C_ij = 0.5 Z_i^{2.4}，当 i = j；
+  - C_ij = Z_i Z_j / |R_i - R_j|，当 i ≠ j；
+  其中引入最小像法则（minimum image convention）以处理周期性边界；为固定总原子数，加入不可见原子来使矩阵维度一致。
+  接着将 Coulomb 矩阵通过求解特征值问题 Cv = λv，将得到的特征值序列按 λ_i ≥ λ_{i+1} 的顺序作为“ eigen-spectrum ”，再用 Mini Batch KMeans 根据这个特征谱进行聚类，最后从每个簇中随机选取一定数量的结构。
+  依据位置：该段落明确给出 Coulomb 矩阵的定义、最小像约束、不可见原子、降维为特征谱、以及 Mini Batch KMeans 的聚类方法。出处：PDF 页6，Methods 中描述 Coulomb 矩阵及后续降维与聚类的段落。
+
+- 量子化学计算为每个最终结构提供哪两类参考量，具体使用什么方法？
+  回答：
+  - 两类参考量：能量（势能）和原子力（forces）。
+  - 使用的方法：Gaussian 16，MN15/6-31G** 级别；并考虑自旋极化效应：给定结构的初始波函数由构成该结构的各分子种类的波函数组合得到；每个分子种类的波函数按其电荷和自旋计算。
+  依据：PDF_PAGE_7_BLOCK_8 的原文段落明确写出“QM calculation. The potential energy and atomic forces for every structure in the final dataset were calculated by Gaussian 16 software at the MN15/6-31G** level.” 并补充说明 MN15/6-31G** 的背景以及自旋极化的处理方法（初始波函数的组合）。该信息位于同一块文本中，属于页面 7 的 BLOCK 8。
+
+附注：请把结论的页码与图号也标注在答案中
+- Fig. 5 的图号：Fig. 5
+- 图所在页码：PDF 页码 6（Nature Communications 2020，文稿中该图位于第6页的“Methods/Reference dataset”部分的前后段落，并以 Fig. 5 的图注呈现）。
+- QM calculation 的原文位置：PDF_PAGE_7_BLOCK_8（第7页的 BLOCK 8）。
+
+
+如需我把上面的每一点再以逐条对照原文的直接引文形式整理成一个对照表，也可以提供。

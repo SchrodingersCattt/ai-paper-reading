@@ -1,0 +1,34 @@
+{
+  "page7_parser_block_sha256": "1b49c7278c7f6e1d6c7e0b72111b7e19c45955afcc9bea0b79094b2f9e877626",
+  "ambiguous": {
+    "requests": 2,
+    "unique_completion_ids": 1,
+    "model": "chenkun/gpt-5-nano",
+    "completion_id_sha256": "66f89235af3bcf6a52ee694f142c2de6ed8368b871c7cd99149339e1fa914961",
+    "answer_sha256": "6189e322a1964cd46d4499e876bfb339d5dca1833c2201e01609e2c8c6f7617a",
+    "prompt_sha256": "d655470012d0ef31167f66e67a4c12f68b7048b1e0facfc9f40e8675589b5fba",
+    "protocol_sha256": "88438cd7d1db1616ff1d8ed1424b5ff3c032d7a1475d93020648a0cf72f04b77"
+  },
+  "explicit": {
+    "requests": 2,
+    "unique_completion_ids": 2,
+    "prompt_sha256": "a81746767cd4e13fd6992f245f5e8d1bf002c93a6870f584c8cd266383a5a56c",
+    "protocol_sha256": "48cdb17a2f598e36fe07d7b8501d550e5db42b99e125eb67c677f5052ee11cf6",
+    "runs": [
+      {
+        "run": 1,
+        "model": "chenkun/gpt-5-nano",
+        "completion_id_sha256": "1c371ebaf46989708c9dc4cc4e8f4b6a25501c00a3cec7393e5bc06b5d954b43",
+        "answer_sha256": "0dcbe2fc036dce5f8c9be013a2a93d884d7474cb3522f86ee03f1920dd4ce2dd",
+        "prompt_tokens": 2057
+      },
+      {
+        "run": 2,
+        "model": "chenkun/gpt-5-nano",
+        "completion_id_sha256": "8cf8755265a285c126566e699874ed0a618e789bb68a0eb473ce836c8ab1ccdf",
+        "answer_sha256": "7e227c1a1a9e0bd371c94a34a778c37106fbe5f2e3529923cce66c718fb2a801",
+        "prompt_tokens": 2057
+      }
+    ]
+  }
+}

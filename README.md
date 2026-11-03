@@ -52,6 +52,10 @@ New data? ──NO───→ Final dataset  结束
 
 图结构对了，还要检查模型对方法的解释：[运行 1](bohrium-pass/zeng-figure-vector-answer-1.txt)把“特征谱”和“特征向量”并列为近义表述，原文第 6 页写的是用于聚类的 eigen-spectrum；[运行 2](bohrium-pass/zeng-figure-vector-answer-2.txt)把去冗余后的数据集称为初始数据集，而原文先把采样得到的约 2250 万个结构称为初始数据集，再去除冗余。两次都没有在 QM 环节明确写出参考值是能量和力，需补看第 7 页。[逐项核对记录](bohrium-pass/zeng-figure-vector-review.md)保留了全部结果。
 
+我把玻尔解析出的[第 7 页 QM 原文块](bohrium-pass/zeng-figure-method-page7-block.txt)补进提问，并单独问初始数据集、特征谱和量化参考值。最初用 `[P7-8]` 表示“第 7 页第 8 块”，[回答](bohrium-pass/zeng-figure-method-ambiguous-answer.txt)却同时将它称为第 6 页和第 7—8 页。两次请求返回同一个响应 ID，按一份结果记录。
+
+改用 `[PDF_PAGE_7_BLOCK_8]` 并说明块号后，[运行 1](bohrium-pass/zeng-figure-method-explicit-answer-1.txt)和[运行 2](bohrium-pass/zeng-figure-method-explicit-answer-2.txt)都将 QM 原文定位在第 7 页，正确回答了上述三个方法问题。图结构仍来自补充输入；其中一份回答将图题首的 “Fig. 5” 写成 “Figura 5”。[方法段核查](bohrium-pass/zeng-figure-method-review.md)保留了页码冲突、两次新回答和各自的剩余问题。
+
 读方法段时，下面几组数也要分开：
 
 | 数值 | 在论文中的作用 | 位置 |
@@ -112,9 +116,13 @@ python bohrium-pass/build_vector_prompt.py --baseline ./figure-run/baseline.txt 
 $BohrEntry = Join-Path ((npm root -g).Trim()) '@dptech-corp/bohr-cli/run.js'
 $FigureQuestion = Get-Content -Raw -Encoding utf8 './figure-run/vector-prompt.txt'
 node $BohrEntry chat $FigureQuestion --model gpt-5-nano --output json
+
+python bohrium-pass/build_method_question.py --vector-prompt ./figure-run/vector-prompt.txt --mode explicit --out ./figure-run
+$MethodQuestion = Get-Content -Raw -Encoding utf8 './figure-run/method-explicit-prompt.txt'
+node $BohrEntry chat $MethodQuestion --model gpt-5-nano --request-id ([guid]::NewGuid().ToString()) --output json
 ```
 
-`graph.json` 应列出 9 个节点和 9 条箭头，YES 返回 Dataset，NO 指向 Final dataset；然后对照原图和[事先写好的验收标准](bohrium-pass/zeng-figure-vector-protocol.md)检查回答。重跑模型可能得到不同表述。
+`graph.json` 应列出 9 个节点和 9 条箭头，YES 返回 Dataset，NO 指向 Final dataset；然后对照原图和[事先写好的验收标准](bohrium-pass/zeng-figure-vector-protocol.md)检查回答。重复调用时为每次请求生成不同标识，并核对返回的 completion ID；相同 ID 按一份结果记录。重跑模型可能得到不同表述。
 
 要重新调用 Uni-Parser，安装 `requests` 并配置 `BOHR_ACCESS_KEY`，再运行 `python bohrium-pass/parse_zeng.py submit --out ./parse-run` 和 `python bohrium-pass/parse_zeng.py poll --out ./parse-run`。首次仍在排队时，稍后再次执行 `poll`。请求设置与费用以实际返回为准。
 
@@ -126,6 +134,7 @@ node $BohrEntry chat $FigureQuestion --model gpt-5-nano --output json
 | 玻尔解析与基础问答 | [设置和状态](bohrium-pass/zeng-parser-metadata.json)、[第 6 页结果](bohrium-pass/zeng-parser-retest-page6.txt)、[基础回答](bohrium-pass/zeng-figure-baseline-answer.txt) |
 | 图中文字与矢量结构 | [文字层回答](bohrium-pass/zeng-figure-text-layer-answer.txt)、[节点和箭头](bohrium-pass/zeng-figure-vector-graph.json)、[提取脚本](bohrium-pass/extract_fig5_graph.py) |
 | 两次补充问答与核查 | [运行 1](bohrium-pass/zeng-figure-vector-answer-1.txt)、[运行 2](bohrium-pass/zeng-figure-vector-answer-2.txt)、[运行前标准](bohrium-pass/zeng-figure-vector-protocol.md)、[核查](bohrium-pass/zeng-figure-vector-review.md)、[模型和哈希](bohrium-pass/zeng-figure-vector-metadata.json) |
+| 方法段与页码核查 | [原文块](bohrium-pass/zeng-figure-method-page7-block.txt)、[核查与三份不同回答](bohrium-pass/zeng-figure-method-review.md)、[输入重建](bohrium-pass/build_method_question.py)、[哈希](bohrium-pass/zeng-figure-method-metadata.json) |
 | Skill A 对照 | [任务](examples/zeng-v5/cases/A/task.md)、[验收标准](examples/zeng-v5/cases/A/acceptance.md)、[复现脚本](examples/zeng-v5/reproduce.py) |
 
 论文和已有软件归原作者所有；本项目整理了阅读问题、图结构提取、提示、核查记录及 Skill 对照。
