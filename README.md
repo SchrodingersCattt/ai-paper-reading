@@ -101,7 +101,7 @@ python bohrium-pass/parse_zeng.py poll --out ./parse-run
 关键事实请给 PDF 页码；论文未说明的内容请标出。
 ```
 
-在支持 Skill 的 Agent 中加载 [skill/](skill/)，将 PDF 与问题交给它。核对时优先检查参考标签来源、指标及单位、模拟条件和图表上下文；要复查本例，可以直接打开[任务、标准和七份答案](examples/zeng-v5/)。
+在支持 Skill 的 Agent 中加载 [skill/](skill/)，将 PDF 与问题交给它。核对时优先检查参考标签来源、指标及单位、模拟条件和图表上下文。要复查本例，可以打开[任务、标准和七份答案](examples/zeng-v5/)，也可以按其中的 Windows 步骤重跑 A 案例；预检先比较两侧输入的哈希，再决定是否调用模型。
 
 ## 论文与证据
 
