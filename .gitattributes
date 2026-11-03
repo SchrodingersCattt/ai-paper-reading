@@ -4,5 +4,7 @@
 /bohrium-pass/zeng-chat-*.txt -text
 /bohrium-pass/zeng-pipeline-*.txt -text
 /bohrium-pass/zeng-figure-*.txt -text
+/bohrium-pass/zeng-figure-vector-*.json -text
+/bohrium-pass/zeng-figure-vector-protocol.md -text
 /bohrium-pass/zeng-parser-full.txt -text
 /bohrium-pass/zeng-parser-retest-page6.txt -text

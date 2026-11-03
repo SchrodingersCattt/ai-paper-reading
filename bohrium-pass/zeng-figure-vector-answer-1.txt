@@ -1,0 +1,49 @@
+根据论文第6页 Fig.5 的图示，Fig.5 的方框名称及箭头顺序（节点编号对应你给出的 N1–N9）如下，并给出依据与 YES/NO 循环含义。
+
+一、方框名称（节点）
+- N1: Molecular system
+  - 含义：研究对象的分子系统（论文中以含 CH4、H2 的模型燃烧体系为例的分子系统）。
+- N2: Sampling with ReaxFF
+  - 含义：利用 ReaxFF 对分子系统进行初步采样。
+- N3: Redundancy removal (Coulomb matrixes and Mini Batch Kmeans)
+  - 含义：对采样得到的分子簇进行冗余去除，先用 Coulomb 矩阵表示，再用特征（特征谱/特征向量）结合 MiniBatch KMeans 聚类降维和分组。
+- N7: Dataset
+  - 含义：经冗余去除后得到的数据集（用于后续 QM 计算与 NN 训练）。
+- N4: QM calculation
+  - 含义：对选中的结构进行量子化学（QM）计算，获得高水平数据。
+- N5: NN training
+  - 含义：基于 QM 数据训练神经网络势能面（NN PES）。
+- N6: Re-sampling (with NN-based short MDs)
+  - 含义：利用训练得到的 NN 模型进行若干短时分子动力学（MD）模拟，进行再采样以扩展覆盖。
+- N8: New data?
+  - 含义：一个决策节点，判断是否有新的数据需要加入数据集。
+- N9: Final dataset
+  - 含义：最终数据集（在没有新数据时得到的结束版本）。
+
+二、箭头顺序（流程走向）
+- N1 -> N2
+- N2 -> N3
+- N3 -> N7
+- N7 -> N4
+- N4 -> N5
+- N5 -> N6
+- N6 -> N8
+- N8 -> N7 (YES)
+- N8 -> N9 (NO)
+
+三、依据与说明
+- 该图题注为 Fig. 5：The workflow of reference dataset construction. The process and steps used in this study to generate the reference dataset needed for neural network training to generate the potential energy for MD simulation. 这明确了整个流程从分子系统出发经 ReaxFF 采样、冗余去除、QD（QM）计算、NN 训练、再采样到是否产生新数据的循环，最终得到数据集的过程。
+- 文中对各环节的描述与顺序：
+  - 使用 ReaxFF 进行初步采样，形成初始数据集（对应 N1→N2）。
+  - 对大规模初始数据集进行冗余去除，采用 Coulomb 矩阵表示并通过 Mini Batch KMeans 进行聚类（对应 N2→N3）。
+  - 将处理后的分子簇组合成数据集（Dataset，N7）。
+  - 对选中的结构执行 QM 计算获取高水平数据（N7→N4）。
+  - 基于 QM 数据训练 NN 分布的势能面（N4→N5）。
+  - 使用 NN 模型进行短时 MD 进行再采样（N5→N6）。
+  - 再采样后进入“New data?” 节点（N8），若有新数据则回到数据集阶段（YES，N8→N7），若无新数据则进入最终数据集（NO，N8→N9）。
+- YES/NO 的循环含义：
+  - YES（N8 -> N7）：存在新数据需要纳入数据集时，返回到数据集阶段（N7），重新构建/扩展数据集，并可继续后续 QM 计算和 NN 训练，形成循环。
+  - NO（N8 -> N9）：没有新的数据加入数据集，结束循环，得到最终数据集（N9）。
+
+四、结论标注
+- 图示位于论文 PDF 的第6页，Fig. 5，属于 Methods 前的流程图描述，用以说明如何构建用于训练神经网络势能的参考数据集。

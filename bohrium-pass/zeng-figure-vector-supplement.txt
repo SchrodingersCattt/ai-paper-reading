@@ -1,0 +1,24 @@
+
+
+补充材料：下列节点文字及有向箭头由同一 PDF 第 6 页 Fig. 5 的矢量形状、文字和箭头提取，分支文字用邻近关系标注。请按材料列出各节点和箭头，并解释 YES/NO 的循环或退出；区分节点、区域名称和分支标记，原文没有给出的内容不要猜。图中结论标注 PDF 页码和图号。
+
+节点：
+N1: Molecular system
+N2: Sampling with ReaxFF
+N3: Redundancy removal (Coulomb matrixes and Mini Batch Kmeans)
+N4: QM calculation
+N5: NN training
+N6: Re-sampling (with NN-based short MDs)
+N7: Dataset
+N8: New data?
+N9: Final dataset
+箭头：
+N1 -> N2
+N2 -> N3
+N3 -> N7
+N7 -> N4
+N4 -> N5
+N5 -> N6
+N6 -> N8
+N8 -> N7 (YES)
+N8 -> N9 (NO)

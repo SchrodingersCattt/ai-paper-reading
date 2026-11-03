@@ -1,0 +1,20 @@
+{
+  "pdf_sha256": "47987f623c3f5496bd699d905a11065078366abff6552e106e364a415ff0384e",
+  "protocol_sha256": "e306488059cbcb60ac758c69ad38a707f8152c7d1b6731a9c44538cf15dd5091",
+  "graph_sha256": "e35432e2076ecd4320ae5edc622b5c841f7da014fd587fcfd2844ee65a3c6ff3",
+  "prompt_sha256": "1c2d5d9bb22955eff561a02e9ad976b9092ed5165feff990fdc4ec34c0ad94cc",
+  "runs": [
+    {
+      "run": 1,
+      "model": "chenkun/gpt-5-nano",
+      "prompt_tokens": 1796,
+      "answer_sha256": "d712c72913e49a14e5b5e181404e8828d28e38ddaacd34d14233d61e0615650b"
+    },
+    {
+      "run": 2,
+      "model": "chenkun/gpt-5-nano",
+      "prompt_tokens": 1796,
+      "answer_sha256": "40349251550b973e75237c6470bcef15d33f8279c82f7ed48984e3755da8bb0d"
+    }
+  ]
+}

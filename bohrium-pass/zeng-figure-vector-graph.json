@@ -1,0 +1,250 @@
+{
+  "page_index": 5,
+  "clip_points": [
+    100,
+    40,
+    480,
+    275
+  ],
+  "pymupdf_version": "1.26.7",
+  "nodes": [
+    {
+      "id": "N1",
+      "text": "Molecular system",
+      "rect": [
+        133.83,
+        51.02,
+        210.7,
+        71.45
+      ],
+      "drawing_index": 0
+    },
+    {
+      "id": "N2",
+      "text": "Sampling with ReaxFF",
+      "rect": [
+        133.83,
+        93.23,
+        210.7,
+        121.45
+      ],
+      "drawing_index": 1
+    },
+    {
+      "id": "N3",
+      "text": "Redundancy removal (Coulomb matrixes and Mini Batch Kmeans)",
+      "rect": [
+        133.83,
+        143.22,
+        210.7,
+        180.99
+      ],
+      "drawing_index": 2
+    },
+    {
+      "id": "N4",
+      "text": "QM calculation",
+      "rect": [
+        246.66,
+        93.23,
+        323.53,
+        121.45
+      ],
+      "drawing_index": 3
+    },
+    {
+      "id": "N5",
+      "text": "NN training",
+      "rect": [
+        371.17,
+        93.23,
+        448.03,
+        121.45
+      ],
+      "drawing_index": 4
+    },
+    {
+      "id": "N6",
+      "text": "Re-sampling (with NN-based short MDs)",
+      "rect": [
+        371.17,
+        147.99,
+        448.03,
+        176.22
+      ],
+      "drawing_index": 5
+    },
+    {
+      "id": "N7",
+      "text": "Dataset",
+      "rect": [
+        240.28,
+        147.99,
+        329.92,
+        176.22
+      ],
+      "drawing_index": 6
+    },
+    {
+      "id": "N8",
+      "text": "New data?",
+      "rect": [
+        302.23,
+        191.99,
+        391.87,
+        226.25
+      ],
+      "drawing_index": 8
+    },
+    {
+      "id": "N9",
+      "text": "Final dataset",
+      "rect": [
+        308.62,
+        252.24,
+        385.48,
+        272.67
+      ],
+      "drawing_index": 10
+    }
+  ],
+  "arrows": [
+    {
+      "from": "N1",
+      "to": "N2",
+      "tip": [
+        172.27,
+        91.65
+      ],
+      "drawing_index": 11,
+      "rect": [
+        171.3,
+        71.45,
+        173.23,
+        91.65
+      ]
+    },
+    {
+      "from": "N2",
+      "to": "N3",
+      "tip": [
+        172.27,
+        143.22
+      ],
+      "drawing_index": 12,
+      "rect": [
+        171.3,
+        123.02,
+        173.23,
+        143.22
+      ]
+    },
+    {
+      "from": "N3",
+      "to": "N7",
+      "tip": [
+        249.24,
+        162.11
+      ],
+      "drawing_index": 13,
+      "rect": [
+        210.7,
+        161.14,
+        249.24,
+        163.07
+      ]
+    },
+    {
+      "from": "N7",
+      "to": "N4",
+      "tip": [
+        285.1,
+        121.45
+      ],
+      "drawing_index": 14,
+      "rect": [
+        284.13,
+        121.45,
+        286.06,
+        147.99
+      ]
+    },
+    {
+      "from": "N4",
+      "to": "N5",
+      "tip": [
+        371.17,
+        107.34
+      ],
+      "drawing_index": 15,
+      "rect": [
+        323.53,
+        106.37,
+        371.17,
+        108.31
+      ]
+    },
+    {
+      "from": "N5",
+      "to": "N6",
+      "tip": [
+        409.6,
+        147.99
+      ],
+      "drawing_index": 16,
+      "rect": [
+        408.63,
+        121.45,
+        410.57,
+        147.99
+      ]
+    },
+    {
+      "from": "N6",
+      "to": "N8",
+      "tip": [
+        391.87,
+        209.12
+      ],
+      "drawing_index": 17,
+      "rect": [
+        391.87,
+        176.22,
+        409.92,
+        210.09
+      ]
+    },
+    {
+      "from": "N8",
+      "to": "N7",
+      "tip": [
+        285.1,
+        176.22
+      ],
+      "drawing_index": 18,
+      "rect": [
+        284.13,
+        176.22,
+        302.23,
+        209.44
+      ],
+      "branch": "YES"
+    },
+    {
+      "from": "N8",
+      "to": "N9",
+      "tip": [
+        347.05,
+        252.24
+      ],
+      "drawing_index": 19,
+      "rect": [
+        346.08,
+        226.25,
+        348.02,
+        252.24
+      ],
+      "branch": "NO"
+    }
+  ]
+}
