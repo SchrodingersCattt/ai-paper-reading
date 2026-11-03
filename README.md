@@ -65,6 +65,10 @@ New data? ──NO───→ Final dataset  结束
 
 前两项属于不同步骤；后两项分别用于选取构型和报告预测误差，不能互换。
 
+我把第 6、7 页的原文片段交给玻尔，问它 ReaxFF 如何采样、能量和力的参考值从哪里来、5 Å 和 6 Å 各用于什么步骤。[实际提问](bohrium-pass/zeng-pipeline-prompt.txt)要求它分四行回答，并标出块号。块号来自[解析结果](bohrium-pass/zeng-parser-key-blocks.json)：`P7-8` 对应 `pdf_page` 7、`order` 8，即第 7 页的第 8 号块。[模型记录](bohrium-pass/zeng-pipeline-metadata.json)显示返回模型是 `chenkun/gpt-5-nano`，输入为 267 个 prompt tokens。
+
+[完整回答](bohrium-pass/zeng-pipeline-answer.txt)写的是：ReaxFF 反应性分子动力学用来采样初始数据集；最终数据集每个结构的势能和原子力由 Gaussian 16 在 MN15/6-31G** 水平计算；5 Å 用来构建以该原子为中心、包含周围物种的分子簇；截断半径为 6.0 Å，描述子在 1.0 到 6.0 Å 间平滑衰减。
+
 ## Skill 带来了哪些变化
 
 我把“解释方法、对照原文、再判断用途”的步骤整理成 [method-fit-check](skill/SKILL.md)。用同一篇 Zeng 论文和同一任务，各运行两次有 Skill、两次无 Skill，调用参数均为 `grok-4.7-high`；[任务](examples/zeng-v5/cases/A/task.md)和[验收标准](examples/zeng-v5/cases/A/acceptance.md)在运行前写好。验收标准写于 v4 运行前，v5 沿用同一文件，四次运行记录的哈希与该文件一致。
@@ -98,7 +102,7 @@ python examples/zeng-v5/reproduce_a.py --out $PaperWithout --dry-run
 2. 如果 PDF 保留矢量图形，提取节点和箭头，和原图核对；如果只有文字，先核对文字，连线直接看原图。
 3. 让模型根据核对过的材料解释步骤，再用方法段检查数据来源、参数用途和适用条件。
 
-复跑本例需要 Windows、Python、Node.js、已登录的 Bohr CLI 和能调用 `gpt-5-nano` 的玻尔账号。下面的问答使用仓库中保存的第 6 页解析文本；图结构从论文 PDF 重新提取。本次图形提取使用 Python 3.12.8、PyMuPDF 1.26.7，也在 Python 3.11.14 下核对了同样的结果；Bohr CLI 为 2.9.21，Node.js 为 24.11.1。
+复跑本例需要 Windows、Python、Node.js、已登录的 Bohr CLI 和能调用 `gpt-5-nano` 的玻尔账号。图结构从论文 PDF 重新提取，图问答使用仓库中保存的第 6 页解析文本；方法问答把保存的 `bohrium-pass/zeng-pipeline-prompt.txt` 原样读入 Bohr CLI。本次图形提取使用 Python 3.12.8、PyMuPDF 1.26.7，也在 Python 3.11.14 下核对了同样的结果；Bohr CLI 为 2.9.21，Node.js 为 24.11.1。
 
 在仓库根目录运行：
 
@@ -114,25 +118,26 @@ python bohrium-pass/build_vector_prompt.py --baseline ./figure-run/baseline.txt 
 $BohrEntry = Join-Path ((npm root -g).Trim()) '@dptech-corp/bohr-cli/run.js'
 $FigureQuestion = Get-Content -Raw -Encoding utf8 './figure-run/vector-prompt.txt'
 node $BohrEntry chat $FigureQuestion --model gpt-5-nano --output json
+
+$PipelineQuestion = Get-Content -Raw -Encoding utf8 './bohrium-pass/zeng-pipeline-prompt.txt'
+node $BohrEntry chat $PipelineQuestion --model gpt-5-nano --output json
 ```
 
-`graph.json` 应列出 9 个节点和 9 条箭头，YES 返回 Dataset，NO 指向 Final dataset；然后对照原图和[事先写好的验收标准](bohrium-pass/zeng-figure-vector-protocol.md)检查回答。重跑模型可能得到不同表述。
+`graph.json` 应列出 9 个节点和 9 条箭头，YES 返回 Dataset，NO 指向 Final dataset；然后对照原图和[事先写好的验收标准](bohrium-pass/zeng-figure-vector-protocol.md)检查回答。后一条 `chat` 送入的是已保存的方法提问，模型参数仍是 `gpt-5-nano`，返回可对照[已保存的回答](bohrium-pass/zeng-pipeline-answer.txt)。重跑模型可能得到不同表述。
 
-已经保存的这张 Fig. 5，可以用一条命令按原 PDF 再提取并核对。[check_fig5.py](bohrium-pass/check_fig5.py) 调用 [extract_fig5_graph.py](bohrium-pass/extract_fig5_graph.py)，读取论文第 6 页，再按验收标准里人工核对过的九个节点、九条边和 YES／NO 比较。在仓库根目录运行：
+已经保存的这张 Fig. 5，在仓库根目录用 [check_fig5.py](bohrium-pass/check_fig5.py) 复查。它调用 [extract_fig5_graph.py](bohrium-pass/extract_fig5_graph.py)。两条命令的 `--out` 都要写成还不存在的目录；目录已经存在时，脚本退出，不写入文件。
 
 ```powershell
 python bohrium-pass/check_fig5.py --out ./fig5-check
 ```
 
-`--out` 要写成一个还不存在的目录。目录已经存在时，脚本退出，不写入文件。预期退出码为 0：YES 从 New data? 回到 Dataset，NO 指向 Final dataset。这条命令只检查这篇 Zeng 2020 PDF 的 Fig. 5，读取的是本地 PDF 和协议文件。退出码为 0 表示矢量和协议一致，[原图](materials/excerpts/zeng2020-fig5.png)和 `graph.json` 仍要人眼对照。
-
-同一脚本可以在另一个新目录里生成一份六页空白 PDF，再交给同一个提取器：
+这条命令读取论文第 6 页，按验收标准里人工核对过的九个节点、九条边和 YES／NO 比较。预期退出码为 0：YES 从 New data? 回到 Dataset，NO 指向 Final dataset。它只检查这篇 Zeng 2020 PDF 的 Fig. 5，读取的是本地 PDF 和协议文件。退出码为 0 表示矢量和协议一致，[原图](materials/excerpts/zeng2020-fig5.png)和 `graph.json` 仍要人眼对照。
 
 ```powershell
 python bohrium-pass/check_fig5.py --blank --out ./fig5-blank
 ```
 
-预期这条命令的退出码为 0。它生成的空白 PDF 有 6 页。提取器自己的退出码为 1，报错是 `Unexpected diagram structure: 0 nodes, 0 arrows`，目录里没有 `graph.json`。
+预期退出码为 0。它生成 6 页空白 PDF，再交给同一个提取器。提取器自己的退出码为 1，报错是 `Unexpected diagram structure: 0 nodes, 0 arrows`，目录里没有 `graph.json`。
 
 要按已保存的单页记录重新调用 Uni-Parser，安装 `requests` 并配置 `BOHR_ACCESS_KEY`，在仓库根目录运行：
 
@@ -152,6 +157,7 @@ python bohrium-pass/parse_zeng.py poll --out ./parse-run
 | 加核验要求的问答 | [指令](bohrium-pass/zeng-figure-guarded-instruction.txt)、[回答](bohrium-pass/zeng-figure-guarded-answer.txt) |
 | 图中文字与矢量结构 | [文字层回答](bohrium-pass/zeng-figure-text-layer-answer.txt)、[节点和箭头](bohrium-pass/zeng-figure-vector-graph.json)、[提取脚本](bohrium-pass/extract_fig5_graph.py)、[本图核对](bohrium-pass/check_fig5.py) |
 | 两次补充问答与核查 | [运行 1](bohrium-pass/zeng-figure-vector-answer-1.txt)、[运行 2](bohrium-pass/zeng-figure-vector-answer-2.txt)、[运行前标准](bohrium-pass/zeng-figure-vector-protocol.md)、[核查](bohrium-pass/zeng-figure-vector-review.md)、[模型和哈希](bohrium-pass/zeng-figure-vector-metadata.json) |
+| 第 6、7 页方法问答 | [提问](bohrium-pass/zeng-pipeline-prompt.txt)、[完整回答](bohrium-pass/zeng-pipeline-answer.txt)、[模型记录](bohrium-pass/zeng-pipeline-metadata.json)（`chenkun/gpt-5-nano`，267 prompt tokens）、[第 6、7 页原文块](bohrium-pass/zeng-parser-key-blocks.json) |
 | Skill A 对照 | [任务](examples/zeng-v5/cases/A/task.md)、[验收标准](examples/zeng-v5/cases/A/acceptance.md)、[案例 A 复现脚本](examples/zeng-v5/reproduce_a.py) |
 
 论文和已有软件归原作者所有；本项目整理了阅读问题、图结构提取、提示、核查记录及 Skill 对照。
