@@ -1,0 +1,13 @@
+{
+  "id": "B-with",
+  "case": "B",
+  "condition": "with_skill",
+  "pdf": "materials/source/zeng2020-methane-nn-md.pdf",
+  "exit": 0,
+  "started_at": "2026-11-02T06:13:42.721679+00:00",
+  "duration_seconds": 375.5,
+  "answer_present": true,
+  "model": "grok-4.7-high",
+  "harness": "Cursor agent CLI 2026.10.19-6bbf2c4",
+  "flags": "--print --output-format stream-json --model grok-4.7-high --trust --force --sandbox disabled"
+}
