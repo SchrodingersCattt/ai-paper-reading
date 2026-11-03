@@ -27,16 +27,15 @@ Zeng 等人把甲烷燃烧的参考数据集画在第 6 页 Fig. 5。只把第 6
 
 图的顺序要另看。我用 Bohrium Uni-Parser 解析 9 页 PDF，设置 `textual=2`、`table=2`、`equation=2`、`figure=0`。任务返回 `success`，本次费用 45 分。第 6 页[实际返回](bohrium-pass/zeng-parser-retest-page6.txt)包含 Fig. 5 图注和方法文字，没有图里的方框标签与箭头；单独复跑第 6 页，缺口仍在，费用 5 分。之后尝试 `figure=1`，本次请求返回 [HTTP 403](bohrium-pass/zeng-figure-http403.txt)。[请求和状态](bohrium-pass/zeng-parser-metadata.json)均已保存。
 
-我把第 6 页返回文本交给玻尔，问：“请列出这篇论文 Fig. 5 图中每个方框的名称及箭头顺序，并给出依据。用中文回答。”[基础回答](bohrium-pass/zeng-figure-baseline-answer.txt)说明看不到原图标签，随后依据方法文字推测了 16 个步骤。它讲到了采样和聚类，这份回答不能当作逐框转录。
+同一个问题使用三种输入，四次返回的模型都是 `chenkun/gpt-5-nano`。问题是：“请列出这篇论文 Fig. 5 图中每个方框的名称及箭头顺序，并给出依据。用中文回答。”
 
-接着用同一个 `gpt-5-nano` 接口做了两种补充，实际返回模型均为 `chenkun/gpt-5-nano`：
+| 给玻尔的材料 | 实际回答 | 对照原图 |
+| --- | --- | --- |
+| 第 6 页解析文本，没有箭头 | 写明看不到方框标签，按方法文字推断 16 步 | 原图有 9 个流程节点，推测不能当作逐框转录。[基础回答](bohrium-pass/zeng-figure-baseline-answer.txt) |
+| 解析文本加图中文字坐标，没有箭头 | 把 Active learning 排成流程节点，漏掉 Redundancy removal → Dataset | Active learning 是区域名称，原图有被漏掉的箭头。[文字坐标回答](bohrium-pass/zeng-figure-text-layer-answer.txt) |
+| 解析文本加已核对的节点和箭头 | 两次都列对 9 条箭头和 YES／NO 分支 | 箭头已经写在[输入](bohrium-pass/zeng-figure-vector-supplement.txt)里；方法解释仍有错误。[运行 1](bohrium-pass/zeng-figure-vector-answer-1.txt)、[运行 2](bohrium-pass/zeng-figure-vector-answer-2.txt) |
 
-| 给玻尔的补充材料 | 实际结果 |
-| --- | --- |
-| 原 PDF 图内的文字及坐标 | [回答](bohrium-pass/zeng-figure-text-layer-answer.txt)找到了多个标签，但将区域名称 Active learning 排进线性流程，也漏掉 Redundancy removal → Dataset。 |
-| 从同一 PDF 提取的节点、箭头和 YES／NO 分支 | [运行 1](bohrium-pass/zeng-figure-vector-answer-1.txt)和[运行 2](bohrium-pass/zeng-figure-vector-answer-2.txt)均列对 9 条箭头及两个分支。 |
-
-文字坐标和矢量箭头都是从原图补进提示的。矢量两次列对连线，是因为节点和箭头已经写在补充材料里。
+后两次的方法解释与原文的差异见下节和[核查记录](bohrium-pass/zeng-figure-vector-review.md)。
 
 ## 回到原文核对关键解释
 
