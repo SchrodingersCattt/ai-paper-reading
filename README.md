@@ -4,6 +4,8 @@
 
 这里用 Zeng 等人的甲烷燃烧论文做例子。我先把事先选出的方法原文交给玻尔，看它如何分开 ReaxFF 采样、Gaussian 16 的参考值和两种截断；再把第 6 页的解析文本交给它，问 Fig. 5 的方框和箭头。解析文本里没有图内箭头。对照原图之后，我从 PDF 的矢量路径抽出节点和连线，补进同一道问题，重新检查回答。
 
+只给解析文本时，玻尔按方法文字推断图中方框；补入经原图核对的节点和箭头后，两次回答都列对了九条连线。量化计算具体提供什么参考值，还需回到第 7 页的方法段核对。
+
 论文：Zeng et al., [*Complex reaction processes in combustion unraveled by neural network-based molecular dynamics simulation*](https://doi.org/10.1038/s41467-020-19497-z), *Nature Communications* **11**, 5713 (2020)。[论文全文](materials/source/zeng2020-methane-nn-md.pdf)按 CC BY 4.0 分享，说明见[本案例许可](materials/zeng2020-license.md)。本文页码均为 PDF 页码。
 
 ## 这篇论文里的势函数学了什么
