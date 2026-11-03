@@ -96,7 +96,7 @@ python examples/zeng-v5/reproduce.py --case A --out $PaperWithout --dry-run
 2. 如果 PDF 保留矢量图形，提取节点和箭头，和原图核对；如果只有文字，先核对文字，连线直接看原图。
 3. 让模型根据核对过的材料解释步骤，再用方法段检查数据来源、参数用途和适用条件。
 
-复跑本例需要 Windows、Python、Node.js、已登录的 Bohr CLI 和能调用 `gpt-5-nano` 的玻尔账号。下面的问答使用仓库中保存的第 6 页解析文本；图结构从论文 PDF 重新提取。参考环境是 Python 3.11、PyMuPDF 1.26.7、Node.js 24.11.1 和 `@dptech-corp/bohr-cli` 2.9.21。
+复跑本例需要 Windows、Python、Node.js、已登录的 Bohr CLI 和能调用 `gpt-5-nano` 的玻尔账号。下面的问答使用仓库中保存的第 6 页解析文本；图结构从论文 PDF 重新提取。本次图形提取使用 Python 3.12.8、PyMuPDF 1.26.7，也在 Python 3.11.14 下核对了同样的结果；Bohr CLI 为 2.9.21，Node.js 为 24.11.1。
 
 在仓库根目录运行：
 
