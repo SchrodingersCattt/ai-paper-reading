@@ -68,22 +68,6 @@ python bohrium-pass/check_fig5.py --blank --out ./fig5-blank
 
 文字层那次补充可以用 [build_figure_layer.py](../bohrium-pass/build_figure_layer.py) 从同一页、同一裁剪区域重建词和坐标。它同样只读取本地 PDF，不连线。
 
-## 提问衔接的本地检查
-
-[check_parser_bridge.py](../bohrium-pass/check_parser_bridge.py) 不联网。它用已保存的单页文本和元数据写成 JSON，文件中标明 `constructed_test`，token 只用测试占位符。`--out` 必须是一个还不存在的目录。
-
-```powershell
-python bohrium-pass/check_parser_bridge.py --out ./parser-bridge-check
-```
-
-退出码应为 0，报告里应看到：
-
-- baseline 的默认路径和 `--result-dir` 路径逐字节一致，sha256 为 `6395d624a8a8bd70ae0ef7bbc45ef27d6c8e6b0cfa2c3b58d6fff8b95c708281`，6829 字节；
-- guarded 的两条路径逐字节一致，sha256 为 `68c3ac26a4f42bafcf379ae9324aa62664c9c21a6055281e5f2dd15cc264aee8`，6965 字节；
-- 这两个哈希与 [zeng-figure-comparison-metadata.json](../bohrium-pass/zeng-figure-comparison-metadata.json) 里 baseline、guarded 的 `prompt_sha256` 相同；
-- 只把标记写进构造的 `result.json` 时，只有 `--result-dir` 会带上这段标记，默认路径仍是仓库里的历史文本；
-- 未完成、错误页码、token 不一致和空文本四种结果都被拒绝，退出码为 1，没有生成问题文件，输出里也不含测试 token。
-
 ## Skill 预检
 
 案例 A 的四次正式运行已经保存在 `examples/zeng-v5/`。预检不启动模型。在 Windows 仓库根目录，用两个新目录：
@@ -103,6 +87,18 @@ python examples/zeng-v5/reproduce_a.py --out $PaperWithout --dry-run
 - Skill：`54e99ecebb8c8c51f3c688cbd1fec4ddfaca5dd3225dd02e498bab8689d6c44d`
 
 四次已保存运行的 [有 Skill 1](../examples/zeng-v5/A-with-1/meta.json)、[有 Skill 2](../examples/zeng-v5/A-with-2/meta.json)、[无 Skill 1](../examples/zeng-v5/A-without-1/meta.json)、[无 Skill 2](../examples/zeng-v5/A-without-2/meta.json) 与这些文件一致；验收标准哈希都是 `54bdd272c98162365cfee83882035f5e9dff1f6f5bcf62e0d721aefcd8107ec2`。去掉 `--dry-run` 会启动模型并创建新目录。Agent 使用 `--sandbox disabled`，按当前账号权限读取文件。整理这份说明时只做了预检，没有重跑四次回答。
+
+
+补充的简洁任务在 [task-compact.md](../examples/zeng-v5/cases/A/task-compact.md)。两侧都增加同一篇幅要求，验收标准与原任务相同。加 `--compact` 选择这个任务：
+
+```powershell
+$CompactWith = Join-Path $env:TEMP ("paper-compact-with-$PaperStamp")
+$CompactWithout = Join-Path $env:TEMP ("paper-compact-without-$PaperStamp")
+python examples/zeng-v5/reproduce_a.py --compact --with-skill --out $CompactWith --dry-run
+python examples/zeng-v5/reproduce_a.py --compact --out $CompactWithout --dry-run
+```
+
+两侧应给出相同的论文和任务哈希；只有有 Skill 的一侧有 Skill 哈希。去掉 `--dry-run` 会实际调用模型。
 
 ## 模型和费用
 

@@ -79,6 +79,17 @@ Active learning 是包围这条循环的区域名称。YES 和 NO 是分支标�
 
 四份回答都解释了主要方法，并判断论文没有展示目标火焰条件。有 Skill 的两次更谨慎地处理了训练集元素范围，也都更慢。四次传入的模型 ID 相同，但有 Skill 的初始化显示名带 `256K`，无 Skill 的没有。服务未公开权重版本，因此不能排除后端配置差异；四份运行记录中的费用均为“无法取得”。[初始化记录](docs/reproduction.md#模型和费用)和完整结果可供核查。
 
+后来又做了一组独立配对：[任务](examples/zeng-v5/cases/A/task-compact.md)比前四次多了一条双方共用的篇幅要求，要求尽量写成 800—1200 字，因此单独比较。这组使用同一篇论文、[验收标准](examples/zeng-v5/cases/A/acceptance.md)、账号和 `grok-4.7-high`；只有有 Skill 的一侧加载 v5。
+
+两份回答都解释了采样、参考计算和训练，也都判断论文没有展示目标火焰条件。对照论文第 6—7 页，正文没有列出最终参考集的完整元素范围；这一点上两份回答不同：
+
+| 运行 | 对参考集元素范围的说明 | 耗时 |
+| --- | --- | ---: |
+| [有 Skill](examples/zeng-v5/A-compact-with/answer.md) | 把参考结构是否含氮或惰性气体列为未说明 | 510.3 s |
+| [无 Skill](examples/zeng-v5/A-compact-without/answer.md) | 将量子化学与 ReaxFF 采样都写成 C、H、O 体系 | 435.2 s |
+
+有 Skill 的回答也有页码标注过宽的地方：它在标为第 6—7 页的证据段中提到的误差数值，实际在第 2 页。两侧初始化均显示 `Grok 4.7 256K High`（[有 Skill](examples/zeng-v5/A-compact-with/run-init.json)、[无 Skill](examples/zeng-v5/A-compact-without/run-init.json)），后台权重未公开；两次运行记录（[有 Skill](examples/zeng-v5/A-compact-with/meta.json)、[无 Skill](examples/zeng-v5/A-compact-without/meta.json)）没有单次费用。无 Skill 运行曾把论文页面图和草稿写入并读出系统临时目录，偏离了任务里的目录限制；这些文件已清理。
+
 重跑前可以先做预检。预检只打印输入哈希，不启动模型；命令、显示名和费用的出处写在[复现说明](docs/reproduction.md)。
 
 ## 在自己的论文上复用

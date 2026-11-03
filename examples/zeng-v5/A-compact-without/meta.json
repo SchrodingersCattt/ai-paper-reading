@@ -1,0 +1,17 @@
+{
+  "run": "run-a",
+  "started_at_utc": "2026-11-03T10:35:29.013422+00:00",
+  "requested_model": "grok-4.7-high",
+  "init_model": "Grok 4.7 256K High",
+  "result_subtype": "success",
+  "result_is_error": false,
+  "exit_code": 0,
+  "timed_out": false,
+  "duration_seconds": 435.2,
+  "answer_present": true,
+  "pdf_sha256": "47987f623c3f5496bd699d905a11065078366abff6552e106e364a415ff0384e",
+  "task_sha256": "99b7ab4c78557f18a2353ddd9c1d734e9f846df96332ba5540bc451b524382b1",
+  "acceptance_sha256": "54bdd272c98162365cfee83882035f5e9dff1f6f5bcf62e0d721aefcd8107ec2",
+  "skill_sha256": null,
+  "stream_sha256": "6591c7bc7eb0b277c511330464987cbeee736036fd680657276f74e23c54e80d"
+}

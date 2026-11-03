@@ -11,16 +11,17 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 pdf = ROOT / 'materials/source/zeng2020-methane-nn-md.pdf'
-task = ROOT / 'examples/zeng-v5/cases/A/task.md'
 
 def sha256(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--with-skill', action='store_true')
+parser.add_argument('--compact', action='store_true', help='use the later pair with the common length instruction')
 parser.add_argument('--out', type=Path, required=True, help='new output directory')
 parser.add_argument('--dry-run', action='store_true', help='print input identities without launching the agent')
 args = parser.parse_args()
+task = ROOT / 'examples/zeng-v5/cases/A' / ('task-compact.md' if args.compact else 'task.md')
 if not pdf.is_file():
     raise SystemExit(f'Full PDF required for case A: {pdf}')
 agent_rel = Path('cursor-agent/versions/2026.10.19-6bbf2c4')
