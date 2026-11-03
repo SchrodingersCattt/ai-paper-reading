@@ -134,6 +134,8 @@ node $BohrEntry chat $FigureQuestion --model gpt-5-nano --output json
 
 不带 `--result-dir` 的提问命令读取已保存的[第 6 页文本](bohrium-pass/zeng-parser-retest-page6.txt)。`graph.json` 应列出 9 个节点和 9 条箭头，YES 从 New data? 回到 Dataset，NO 指向 Final dataset。回答再对照原图和[运行前写好的验收标准](bohrium-pass/zeng-figure-vector-protocol.md)。上面最后一条命令会重新调用模型；仓库里的[运行 1](bohrium-pass/zeng-figure-vector-answer-1.txt)和[运行 2](bohrium-pass/zeng-figure-vector-answer-2.txt)是已经保存的两次回答，重跑后的表述可以不同。
 
+另一个 Cursor 会话把提交 62748 的材料包解压到新目录，使用已安装的依赖复跑了本地图结构、提问重建、两组 Skill 预检和压力估算；结果与已保存记录一致。[完整复跑记录](docs/offline-replay.md)包含命令、哈希和检查中遇到的问题；这次没有调用玻尔线上接口。
+
 新的解析怎样进入提问、单页和从 0 起的页索引、轮询、本地检查、空白图、Skill 预检，以及各次模型和费用，写在[复现说明](docs/reproduction.md)。Fig. 5 的提取脚本只适用于这一张带矢量路径的图。
 
 ## 论文与运行记录
