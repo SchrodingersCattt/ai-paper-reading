@@ -1,0 +1,16 @@
+[
+  {
+    "mode": "baseline",
+    "model": "chenkun/gpt-5-nano",
+    "prompt_tokens": 1553,
+    "prompt_sha256": "6395d624a8a8bd70ae0ef7bbc45ef27d6c8e6b0cfa2c3b58d6fff8b95c708281",
+    "answer_sha256": "cec368ecdc75b78501ac6104c155c672706f2991b6e58cd1e7b6a1c8be66341a"
+  },
+  {
+    "mode": "guarded",
+    "model": "chenkun/gpt-5-nano",
+    "prompt_tokens": 1587,
+    "prompt_sha256": "68c3ac26a4f42bafcf379ae9324aa62664c9c21a6055281e5f2dd15cc264aee8",
+    "answer_sha256": "e54c4c5238ecca256e548a8063774250bb15649a3a03bcdb64970030b4a77371"
+  }
+]

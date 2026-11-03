@@ -1,0 +1,38 @@
+结论性说明：在你提供的文本中，Fig. 5 的图像本身并未显示方框的名称和箭头的具体顺序。文中只有 Fig. 5 的图题“Fig. 5 The workflow of reference dataset construction. The process and steps used in this study to generate the reference dataset needed for neural network training to generate the potential energy for MD simulation.”，以及 Methods 部分对工作流程的文字描述。因此无法仅凭文本直接列出 Fig. 5 中各方框的确切名称及箭头顺序；以下是基于文中描述对工作流程的推断性整理，标注“仅为推断、非图内原标注”，请以原图为准。
+
+基于文本的推断性工作流程（方框名称的可能对应，箭头顺序仅供参考，非对图内标注的保证）：
+- 1) ReaxFF 反应性分子动力学抽样
+  依据：文中写道“To increase the efficiency of dataset construction, reactive MD simulation with ReaxFF was used to sample an initial dataset. … MD in LAMMPS … NVT ensemble … temperature 3000 K … CHO-2008 parameter set … Open Babel … DFS to detect species … 对每个原子在快照中构建包含该原子及其周围在5 Å 内的物种簇。”（对应文本段落：前半段对初始数据集的获取方法）
+
+- 2) 初始系统构建与 MD 运行
+  依据：同上，描述了用 Amorphous Cell 构建模型燃烧系统、在 LAMMPS 中进行 MD、参数设定等。
+
+- 3) 物种检测与分子簇构建
+  依据：同上，“Open Babel 软件和 DFS 用于在轨迹的每个快照中检测物种；然后对每个原子在每个快照中构建一个包含该原子及其周围指定截断半径内物种的分子簇（截断半径5 Å）。”
+
+- 4) 初始数据集规模与冗余消除准备
+  依据：文中写道“初始数据集包含约 2,25,0 万结构，规模过大，需重新采样以删除冗余结构，同时确保完整性。”
+
+- 5) 子数据集的划分（按中心原子的化学键信息）
+  依据：文中描述“将初始数据集先按中心原子的化学键信息分成子数据集；例如中心氢原子可分为两类：单独的 H0 与与另一原子形成单键的 H1。”
+
+- 6) Coulomb 矩阵表示、周期性处理与降维
+  依据：文中给出对大子数据集的处理：“对每个分子簇表示为 Coulomb 矩阵；使用最小像限（最小像像）以考虑周期性边界条件；引入“看不见的原子”以使矩阵维度一致；为了尽量保留结构信息，Coulomb 矩阵再用其本征谱表示；”
+
+- 7) 聚类与簇内结构采样
+  依据：文中写道“使用 Mini Batch KMeans 根据本征谱对给定子数据集进行聚类；若簇内结构多于 10,000，则从每簇中随机选取 10,000 个结构；若簇内少于等于 10,000，则选取全部。”
+
+- 8) 主动学习（Active Learning）阶段与 NN-PES 建模
+  依据：文中描述“大幅振幅的碰撞与反应需要覆盖更多情况，因此采用主动学习；基于上一步数据集训练四种不同的神经网络势能（NN-PES）模型；随后用这四个 NN-PES 模型对若干段短时 MD 进行并行的力评估；在文本段落末尾尚未给出完整细节（被截断）。”这部分对应 Fig.5 中可能连接到 NN-PES 与后续 MD 的框图。
+
+重要说明与依据出处：
+- 初始数据集获取与处理流程的描述：见 Methods 开头段落中的“Reference dataset”与随后对“通过 ReaxFF 进行反应性 MD 抽样”“Amorphous Cell 构建体系”“LAMMPS MD、NVT、3000 K、Berendsen thermostat、CHO-2008 参数集”等描述。
+- 物种识别与簇构建：同文段中“Open Babel 软件和 Depth-First Search 算法用于检测物种... 对每个原子在每个快照中构建包含该原子及其周围在 5 Å 内的物种的分子簇”。
+- 数据集规模与冗余消除策略：文中“初始数据集包含 about 22.5 million structures… 需要重新采样以删除冗余结构… 按中心原子的化学键信息分成子数据集（如 H0、H1）”。
+- Coulomb 矩阵及降维表示、聚类与簇内采样：文中关于 Coulomb 矩阵的定义、最小像限、 invisible atoms、特征谱、Mini Batch KMeans、每簇选取 10,000 的描述。
+- 主动学习与并行力计算的 NN-PES：文中明确提到“四种不同的 NN PES 模型… 并行进行短 MD、在模拟过程中同时由这四个模型计算原子力”，但后续细节在该页被截断，未给出完整箭头链路。
+
+总结：
+- 由于你提供的文本没有直接给出 Fig. 5 的具体方框名称和箭头顺序，无法给出“Fig. 5 图中每个方框的名称及箭头顺序”的确切答案。
+- 上述列出的 eight 步骤及其顺序，是基于论文“Methods”部分对工作流程的描述所做的推断性整理，属于对 Fig.5 图内可能流程的还原性解读，而非图内的正式标注。
+- 如需准确的方框名称与箭头顺序，请以论文原文 PDF 的 Fig. 5 图及其图例为准。

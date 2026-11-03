@@ -17,11 +17,21 @@ ReaxFF 用于初始采样，量化计算提供参考能量和力。模型给出�
 
 第 6 页的初始集约有 2250 万个结构。作者先分类和聚类，再用四个神经网络比较原子力预测；力差落在 0.5—1.0 eV/Å 区间的构型进入补充数据集。这是**选取新构型的判据**。第 2 页的 0.12 eV/Å 则是模型与参考计算的力 MAE，回答的是另一件事。
 
+![Zeng 等人论文 Fig. 5：参考数据集的构建流程](materials/excerpts/zeng2020-fig5.png)
+
+*图为 Zeng 等人论文第 6 页 Fig. 5 的裁图，按 CC BY 4.0 分享。*
+
 ## 用玻尔解析论文全文
 
 我用 Bohrium Uni-Parser 的文件接口解析了这篇 9 页 PDF：`textual=2`、`table=2`、`equation=2`、`figure=0`。任务返回 `success`，本次费用为 45 分。[请求设置与结果摘要](bohrium-pass/zeng-parser-metadata.json) 和 [第 6、7 页相关解析块](bohrium-pass/zeng-parser-key-blocks.json)保留了实际返回的文字及公式；后者按原始顺序选出与下文讨论有关的块，保留类型、文本或 LaTeX，省去坐标与任务标识。
 
 两处容易混淆的参数都被提取出来了：第 6 页的 **5 Å** 用于构造采样局部簇，第 7 页的 **6 Å** 用于模型描述符。第 7 页的能量—力损失函数也被识别为公式，可直接对照原文查看。
+
+```math
+\mathcal{L}=\frac{p_e}{N}\Delta E^2+\frac{p_f}{3N}\sum_i\lVert\Delta\mathbf{F}_i\rVert^2
+```
+
+其中 $\Delta E$ 和 $\Delta\mathbf{F}_i$ 对应能量与力的误差，$p_e$、$p_f$ 是两项权重。论文将能量项权重设为 0.2 eV⁻²，力项权重从 1000 降至 1 Å² eV⁻²；这两个权重用于训练，不是第 2 页报告的 MAE。
 
 这次有一个实际需要回看原文的地方：解析结果包含第 6 页 Fig. 5 的图注，却没有图内的 “Sampling with ReaxFF” 等流程标签。本次请求将图像模块设为 `figure=0`，因此我打开 PDF 第 6 页核对了流程图。随后只对第 6 页请求 `figure=1`，接口返回 [HTTP 403](bohrium-pass/zeng-figure-http403.txt)。这说明本次账号和设置下，应继续用原 PDF 检查图内内容。
 
@@ -53,19 +63,11 @@ node $BohrEntry chat $PaperQuestion --model gpt-5-nano --output json
 
 脚本重建的是本案例的提问；阅读另一篇论文时，需要按新问题选择对应的解析块。
 
-我将 PDF 第 2、6、7 页中与方法和结果有关的摘录交给玻尔，询问数据来源、模型训练、两个截断半径、误差和模拟条件。完整[分步提示](bohrium-pass/zeng-prompt.txt)与[第一次回答](bohrium-pass/zeng-chat-1.txt)均已保存。本次通过 Bohr CLI 2.9.17 请求 `gpt-5-nano`，返回模型名为 `chenkun/gpt-5-nano`。这里提供从原始 JSON 提取的完整助手文本；原 JSON 和[模型信息](bohrium-pass/zeng-chat-metadata.json)也在仓库中。
+再用同一份第 6 页解析文本，询问 Fig. 5 每个方框和箭头的顺序。第一次[直接提问](bohrium-pass/zeng-figure-baseline-prompt.txt)，第二次[增加核验要求](bohrium-pass/zeng-figure-guarded-instruction.txt)，要求模型先检查图内标签是否真的出现在文本里。两次请求都使用 `gpt-5-nano`，实际返回模型为 `chenkun/gpt-5-nano`。
 
-第一次回答正确区分了两个截断，并列出训练集、测试集的能量 MAE：0.04、0.14 eV/atom。它把量化计算结果称为“作为训练目标的真实值”；第 7 页给出的具体来源是 **MN15/6-31G\*\* 计算的参考能量与力**。记录参考值从哪里来，才能理解模型拟合的对象。
+两次回答都说明没有看到原图标签，但随后分别根据正文给出 16 步和 8 步的推测：[直接提问的回答](bohrium-pass/zeng-figure-baseline-answer.txt)、[增加核验后的回答](bohrium-pass/zeng-figure-guarded-answer.txt)。对照上面的原图，这些是对正文方法的拆解，不能当作图内方框的逐字转录。读取图示时，把模型推断与图里的实际标注分开即可。
 
-同一分步提示复跑一次；另用相同摘录问一个[开放问题](bohrium-pass/zeng-open-prompt.txt)。三次回答都找到了两个截断和能量误差，但对 NVT 轨迹的表述出现了差别：
-
-| 实际回答 | NVT 轨迹的表述 |
-| --- | --- |
-| [分步提问第一次](bohrium-pass/zeng-chat-1.txt) | 给出 3000 K、NVT 和 1 ns。 |
-| [分步提问复跑](bohrium-pass/zeng-chat-2.txt) | 把轨迹写成“蒸发阶段”。 |
-| [开放提问](bohrium-pass/zeng-chat-open.txt) | 把 NVT 写成“牛顿-热力学模拟”。 |
-
-论文第 2 页写的是甲烷燃烧的 NVT 反应分子动力学。NVT 指粒子数、体积和温度固定的正则系综。核对时，除了看数字和页码，还要看数字对应的过程。
+两次输入共用前面保存的第 6 页文本；[脚本](bohrium-pass/build_figure_question.py)可分别重建完整提问，[记录](bohrium-pass/zeng-figure-comparison-metadata.json)保存了模型名称和提示哈希。
 
 ## 把论文条件和自己的问题对上
 
@@ -123,7 +125,7 @@ node $BohrEntry chat $PaperQuestion --model gpt-5-nano --output json
 | Zeng 2020 全文及许可 | [PDF](materials/source/zeng2020-methane-nn-md.pdf)、[许可说明](materials/LICENSE.md) |
 | 玻尔全文解析 | [请求与状态](bohrium-pass/zeng-parser-metadata.json)、[关键块输出](bohrium-pass/zeng-parser-key-blocks.json)、[第 6 页复跑](bohrium-pass/zeng-parser-retest-page6.txt)、[复现脚本](bohrium-pass/parse_zeng.py) |
 | 解析后提问 | [构造脚本](bohrium-pass/build_question.py)、[实际提示](bohrium-pass/zeng-pipeline-prompt.txt)、[实际回答](bohrium-pass/zeng-pipeline-answer.txt)、[模型信息](bohrium-pass/zeng-pipeline-metadata.json) |
-| 玻尔问答 | [分步提示](bohrium-pass/zeng-prompt.txt)、[两次回答](bohrium-pass/zeng-chat-1.txt)、[复跑](bohrium-pass/zeng-chat-2.txt)、[开放问题](bohrium-pass/zeng-open-prompt.txt)及[回答](bohrium-pass/zeng-chat-open.txt) |
+| 流程图对照 | [直接提问](bohrium-pass/zeng-figure-baseline-prompt.txt)、[增加的核验要求](bohrium-pass/zeng-figure-guarded-instruction.txt)、[两次完整回答](bohrium-pass/zeng-figure-baseline-answer.txt)与[复跑回答](bohrium-pass/zeng-figure-guarded-answer.txt) |
 | Skill v5 对照 | [任务、标准与七份答案](examples/zeng-v5/) |
 | Wen 2020 核查材料 | [第 5、6 页](materials/excerpts/wen2020-original-pages5-6.pdf)、[第 8 页数据集说明](materials/excerpts/wen2020-page8-dataset.md) |
 | 其他文献案例 | [含能材料案例与原文证据](https://github.com/SchrodingersCattt/ai-paper-reading/blob/14371bcd1077ffaab6aca1b4f7869d0fbeaeec0b/evidence/quotes.md) |

@@ -1,0 +1,116 @@
+{
+  "ok": true,
+  "data": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "annotations": [],
+          "content": "以下内容是基于论文“Fig. 5 The workflow of reference dataset construction”在 Methods 部分的描述，对图中方框的名称进行推断性命名，并给出箭头的合理顺序及依据。由于原文未直接给出 Fig. 5 的每个方框标签，以下名称为依据文本描述所推断的对应流程，如需精确对照请以论文原图为准。\n\n箭头顺序与方框名称（推断名称，依据同后文描述）\n1) 方框1：使用 ReaxFF 的反应性分子动力学取样\n- 依据：文中“为了提高数据集构建效率，使用 ReaxFF 的反应性 MD 进行初始数据采样”这一描述。\n\n2) 方框2：利用 Amorphous Cell 生成包含大量 CH4/H2 的体系\n- 依据：文中“通过 Material Studio 的 Amorphous Cell 模块构建包含大量 CH4 和 H2 的模型燃烧体系”。\n\n3) 方框3：在 LAMMPS 中执行 NVT MD（温度 3000 K，Berendsen 热浴；CHO-2008 ReaxFF 参数）\n- 依据：文中“然后使用 LAMMPS 进行 MD 模拟，NVT，温度设为 3000 K，Berendsen 温控，采用 CHO-2008 参数集”。\n\n4) 方框4：使用 Open Babel + DFS 检测快照中的物种\n- 依据：文中“Open Babel 软件和 DFS 算法被用于检测轨迹中每个快照的物种”。\n\n5) 方框5：对每个原子构建一个以该原子为中心、半径截断内包含的分子簇\n- 依据：文中“然后，对每个原子在快照中构建一个包含该原子及其周围在指定截断距离内的物种的分子簇，截断距离为 5 Å”。\n\n6) 方框6：初始数据集包含约 2,250 万结构\n- 依据：文中“初始数据集包含约 22.5 百万结构”，此处按等效数值表达。\n\n7) 方框7：对初始数据集进行重采样以去除冗余、确保完备性\n- 依据：文中“由于结构量太大，需进行重采样以去除冗余并确保数据集的完备性”。\n\n8) 方框8：按中心原子化学键信息将数据集分类为子数据集（如 H0、H1）\n- 依据：文中“首先将初始数据集按中心原子的化学键信息划分成子数据集，例如中心 H 原子可分为 H0（单独的 H）和 H1（与另一个原子单键连接的 H）两类”。\n\n9) 方框9：对大型子数据集，将每个分子簇表示为 Coulomb 矩阵\n- 依据：文中“对于给定的大子数据集，先把其中的每个分子簇表示成 Coulomb 矩阵 C_ij 的形式”。\n\n10) 方框10：处理周期性边界与不可见原子以固定矩阵维度\n- 依据：文中“为考虑周期性边界，使用最小像元法；引入不可见原子以固定 Coulomb 矩阵的维度”。\n\n11) 方框11：用 Coulomb 矩阵的本征谱表示（对角线本征值并降序排序）\n- 依据：文中“为了降低维度，将 Coulomb 矩阵通过求解本征问题得到本征谱，并将特征值按 λ_i ≥ λ_{i+1} 的顺序排列”。\n\n12) 方框12：对本征谱进行 Mini Batch KMeans 聚类\n- 依据：文中“使用 Mini Batch KMeans 将给定子数据集按本征谱聚成更小的簇”。\n\n13) 方框13：从每个簇中随机选取 10,000 条结构（簇中若少于 10,000 条则全部选取）\n- 依据：文中“从每个簇随机选取 10,000 条结构；若簇中结构不足 10,000 条，则全部选取”。\n\n14) 方框14：主动学习阶段，基于上述数据训练四个不同的 NN-PES 模型\n- 依据：文中“为了确保完备性，采用主动学习方法…基于上一步数据训练四个不同的 NN PES 模型”。\n\n15) 方框15：基于这四个 NN-PES 模型进行若干短 MD 仿真\n- 依据：文中“接着做若干短 MD 仿真，基于这四个 NN-PES 模型进行模拟”。\n\n16) 方框16：模拟中四个 NN-PES 模型同时评估原子力，并形成循环/扩充数据集的决策\n- 依据：文中“在仿真过程中，原子力由这四个 NN PES 模型同时评估…随后形成进一步扩充/更新数据集的主动学习循环（结合上下文的推断）”。\n\n说明\n- 上述方框名称是依据论文 Methods 部分对 Fig. 5 的叙述进行的逻辑映射与推断。原文图像未在你提供的文本中直接给出每个方框的具体标签，因此为便于理解而给出的对应名称。\n- 若需要严格对照，请以论文原图 Fig. 5 的实际标注为准。若图中有与上述推断不符的地方，请以图中标注为准进行调整。",
+          "provider_specific_fields": {
+            "refusal": null
+          },
+          "role": "assistant"
+        },
+        "provider_specific_fields": {
+          "content_filter_results": {
+            "hate": {
+              "filtered": false,
+              "severity": "safe"
+            },
+            "protected_material_code": {
+              "detected": false,
+              "filtered": false
+            },
+            "protected_material_text": {
+              "detected": false,
+              "filtered": false
+            },
+            "self_harm": {
+              "filtered": false,
+              "severity": "safe"
+            },
+            "sexual": {
+              "filtered": false,
+              "severity": "safe"
+            },
+            "violence": {
+              "filtered": false,
+              "severity": "safe"
+            }
+          }
+        }
+      }
+    ],
+    "created": 1793680105,
+    "id": "chatcmpl-Eg0QD6Vbk0kWejXGJhW4Lzb5J4I8T",
+    "model": "chenkun/gpt-5-nano",
+    "object": "chat.completion",
+    "prompt_filter_results": [
+      {
+        "content_filter_results": {
+          "hate": {
+            "filtered": false,
+            "severity": "safe"
+          },
+          "jailbreak": {
+            "detected": false,
+            "filtered": false
+          },
+          "self_harm": {
+            "filtered": false,
+            "severity": "safe"
+          },
+          "sexual": {
+            "filtered": false,
+            "severity": "safe"
+          },
+          "violence": {
+            "filtered": false,
+            "severity": "safe"
+          }
+        },
+        "prompt_index": 0
+      }
+    ],
+    "routing": {
+      "serving_pipereplica": "d20261028091145-8eed2e90-default-r0-dp0-default"
+    },
+    "service_tier": "default",
+    "usage": {
+      "completion_tokens": 5572,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 4288,
+        "rejected_prediction_tokens": 0
+      },
+      "latency_checkpoint": {
+        "engine_tbt_ms": 3,
+        "engine_ttft_ms": 25,
+        "engine_ttlt_ms": 18348,
+        "pre_inference_ms": 64,
+        "service_tbt_ms": 3,
+        "service_ttft_ms": 161,
+        "service_ttlt_ms": 18480,
+        "user_visible_ttft_ms": 97
+      },
+      "prompt_tokens": 1553,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 7125
+    }
+  },
+  "meta": {
+    "request_id": "a5eac89b-87e0-452c-afb2-e8812e2d0beb",
+    "cli_version": "2.9.21",
+    "cli_commit": "80634a3bd66cd00225a5ec2255c821574f96461c",
+    "cli_modified": false,
+    "command": "bohr chat",
+    "duration_ms": 21041,
+    "timestamp": 1793680123
+  }
+}
